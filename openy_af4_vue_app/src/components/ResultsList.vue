@@ -67,8 +67,6 @@
           <span class="schedule-items">
             <span v-for="(schedule, index) in item.schedule" :key="index" class="schedule-item">
               <span class="info">{{ schedule.time }}</span>
-              <br />
-              <span class="details">{{ schedule.days }}</span>
             </span>
           </span>
         </div>
