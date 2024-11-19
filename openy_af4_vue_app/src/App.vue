@@ -82,6 +82,7 @@
       :background-image="backgroundImage"
       :bs-version="bsVersion"
       @nextStep="nextStep('selectPath')"
+      @viewResults="viewResults()"
     >
       <template v-if="!disableSearchBox" v-slot:search>
         <SearchForm v-model="searchKeywords" />

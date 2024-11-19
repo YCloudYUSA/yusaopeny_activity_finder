@@ -1,6 +1,6 @@
 <template>
   <div class="select-path-component">
-    <div class="banner" :style="{ background: 'url(' + image + ') center center/cover no-repeat' }">
+    <div v-if="image" class="banner" :style="{ background: 'url(' + image + ') center center/cover no-repeat' }">
       <div class="separator"></div>
       <div class="shadow">
         <h1 class="text-center" :class="{ 'visually-hidden': !labelDisplay }">
@@ -15,7 +15,8 @@
           <div class="description text-center">
             <p>{{ 'Start your search for an activity!' | t }}</p>
             <p>
-              {{ 'Pick any of the categories to find something that works for you' | t }}
+              {{ 'Pick any of the categories to find something that works for you.' | t }}
+              <a role="button" class=" " @click="viewResults">{{ 'Or, skip to all results.' | t }}</a>
             </p>
           </div>
         </div>
@@ -114,6 +115,9 @@ export default {
       this.trackEvent('selectPath', 'Start with ' + id)
       this.$emit('input', id)
       this.$emit('nextStep')
+    },
+    viewResults() {
+      this.$emit('viewResults')
     }
   }
 }
