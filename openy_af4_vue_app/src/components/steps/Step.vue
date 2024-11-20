@@ -109,7 +109,7 @@ export default {
     },
     handleSticky() {
       const clientHeight = window.document.documentElement.clientHeight
-      const rect = this.$refs.bottom.getBoundingClientRect()
+      const rect = this.$refs.bottom ? this.$refs.bottom.getBoundingClientRect() : 0
       this.sticky = rect.top + this.stickyHeight >= clientHeight ? true : false
       const rectDesktop = this.$refs.bottomDesktop.getBoundingClientRect()
       this.stickyDesktop = rectDesktop.top + this.stickyDesktopHeight >= clientHeight ? true : false

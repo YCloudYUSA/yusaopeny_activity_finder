@@ -15,6 +15,11 @@
           </span>
         </div>
 
+        <div class="row">
+          <span v-if="item.program_subcategory" class="program col-sm-9">
+            <span class="program-label">{{ item.program_subcategory }}</span>
+          </span>
+        </div>
         <div class="ages-spots">
           <span v-if="item.ages || (selectedAges.length && !legacyMode)" class="ages">
             <span class="age-label">{{ 'Ages' | t }}:</span>
@@ -114,6 +119,11 @@
           </span>
         </div>
 
+        <div class="row">
+          <span v-if="item.program_subcategory" class="program col-sm-9">
+            <span class="program-label">{{ item.program_subcategory }}</span>
+          </span>
+        </div>
         <div class="row">
           <div class="col-sm-4">
             <div v-if="item.dates" class="item-detail dates">
@@ -291,17 +301,25 @@ export default {
       line-height: 28px;
       color: $af-blue;
       font-weight: 700;
-      margin-bottom: 10px;
       text-decoration: underline;
 
       @include media-breakpoint-up('lg') {
         font-size: 18px;
         line-height: 28px;
-        margin-bottom: 20px;
       }
 
       & > svg {
         margin-right: 10px;
+      }
+    }
+
+    .program {
+      margin-top: 5px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: $af-blue;
+      @include media-breakpoint-down('md') {
+        margin-bottom: 0;
       }
     }
 

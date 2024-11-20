@@ -70,6 +70,31 @@ name: Default
 description: ''
 read_only: false
 field_settings:
+  activity_program_subcategory_path:
+    label: 'Class » Content » Activity » Content » Program Subcategory » Content » URL alias'
+    datasource_id: 'entity:node'
+    property_path: 'field_session_class:entity:field_class_activity:entity:field_activity_category:entity:path'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_activity_category
+        - field.storage.node.field_class_activity
+        - field.storage.node.field_session_class
+      module:
+        - node
+        - path
+  activity_program_subcategory_title:
+    label: 'Class » Content » Activity » Content » Program Subcategory » Content » Title'
+    datasource_id: 'entity:node'
+    property_path: 'field_session_class:entity:field_class_activity:entity:field_activity_category:entity:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_activity_category
+        - field.storage.node.field_class_activity
+        - field.storage.node.field_session_class
+      module:
+        - node
   activity_title:
     label: 'Activity Title'
     datasource_id: 'entity:node'
