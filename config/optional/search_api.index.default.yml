@@ -242,6 +242,16 @@ field_settings:
         - field.storage.node.field_session_location
       module:
         - node
+  field_session_location_nid:
+    label: 'Location » Content » ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_session_location:entity:nid'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_session_location
+      module:
+        - node
   field_session_max_age:
     label: 'Max Age'
     datasource_id: 'entity:node'
