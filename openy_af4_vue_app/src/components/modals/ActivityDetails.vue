@@ -14,6 +14,11 @@
             <div class="left">
               <div class="title">{{ item.name }}</div>
               <div class="description">{{ item.description }}</div>
+              <div v-if="item.program_subcategory" class="row program">
+                <span class="program-link col-sm-9">
+                  {{ item.program_subcategory }}
+                </span>
+              </div>
               <div v-if="item.ages" class="row ages">
                 <div class="col-3 col-xs-3">
                   {{ 'Ages:' | t }}
@@ -388,7 +393,8 @@ export default {
     .title,
     .description,
     .ages,
-    .gender {
+    .gender,
+    .program {
       margin-bottom: 10px;
     }
 
@@ -401,7 +407,8 @@ export default {
     .description,
     .ages,
     .gender,
-    .learn-more {
+    .learn-more,
+    .program {
       font-size: 14px;
       line-height: 20px;
     }
