@@ -23,7 +23,7 @@
     "@babel/preset-env": "^7.4.4",
     "babel-loader": "^8.0.6",
     "css-loader": "^2.1.1",
-    "node-sass": "^7.0.3",
+    "sass": "^1.89.2",
     "sass-loader": "^8.0.2 || ^10",
     "style-loader": "^0.23.1",
     "vue-loader": "^15.7.0",

@@ -161,7 +161,7 @@ class WeekdaysPartsOfDay extends ProcessorPluginBase implements ContainerFactory
       if ($_from_time < $time12pm) {
         $time_values[] = 1;
       }
-      if ($_from_time <= $time5pm && $_to_time >= $time12pm) {
+      if ($_from_time < $time5pm && $_to_time >= $time12pm) {
         $time_values[] = 2;
       }
       if ($_to_time > $time5pm) {
