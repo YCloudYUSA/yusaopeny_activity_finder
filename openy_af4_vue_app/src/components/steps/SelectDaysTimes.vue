@@ -162,7 +162,10 @@ export default {
     optionsCount(index) {
       let count = 0
       for (let key in this.daysTimes[index].value) {
-        count += this.facetCount(this.daysTimes[index].value[key].value)
+        const timeOption = this.daysTimes[index].value[key]
+        if (timeOption.label !== 'Anytime') {
+          count += this.facetCount(timeOption.value)
+        }
       }
       return count
     }
