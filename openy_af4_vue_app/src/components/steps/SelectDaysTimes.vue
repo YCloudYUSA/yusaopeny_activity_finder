@@ -33,7 +33,7 @@
                   v-model="selectedDaysTimes"
                   type="checkbox"
                   :value="time.value"
-                  :disabled="isDisabled(time.value)"
+                  :disabled="isDisabled(time.value, time.label)"
                   @change="onChange(day, time)"
                 />
                 <label :for="time.value" role="button">
@@ -45,7 +45,10 @@
                       </span>
                     </template>
                     <span class="results-count">
-                      {{ facetCount(time.value) | formatPlural('1 result', '@count results') }}
+                      {{
+                        facetCount(time.value, time.label)
+                          | formatPlural('1 result', '@count results')
+                      }}
                     </span>
                   </span>
                 </label>
@@ -140,15 +143,35 @@ export default {
       this.trackEvent('next', 'Click on selectDaysTimes')
       this.$emit('nextStep')
     },
-    facetCount(value) {
+    facetCount(value, label = null) {
       if (typeof this.facets === 'undefined') {
         return 0
       }
+
+      // If this is an "Anytime" option, sum up the specific time period counts
+      if (label === 'Anytime') {
+        // Extract the day value (first digit) from the anytime value (e.g., "10" -> "1")
+        const dayValue = value.toString().slice(0, -1)
+        let totalCount = 0
+
+        // Sum counts for morning (1), afternoon (2), and evening (3) for this day
+        for (let timeValue of [1, 2, 3]) {
+          const specificTimeValue = dayValue + timeValue
+          const facet = this.facets.find(x => x.filter === specificTimeValue)
+          if (facet && facet.count) {
+            totalCount += facet.count
+          }
+        }
+
+        return totalCount
+      }
+
+      // Default behavior for non-anytime options
       let facet = this.facets.find(x => x.filter === value)
       return facet && facet.count ? facet.count : 0
     },
-    isDisabled(value) {
-      return this.facetCount(value) === 0
+    isDisabled(value, label = null) {
+      return this.facetCount(value, label) === 0
     },
     subFiltersCount(index) {
       let result = 0
@@ -162,7 +185,10 @@ export default {
     optionsCount(index) {
       let count = 0
       for (let key in this.daysTimes[index].value) {
-        count += this.facetCount(this.daysTimes[index].value[key].value)
+        const timeOption = this.daysTimes[index].value[key]
+        if (timeOption.label !== 'Anytime') {
+          count += this.facetCount(timeOption.value)
+        }
       }
       return count
     }
