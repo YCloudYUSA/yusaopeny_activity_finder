@@ -91,6 +91,7 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       'legacy_mode' => 0,
       'weeks_filter' => 0,
       'hide_home_branch_block' => 0,
+      'hide_activities_filter' => 0,
       'background_image' => NULL,
       'in_memberships_filter' => 0,
       'duration_filter' => 0,
@@ -221,6 +222,7 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       '#duration_filter' => (bool) $conf['duration_filter'],
       '#in_memberships_filter' => (bool) $conf['in_memberships_filter'],
       '#hide_home_branch_block' => (bool) $conf['hide_home_branch_block'],
+      '#hide_activities_filter' => (bool) $conf['hide_activities_filter'],
       '#skip_wizard' => (bool) $conf['skip_wizard'],
       '#background_image' => [
         'mobile' => $image_mobile,
@@ -399,6 +401,13 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       '#default_value' => $conf['hide_home_branch_block'],
     ];
 
+    $form['hide_activities_filter'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Activities Filter'),
+      '#description' => $this->t('Disables the display of the "Activities" filter at the Activity Finder block.'),
+      '#default_value' => $conf['hide_activities_filter'],
+    ];
+
     $form['skip_wizard'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Skip wizard'),
@@ -446,6 +455,7 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
     $this->configuration['duration_filter'] = $additional_filters['duration_filter'];
     $this->configuration['in_memberships_filter'] = $additional_filters['in_memberships_filter'];
     $this->configuration['hide_home_branch_block'] = $form_state->getValue('hide_home_branch_block');
+    $this->configuration['hide_activities_filter'] = $form_state->getValue('hide_activities_filter');
     $this->configuration['skip_wizard'] = $form_state->getValue('skip_wizard');
     $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
   }

@@ -30,6 +30,7 @@ default_value:
       legacy_mode: 0
       weeks_filter: 0
       hide_home_branch_block: 0
+      hide_activities_filter: 0
       background_image: ''
     plugin_configuration_schema_id: block.settings.activity_finder_4
 default_value_callback: ''
