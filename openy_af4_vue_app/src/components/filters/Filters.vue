@@ -47,6 +47,7 @@
       </Fieldset>
 
       <Fieldset
+        v-if="!hideActivitiesFilter"
         :label="'Activities' | t"
         :collapse-id="id + '-toggle-activities'"
         :collapsed="fieldsetCollapseState('category')"
@@ -283,6 +284,10 @@ export default {
     bsVersion: {
       type: Number,
       required: true
+    },
+    hideActivitiesFilter: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

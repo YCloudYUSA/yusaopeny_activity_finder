@@ -84,6 +84,7 @@ function openy_activity_finder_theme() {
         'legacy_mode' => FALSE,
         'weeks_filter' => FALSE,
         'hide_home_branch_block' => FALSE,
+        'hide_activities_filter' => FALSE,
         'background_image' => [],
         'bs_version' => NULL,
         'in_memberships_filter' => FALSE,

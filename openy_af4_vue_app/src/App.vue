@@ -64,6 +64,7 @@
           :exclude-by-category="excludeByCategory"
           :limit-by-location="limitByLocation"
           :exclude-by-location="excludeByLocation"
+          :hide-activities-filter="hideActivitiesFilter"
           @filterChange="onFilterChange($event, hideModal)"
           @clearFilters="clearFilters(hideModal)"
         />
@@ -214,6 +215,7 @@
           :exclude-by-category="excludeByCategory"
           :limit-by-location="limitByLocation"
           :exclude-by-location="excludeByLocation"
+          :hide-activities-filter="hideActivitiesFilter"
           filters-mode="instant"
           @filterChange="onFilterChange($event)"
           @clearFilters="clearFilters"
@@ -396,6 +398,11 @@ export default {
     hideHomeBranchBlock: {
       type: Boolean,
       required: true
+    },
+    hideActivitiesFilter: {
+      type: Boolean,
+      required: false,
+      default: false
     },
     disableSearchBox: {
       type: Boolean,
