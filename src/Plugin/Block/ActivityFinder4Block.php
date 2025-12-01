@@ -404,7 +404,7 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
     $form['hide_activities_filter'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Hide Activities Filter'),
-      '#description' => $this->t('Disables the display of the "Activities" filter at the Activity Finder block.'),
+      '#description' => $this->t('Disables the display of the "Activities" filter at the Activity Finder sidebar.'),
       '#default_value' => $conf['hide_activities_filter'],
     ];
 
