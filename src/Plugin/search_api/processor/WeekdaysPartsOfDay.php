@@ -118,28 +118,36 @@ class WeekdaysPartsOfDay extends ProcessorPluginBase implements ContainerFactory
     foreach ($paragraphs as $paragraph) {
       /** @var \Drupal\Core\Field\FieldItemListInterface $days */
       $days = $paragraph->field_session_time_days;
-      if ($days->isEmpty()) {
-        continue;
-      }
 
-      /** @var \Drupal\options\Plugin\Field\FieldType\ListItemBase $day */
-      $daylist = [];
-      foreach ($days as $day) {
-        if ($day) {
-          $daylist[] = $day->getValue()['value'];
+      // Check if days field is empty - this represents "Various days".
+      $is_various_days = $days->isEmpty();
+
+      if (!$is_various_days) {
+        /** @var \Drupal\options\Plugin\Field\FieldType\ListItemBase $day */
+        $daylist = [];
+        foreach ($days as $day) {
+          if ($day) {
+            $daylist[] = $day->getValue()['value'];
+          }
+        }
+
+        // Convert weekday names into numerical values.
+        foreach ($weekdays as $weekday) {
+          if (in_array($weekday['search_value'], $daylist)) {
+            $day_values[] = $weekday['value'];
+          }
+        }
+
+        // Add values for any time in the found days.
+        foreach ($day_values as $day_value) {
+          $values[] = $day_value . 0;
         }
       }
-
-      // Convert weekday names into numerical values.
-      foreach ($weekdays as $weekday) {
-        if (in_array($weekday['search_value'], $daylist)) {
-          $day_values[] = $weekday['value'];
-        }
-      }
-
-      // Add values for any time in the found days.
-      foreach ($day_values as $day_value) {
-        $values[] = $day_value . 0;
+      else {
+        // For "Various days" (no specific days), use '0' as the day value.
+        $day_values[] = '0';
+        // Add "Various days - Anytime" option.
+        $values[] = '00';
       }
 
       /** @var \Drupal\Core\Field\FieldItemListInterface $range */

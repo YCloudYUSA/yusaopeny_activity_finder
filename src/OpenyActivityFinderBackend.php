@@ -159,6 +159,11 @@ abstract class OpenyActivityFinderBackend implements OpenyActivityFinderBackendI
         'search_value' => 'sunday',
         'value' => '7',
       ],
+      [
+        'label' => 'Various days',
+        'search_value' => 'various',
+        'value' => '0',
+      ],
     ];
   }
 

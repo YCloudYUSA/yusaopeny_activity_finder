@@ -204,14 +204,18 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
 
     if (!empty($parameters['days'])) {
       $days_ids = explode(',', rawurldecode($parameters['days']));
-      // Convert ids to search value.
-      $days_info = $this->getDaysOfWeek();
-      foreach ($days_info as $i) {
-        if (in_array($i['value'], $days_ids)) {
-          $days[] = $i['search_value'];
-        }
+      $day_time_values = [];
+
+      // Convert day IDs to day+anytime values (e.g., '1' becomes '10' for Monday-Anytime).
+      // This allows us to use the af_weekdays_parts_of_day indexed field.
+      foreach ($days_ids as $day_id) {
+        // Append '0' for "Anytime" to create the indexed value.
+        $day_time_values[] = $day_id . '0';
       }
-      $query->addCondition('field_session_time_days', $days, 'IN');
+
+      if (!empty($day_time_values)) {
+        $query->addCondition('af_weekdays_parts_of_day', $day_time_values, 'IN');
+      }
     }
 
     if (!empty($parameters['times'])) {
@@ -420,8 +424,12 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         foreach ($date->field_session_time_days->getValue() as $time_days) {
           $days[] = ucfirst($time_days['value']);
         }
+
+        // If no days are set, display "Various days".
+        $days_display = !empty($days) ? implode(', ', $days) : 'Various days';
+
         $schedule_items[] = [
-          'days' => implode(', ', $days),
+          'days' => $days_display,
           'time' => $_from->format('g:ia') . '-' . $_to->format('g:ia'),
         ];
         $from_md = $_from->format('M d');
@@ -433,7 +441,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         // but the number of sessions that takes place in the specified period.
         // I.e. we calculate the amount of the last day of the week
         // with the session (for example, Friday) in the period.
-        $weeks = $this->countDaysByName(end($days), $_from->getPhpDateTime(), $_to->getPhpDateTime());
+        $weeks = !empty($days) ? $this->countDaysByName(end($days), $_from->getPhpDateTime(), $_to->getPhpDateTime()) : 0;
       }
 
       $availability_status = 'closed';
