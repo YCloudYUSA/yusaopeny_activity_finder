@@ -377,6 +377,16 @@ class SettingsForm extends ConfigFormBase {
       '#title' => $this->t('Disable cache debug log.'),
       '#default_value' => $config->get('disable_cache_debug_log') ?? FALSE,
     ];
+    $form['pagination'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Pagination settings'),
+      '#open' => TRUE,
+    ];
+    $form['pagination']['items_per_page'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Items per page'),
+      '#default_value' => $config->get('items_per_page'),
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -413,6 +423,7 @@ class SettingsForm extends ConfigFormBase {
     $allowed_values = explode(PHP_EOL, $form_state->getValue('allowed_query_arguments'));
     $allowed_values = array_filter(array_map('trim', $allowed_values));
     $config->set('allowed_query_arguments', $allowed_values)->save();
+    $config->set('items_per_page', $form_state->getValue('items_per_page'))->save();
     $this->cache->deleteAll();
     $this->cacheTagsInvalidator->invalidateTags([OpenyActivityFinderSolrBackend::ACTIVITY_FINDER_CACHE_TAG]);
 

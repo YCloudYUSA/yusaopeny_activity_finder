@@ -24,3 +24,4 @@ allowed_query_arguments:
   - utm_campaign
   - utm_content
 durations: "1|Single day\r\n5|Multi-day\r\n21|Weekly\r\n35|Monthly\r\n84|Season\r\n272|School year\r\n365|Full year"
+items_per_page: '25'
