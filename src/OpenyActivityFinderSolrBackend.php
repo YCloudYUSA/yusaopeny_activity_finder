@@ -25,9 +25,6 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
   // 1 day for cache.
   const CACHE_TTL = 86400;
 
-  // Number of results to retrieve per page.
-  const TOTAL_RESULTS_PER_PAGE = 25;
-
   // Cache ID for locations info.
   const ACTIVITY_FINDER_CACHE_TAG = 'openy_activity_finder:default';
 
@@ -132,7 +129,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     $data['facets'] = $this->getFacets($results);
 
     // Set pager as current page number.
-    $data['pager'] = isset($parameters['page']) && $data['count'] > self::TOTAL_RESULTS_PER_PAGE ? $parameters['page'] : 0;
+    $data['pager'] = isset($parameters['page']) && $data['count'] > $this->getItemsPerPage() ? $parameters['page'] : 0;
 
     // Get pager structure.
     $data['pager_info'] = $this->getPages($data['count']);
@@ -346,11 +343,11 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $query->addCondition('field_session_location', $locations, 'IN');
     }
 
-    $query->range(0, self::TOTAL_RESULTS_PER_PAGE);
+    $query->range(0, $this->getItemsPerPage());
     // Use pager if parameter has been provided.
     if (isset($parameters['page'])) {
-      $offset = self::TOTAL_RESULTS_PER_PAGE * $parameters['page'] - self::TOTAL_RESULTS_PER_PAGE;
-      $query->range($offset, self::TOTAL_RESULTS_PER_PAGE);
+      $offset = $this->getItemsPerPage() * $parameters['page'] - $this->getItemsPerPage();
+      $query->range($offset, $this->getItemsPerPage());
     }
     // Set up default sort as relevance and expose if manual sort has been provided.
     // $query->sort('search_api_relevance', 'DESC');.
@@ -913,7 +910,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
   public function getPages($count) {
     $pages = [];
     // Calculate number of pages.
-    $pages_count = $count / $this::TOTAL_RESULTS_PER_PAGE;
+    $pages_count = $count / $this->getItemsPerPage();
     $pages_count = ceil($pages_count);
     $pages['total_pages'] = $pages_count;
     $range = range(1, $pages_count);
@@ -1067,4 +1064,13 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     return $query->execute();
   }
 
+  /**
+   * Get items per page value from config or return default.
+   *
+   * @return int
+   *   Items per page.
+   */
+  private function getItemsPerPage(): int {
+    return $this->config->get('items_per_page') ?? 25;
+  }
 }
