@@ -314,19 +314,30 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     // Select locations based on filters.
     $locations = null;
     $locations_info = $this->getLocationsInfo();
-    $locations_nids = [];
 
-    // Get locations selected in parameters, if specified.
-    if (!empty($parameters['locations'])) {
-      $locations_nids = explode(',', rawurldecode($parameters['locations']));
-    }
+    // Collect the allowed set: limitloc param + config limitloc.
+    $limit_nids = [];
     if (!empty($parameters['limitloc'])) {
-      $locations_nids = array_merge($locations_nids, explode(',', $parameters['limitloc']));
+      $limit_nids = array_merge($limit_nids, explode(',', $parameters['limitloc']));
+    }
+    $locations_nids_config = array_filter(explode(',', $this->config->get('limitloc') ?? ''));
+    $limit_nids = array_unique(array_merge($limit_nids, $locations_nids_config));
+
+    // User-selected locations.
+    $selected_nids = [];
+    if (!empty($parameters['locations'])) {
+      $selected_nids = explode(',', rawurldecode($parameters['locations']));
     }
 
-    // Get configured location limits and merge with parameters.
-    $locations_nids_config = array_filter(explode(',', $this->config->get('limitloc') ?? ""));
-    $locations_nids = array_merge($locations_nids, $locations_nids_config);
+    // User selection intersected with allowed set; no selection = use allowed set.
+    if ($selected_nids) {
+      $locations_nids = $limit_nids
+        ? array_values(array_intersect($selected_nids, $limit_nids))
+        : $selected_nids;
+    }
+    else {
+      $locations_nids = $limit_nids;
+    }
 
     // Limit locations to parameters + limit.
     if ($locations_nids) {
