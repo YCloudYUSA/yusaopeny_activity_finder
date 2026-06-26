@@ -406,6 +406,19 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('disable_cache_debug_log') ?? FALSE,
     ];
 
+    $form['bypass_register_redirect'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Bypass register redirect'),
+      '#default_value' => $config->get('bypass_register_redirect') ?? FALSE,
+      '#description' => $this->t(
+        'Embed the external registration URL directly in links instead of
+        routing through <code>/af/register-redirect</code>. Useful for GA4
+        cross-domain tracking. Requires
+        <code>$settings[\'activity_finder_trusted_redirect_host_patterns\']</code>
+        to be set in <code>settings.php</code>.'
+      ),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -438,6 +451,7 @@ class SettingsForm extends ConfigFormBase {
       ->save();
     $config->set('disable_program_search_log', $form_state->getValue('disable_program_search_log'))->save();
     $config->set('disable_cache_debug_log', $form_state->getValue('disable_cache_debug_log'))->save();
+    $config->set('bypass_register_redirect', (bool) $form_state->getValue('bypass_register_redirect'))->save();
     $allowed_values = explode(PHP_EOL, $form_state->getValue('allowed_query_arguments'));
     $allowed_values = array_filter(array_map('trim', $allowed_values));
     $config->set('allowed_query_arguments', $allowed_values)->save();

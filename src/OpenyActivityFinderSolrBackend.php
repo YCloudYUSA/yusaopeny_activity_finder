@@ -9,6 +9,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\node\Entity\NodeType;
 use Drupal\search_api\Entity\Index;
 use Drupal\Core\Url;
@@ -513,10 +514,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         'log_id' => $log_id,
         'name' => $fields['title']->getValues()[0]->getText(),
         'price' => implode(', ', $price),
-        'link' => Url::fromRoute('openy_activity_finder.register_redirect',
-          ['log' => $log_id],
-          ['query' => ['url' => $entity->field_session_reg_link->uri]])
-          ->toString(TRUE)->getGeneratedUrl(),
+        'link' => $this->buildRegisterLink($entity->field_session_reg_link->uri, $log_id, $entity),
         'description' => html_entity_decode(strip_tags(text_summary($entity->field_session_description->value ?? '', $entity->field_session_description->format, 600) ?? '')),
         'ages' => $this->convertData([$entity->field_session_min_age->value, $entity->field_session_max_age->value ?? '0']),
         'gender' => !empty($entity->field_session_gender->value) ? $entity->field_session_gender->value : '',
@@ -1065,6 +1063,66 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     $query->addCondition('status', 1);
     $query->addCondition('nid', $session_ids, 'IN');
     return $query->execute();
+  }
+
+  /**
+   * Builds the registration link for a session result item.
+   *
+   * When bypass_register_redirect is disabled (default), returns the standard
+   * /af/register-redirect URL. When enabled, returns the raw external URL so
+   * that GA4's cross-domain linker can decorate it client-side.
+   *
+   * @param string $url
+   *   The raw external registration URL from the session entity.
+   * @param string|int $log_id
+   *   The program-search log ID for this request.
+   * @param object|null $entity
+   *   The session entity being processed, for hook context.
+   *
+   * @return string
+   *   The absolute URL string to embed in the search-result JSON.
+   */
+  protected function buildRegisterLink(string $url, $log_id, $entity = NULL): string {
+    if (empty($url)) {
+      return '';
+    }
+
+    if ($this->config->get('bypass_register_redirect')) {
+      // Apply the same trusted-host validation used by redirectToRegister() to
+      // ensure only known-good external domains are embedded as direct links.
+      // If no patterns are configured the URL is considered untrusted and an
+      // empty string is returned — consistent with the redirect route behaviour.
+      $host_patterns = Settings::get('activity_finder_trusted_redirect_host_patterns', []);
+      $trusted = FALSE;
+      if (!empty($host_patterns)) {
+        $host = parse_url($url, PHP_URL_HOST);
+        foreach ($host_patterns as $pattern) {
+          if (preg_match('/' . $pattern . '/i', $host)) {
+            $trusted = TRUE;
+            break;
+          }
+        }
+      }
+
+      if (!$trusted) {
+        return '';
+      }
+
+      $link = $url;
+      $context = [
+        'url' => $url,
+        'log_id' => $log_id,
+        'entity' => $entity,
+      ];
+      $this->moduleHandler->alter('activity_finder_register_link', $link, $context);
+      return $link;
+    }
+
+    return Url::fromRoute(
+      'openy_activity_finder.register_redirect',
+      ['log' => $log_id],
+      ['query' => ['url' => $url]]
+    )->toString(TRUE)->getGeneratedUrl();
   }
 
 }

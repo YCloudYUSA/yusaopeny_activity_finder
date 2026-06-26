@@ -152,6 +152,34 @@ class ActivityFinderController extends ControllerBase {
   }
 
   /**
+   * Async click-logging endpoint used when bypass_register_redirect is on.
+   *
+   * Accepts a POST request with 'log_id' and 'details' parameters and records
+   * a ProgramSearchCheckLog entry, mirroring what redirectToRegister() does
+   * for the standard redirect flow. Returns JSON so JavaScript callers
+   * (fetch / sendBeacon) get a well-formed response.
+   */
+  public function logRegister(Request $request): JsonResponse {
+    if ($this->config->get('disable_program_search_log')) {
+      return new JsonResponse(['status' => 'ok']);
+    }
+
+    $log = $request->request->get('log_id') ?? $request->query->get('log_id');
+    $details = $request->request->get('details') ?? $request->query->get('details');
+
+    if (!empty($details) && !empty($log)) {
+      $details_log = ProgramSearchCheckLog::create([
+        'details' => $details,
+        'log_id' => $log,
+        'type' => ProgramSearchCheckLog::TYPE_REGISTER,
+      ]);
+      $details_log->save();
+    }
+
+    return new JsonResponse(['status' => 'ok']);
+  }
+
+  /**
    * Redirect to register.
    */
   public function redirectToRegister(Request $request, $log) {

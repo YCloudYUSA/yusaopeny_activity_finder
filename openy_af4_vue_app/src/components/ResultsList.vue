@@ -15,6 +15,15 @@
           </span>
         </div>
 
+        <div v-if="item.location" class="item-detail location">
+          <Icon icon="material-symbols:location-on-outline" />
+          <span>
+            <span class="info">{{ item.location }}</span>
+            <br />
+            <span v-if="item.roomName" class="details">{{ item.roomName }}</span>
+          </span>
+        </div>
+
         <div class="ages-spots">
           <span v-if="item.ages || (selectedAges.length && !legacyMode)" class="ages">
             <span class="age-label">{{ 'Ages' | t }}:</span>
@@ -22,7 +31,12 @@
               {{ item.ages }}
             </span>
             <template v-for="age in selectedAges" v-else>
-              <template v-if="showAgeIcon(item, age)">
+              <template
+                v-if="
+                  (!item.min_age || parseInt(item.min_age) <= age) &&
+                    (!item.max_age || parseInt(item.max_age) >= age)
+                "
+              >
                 <AgeIcon :key="age" :age="parseInt(age)" :ages="ages" big />
               </template>
             </template>
@@ -66,21 +80,20 @@
           </span>
         </div>
 
-        <div v-if="item.location" class="item-detail">
-          <Icon icon="material-symbols:location-on-outline" />
-          <span>
-            <span class="info">{{ item.location }}</span>
-            <br />
-            <span v-if="item.roomName" class="details">{{ item.roomName }}</span>
-          </span>
-        </div>
-
         <div v-if="item.instructor" class="item-detail instructor">
           <i class="fa fa-user"></i>
           <span>
             <span class="info">{{ item.instructor }}</span>
             <br />
             <span v-if="item.substitute" class="details">{{ item.substitute }}</span>
+          </span>
+        </div>
+
+        <div v-if="item.price" class="item-detail price">
+          <Icon icon="material-symbols:payments-outline" />
+          <span>
+            <!-- eslint-disable-next-line -->
+            <span class="info" v-html="item.price"></span>
           </span>
         </div>
       </div>
@@ -97,7 +110,12 @@
               {{ item.ages }}
             </span>
             <template v-for="age in selectedAges" v-else>
-              <template v-if="showAgeIcon(item, age)">
+              <template
+                v-if="
+                  (!item.min_age || parseInt(item.min_age) <= age) &&
+                    (!item.max_age || parseInt(item.max_age) >= age)
+                "
+              >
                 <AgeIcon :key="age" :age="parseInt(age)" :ages="ages" big />
               </template>
             </template>
@@ -106,6 +124,16 @@
 
         <div class="row">
           <div class="col-sm-4">
+
+            <div v-if="item.location" class="item-detail location">
+              <Icon icon="material-symbols:location-on-outline" />
+              <span>
+                <span class="info">{{ item.location }}</span>
+                <br />
+                <span v-if="item.roomName" class="details">{{ item.roomName }}</span>
+              </span>
+            </div>
+
             <div v-if="item.dates" class="item-detail dates">
               <Icon icon="material-symbols:calendar-today-outline" />
               <span>
@@ -126,15 +154,6 @@
           </div>
 
           <div class="col-sm-4">
-            <div v-if="item.location" class="item-detail location">
-              <Icon icon="material-symbols:location-on-outline" />
-              <span>
-                <span class="info">{{ item.location }}</span>
-                <br />
-                <span v-if="item.roomName" class="details">{{ item.roomName }}</span>
-              </span>
-            </div>
-
             <div v-if="item.instructor" class="item-detail instructor">
               <Icon icon="material-symbols:person-outline" />
               <span>
@@ -149,7 +168,8 @@
             <div v-if="item.price" class="item-detail price">
               <Icon icon="material-symbols:payments-outline" />
               <span>
-                <span class="info">{{ item.price }}</span>
+                <!-- eslint-disable-next-line -->
+                <span class="info" v-html="item.price"></span>
               </span>
             </div>
             <div class="actions">
@@ -223,17 +243,6 @@ export default {
     showActivityDetailsModal(item) {
       this.$emit('showActivityDetailsModal', item)
     },
-    showAgeIcon(item, age) {
-      const min = parseInt(item.min_age) || null
-      const max = parseInt(item.max_age) || null
-
-      const max_unlimited = item.max_age === '0'
-
-      const min_valid = !min || min <= age;
-      const max_valid = !max || max_unlimited || max >= age;
-
-      return min_valid && max_valid;
-    },
     isBookmarked(nid) {
       let shouldSkip = false
       this.cartItems.forEach(cartItem => {
@@ -252,6 +261,9 @@ export default {
       return parseInt(item.spots_available) === 0 && !item.wait_list_availability
     },
     getButtonTitle(item) {
+      if (!item.link) {
+        return ''
+      }
       let title = this.t('Register')
       // parseInt('') -> NaN
       // parseInt('0') -> 0

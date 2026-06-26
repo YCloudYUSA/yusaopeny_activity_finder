@@ -27,7 +27,8 @@
               <div class="session-info">
                 <span class="age">
                   <span class="age-label">Age:</span>
-                  <span class="info">
+                  <AgeIcon v-if="item.age" :age="parseInt(item.age)" :ages="ages" big/>
+                  <span v-else class="info">
                     {{ item.item.ages }}
                   </span>
                 </span>
@@ -131,6 +132,7 @@
 <script>
 import Modal from '@/components/modals/Modal.vue'
 import BookmarkFeatureDescription from '@/components/modals/BookmarkFeatureDescription.vue'
+import AgeIcon from '@/components/AgeIcon.vue'
 import AvailableSpots from '@/components/AvailableSpots'
 import BookmarkIcon from '@/components/BookmarkIcon'
 import { Icon } from '@iconify/vue2'
@@ -140,6 +142,7 @@ export default {
   components: {
     Modal,
     BookmarkFeatureDescription,
+    AgeIcon,
     AvailableSpots,
     BookmarkIcon,
     Icon
@@ -150,6 +153,10 @@ export default {
       default: false
     },
     cartItems: {
+      type: Array,
+      required: true
+    },
+    ages: {
       type: Array,
       required: true
     },
@@ -221,6 +228,9 @@ export default {
       }
     },
     getButtonTitle(index) {
+      if (!this.cartItems[index].item.link) {
+        return ''
+      }
       let title = this.t('Register')
       // parseInt('') -> NaN
       // parseInt('0') -> 0

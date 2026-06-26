@@ -12,6 +12,15 @@ openy_activity_finder.register_redirect:
     _permission: 'access content'
   options:
      no_cache: TRUE
+openy_activity_finder.log_register:
+  path: /af/log-register
+  defaults:
+    _controller: '\Drupal\openy_activity_finder\Controller\ActivityFinderController::logRegister'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
 openy_activity_finder.settings:
   path: '/admin/openy/settings/activity-finder'
   defaults:
