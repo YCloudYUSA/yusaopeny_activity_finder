@@ -16,7 +16,7 @@
           <slot name="filters" />
         </div>
 
-        <div v-if="isLoadingData" class="col-12 col-xs-12 col-md-9">
+        <div v-if="isLoadingData || !data.table" class="col-12 col-xs-12 col-md-9">
           <Loading />
         </div>
         <div v-else :class="resultsClasses">
