@@ -1,6 +1,6 @@
 <template>
   <Foldable
-    :label="'Age(s)' | t"
+    :label="t('Age(s)')"
     :collapse-id="id + '-toggle'"
     :counter="filtersCount"
     :counter-max="maxAges"
@@ -15,12 +15,13 @@
           :value="age.value"
           :disabled="isDisabled(age.value)"
         />
-        <label :id="id + '-label-' + age.value" :for="id + '-age-' + age.value">
+        <label
+          :id="id + '-label-' + age.value"
+          :for="id + '-age-' + age.value"
+          :title="isDisabled(age.value) ? t('Please unselect any of the selected options first') : undefined"
+        >
           {{ age.label }}
         </label>
-        <b-tooltip v-if="isDisabled(age.value)" :target="id + '-label-' + age.value">
-          {{ 'Please unselect any of the selected options first' | t }}
-        </b-tooltip>
       </div>
     </div>
   </Foldable>
@@ -35,7 +36,7 @@ export default {
     Foldable
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -58,7 +59,7 @@ export default {
   },
   data() {
     return {
-      selectedAges: this.value
+      selectedAges: this.modelValue
     }
   },
   computed: {
@@ -67,11 +68,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedAges = this.value
+    modelValue() {
+      this.selectedAges = this.modelValue
     },
     selectedAges() {
-      this.$emit('input', this.selectedAges)
+      this.$emit('update:modelValue', this.selectedAges)
     }
   },
   methods: {
@@ -80,7 +81,7 @@ export default {
       return facet ? facet.count : 0
     },
     isDisabled(value) {
-      return !!(this.maxAges && this.value.length >= this.maxAges && !this.value.includes(value))
+      return !!(this.maxAges && this.modelValue.length >= this.maxAges && !this.modelValue.includes(value))
     }
   }
 }

@@ -3,7 +3,8 @@
 namespace Drupal\openy_activity_finder\Plugin\rest\resource;
 
 use Drupal\Core\Cache\CacheableMetadata;
-use Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface;
+use Drupal\openy_activity_finder\ActivityFinderBackendAggregator;
+use Drupal\openy_activity_finder\ActivityFinderBackendManager;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
@@ -12,6 +13,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides Session Data resource.
+ *
+ * Refreshes saved items: given item ids and the block's backend(s), returns the
+ * current rows. Backend-agnostic — items are fetched via getResults() with an id
+ * filter through the aggregator, so each of the block's backends returns only
+ * the items it owns (rows carry a 'backend' provenance field).
  *
  * @RestResource(
  *   id = "openy_activity_finder_session_data",
@@ -31,29 +37,21 @@ class SessionData extends ResourceBase {
   protected $requestStack;
 
   /**
-   * Backend.
+   * The backend aggregator.
    *
-   * @var \Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface
+   * @var \Drupal\openy_activity_finder\ActivityFinderBackendAggregator
    */
-  protected $backend;
+  protected $aggregator;
 
   /**
-   * Constructs a Client Data resource object.
+   * The backend plugin manager.
    *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
-   *   Request Stack.
-   * @param \Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface $backend
-   *   Backend.
+   * @var \Drupal\openy_activity_finder\ActivityFinderBackendManager
+   */
+  protected $backendManager;
+
+  /**
+   * Constructs a Session Data resource object.
    */
   public function __construct(
     array $configuration,
@@ -62,7 +60,8 @@ class SessionData extends ResourceBase {
     array $serializer_formats,
     LoggerInterface $logger,
     RequestStack $request_stack,
-    OpenyActivityFinderBackendInterface $backend
+    ActivityFinderBackendAggregator $aggregator,
+    ActivityFinderBackendManager $backend_manager
   ) {
     parent::__construct($configuration,
       $plugin_id,
@@ -71,7 +70,8 @@ class SessionData extends ResourceBase {
       $logger
     );
     $this->requestStack = $request_stack;
-    $this->backend = $backend;
+    $this->aggregator = $aggregator;
+    $this->backendManager = $backend_manager;
   }
 
   /**
@@ -83,7 +83,6 @@ class SessionData extends ResourceBase {
     $plugin_id,
     $plugin_definition
   ) {
-    $config = $container->get('config.factory')->get('openy_activity_finder.settings');
     return new static(
       $configuration,
       $plugin_id,
@@ -91,7 +90,8 @@ class SessionData extends ResourceBase {
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('openy_activity_finder'),
       $container->get('request_stack'),
-      $container->get($config->get('backend'))
+      $container->get('openy_activity_finder.backend_aggregator'),
+      $container->get('plugin.manager.activity_finder_backend')
     );
   }
 
@@ -100,28 +100,24 @@ class SessionData extends ResourceBase {
    *
    * @return \Drupal\rest\ResourceResponse
    *   Response.
-   *
-   * @throws \Drupal\search_api\SearchApiException
    */
   public function get() {
+    $request = $this->requestStack->getCurrentRequest();
     $disable_cache = new CacheableMetadata();
     $disable_cache->setCacheMaxAge(0)->addCacheContexts(['url.query_args', 'url.path']);
-    $session_ids = $this->requestStack->getCurrentRequest()->query->get('session_ids');
+
+    $session_ids = $request->query->get('session_ids');
     if (empty($session_ids)) {
-      $response_data = [
-        'error' => 'Required parameter session_ids is missing.',
-      ];
-      $response = new ResourceResponse($response_data, 400);
+      $response = new ResourceResponse(['error' => 'Required parameter session_ids is missing.'], 400);
       $response->addCacheableDependency($disable_cache);
       return $response;
     }
 
-    $sessions_array = explode(',', $session_ids);
-    $response_data = [
-      'sessions' => $this->backend->getSessions($sessions_array),
-    ];
+    $registered = array_keys($this->backendManager->getDefinitions());
+    $backend_ids = array_values(array_intersect(array_filter((array) $request->query->all('backend')), $registered));
+    $data = $this->aggregator->search($backend_ids, ['ids' => $session_ids], 0);
 
-    $response = new ResourceResponse($response_data);
+    $response = new ResourceResponse(['sessions' => $data['table'] ?? []]);
     $response->addCacheableDependency($disable_cache);
     return $response;
   }

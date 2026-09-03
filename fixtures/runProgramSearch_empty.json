@@ -1,0 +1,2329 @@
+{
+  "count": 31,
+  "facets": {
+    "field_session_min_age": [
+      {
+        "filter": "60",
+        "count": 9
+      },
+      {
+        "filter": "24",
+        "count": 7
+      },
+      {
+        "filter": "156",
+        "count": 4
+      },
+      {
+        "filter": "36",
+        "count": 3
+      },
+      {
+        "filter": "72",
+        "count": 3
+      },
+      {
+        "filter": "!",
+        "count": 3
+      },
+      {
+        "filter": "216",
+        "count": 1
+      },
+      {
+        "filter": "86",
+        "count": 1
+      }
+    ],
+    "field_session_max_age": [
+      {
+        "filter": "!",
+        "count": 10
+      },
+      {
+        "filter": "144",
+        "count": 9
+      },
+      {
+        "filter": "60",
+        "count": 6
+      },
+      {
+        "filter": "228",
+        "count": 5
+      },
+      {
+        "filter": "132",
+        "count": 1
+      }
+    ],
+    "field_category_program": [
+      {
+        "filter": "Swimming",
+        "count": 25
+      },
+      {
+        "filter": "Health and Fitness",
+        "count": 5
+      },
+      {
+        "filter": "Kids and Family Activities",
+        "count": 1
+      }
+    ],
+    "field_activity_category": [
+      {
+        "filter": "85",
+        "count": 25,
+        "id": 85
+      },
+      {
+        "filter": "73",
+        "count": 5,
+        "id": 73
+      },
+      {
+        "filter": "80",
+        "count": 1,
+        "id": 80
+      }
+    ],
+    "field_session_in_mbrsh": [
+      {
+        "filter": "0",
+        "count": 16
+      },
+      {
+        "filter": "1",
+        "count": 15
+      }
+    ],
+    "af_duration": [
+      {
+        "filter": "365",
+        "count": 31
+      }
+    ],
+    "af_start_month": [
+      {
+        "filter": "6",
+        "count": 31
+      }
+    ],
+    "locations": [
+      {
+        "filter": "Downtown YMCA",
+        "count": 16,
+        "id": "61"
+      },
+      {
+        "filter": "West YMCA",
+        "count": 15,
+        "id": "60"
+      }
+    ],
+    "days_of_week": [
+      {
+        "filter": "monday",
+        "count": 31
+      },
+      {
+        "filter": "tuesday",
+        "count": 31
+      }
+    ],
+    "af_parts_of_day": [
+      {
+        "filter": "2",
+        "count": 13
+      },
+      {
+        "filter": "1",
+        "count": 12
+      },
+      {
+        "filter": "3",
+        "count": 9
+      }
+    ],
+    "af_ages_min_max": [
+      {
+        "filter": "60",
+        "count": 22
+      },
+      {
+        "filter": "108",
+        "count": 20
+      },
+      {
+        "filter": "120",
+        "count": 20
+      },
+      {
+        "filter": "132",
+        "count": 20
+      },
+      {
+        "filter": "96",
+        "count": 20
+      },
+      {
+        "filter": "144",
+        "count": 19
+      },
+      {
+        "filter": "72",
+        "count": 19
+      },
+      {
+        "filter": "84",
+        "count": 19
+      },
+      {
+        "filter": "156",
+        "count": 14
+      },
+      {
+        "filter": "168",
+        "count": 14
+      },
+      {
+        "filter": "180",
+        "count": 14
+      },
+      {
+        "filter": "192",
+        "count": 14
+      },
+      {
+        "filter": "36",
+        "count": 13
+      },
+      {
+        "filter": "48",
+        "count": 13
+      },
+      {
+        "filter": "24",
+        "count": 10
+      },
+      {
+        "filter": "660",
+        "count": 10
+      },
+      {
+        "filter": "12",
+        "count": 3
+      },
+      {
+        "filter": "18",
+        "count": 3
+      },
+      {
+        "filter": "6",
+        "count": 3
+      }
+    ],
+    "af_weeks": [
+      {
+        "filter": "!",
+        "count": 31
+      }
+    ],
+    "af_weekdays_parts_of_day": [
+      {
+        "filter": "10",
+        "count": 31
+      },
+      {
+        "filter": "20",
+        "count": 31
+      },
+      {
+        "filter": "11",
+        "count": 12
+      },
+      {
+        "filter": "12",
+        "count": 12
+      },
+      {
+        "filter": "21",
+        "count": 12
+      },
+      {
+        "filter": "22",
+        "count": 12
+      },
+      {
+        "filter": "13",
+        "count": 9
+      },
+      {
+        "filter": "23",
+        "count": 9
+      }
+    ],
+    "static_age_filter": [
+      {
+        "label": "6mos",
+        "value": "6",
+        "count": 3
+      },
+      {
+        "label": "12mos",
+        "value": "12",
+        "count": 3
+      },
+      {
+        "label": "18mos",
+        "value": "18",
+        "count": 3
+      },
+      {
+        "label": "2yrs",
+        "value": "24",
+        "count": 10
+      },
+      {
+        "label": "3yrs",
+        "value": "36",
+        "count": 13
+      },
+      {
+        "label": "4yrs",
+        "value": "48",
+        "count": 13
+      },
+      {
+        "label": "5yrs",
+        "value": "60",
+        "count": 22
+      },
+      {
+        "label": "6yrs",
+        "value": "72",
+        "count": 19
+      },
+      {
+        "label": "7yrs",
+        "value": "84",
+        "count": 19
+      },
+      {
+        "label": "8yrs",
+        "value": "96",
+        "count": 20
+      },
+      {
+        "label": "9yrs",
+        "value": "108",
+        "count": 20
+      },
+      {
+        "label": "10yrs",
+        "value": "120",
+        "count": 20
+      },
+      {
+        "label": "11yrs",
+        "value": "132",
+        "count": 20
+      },
+      {
+        "label": "12yrs",
+        "value": "144",
+        "count": 19
+      },
+      {
+        "label": "13yrs",
+        "value": "156",
+        "count": 14
+      },
+      {
+        "label": "14yrs",
+        "value": "168",
+        "count": 14
+      },
+      {
+        "label": "15yrs",
+        "value": "180",
+        "count": 14
+      },
+      {
+        "label": "16+yrs",
+        "value": "192",
+        "count": 14
+      },
+      {
+        "label": "55+yrs",
+        "value": "660",
+        "count": 10
+      }
+    ],
+    "static_weeks_filter": []
+  },
+  "pager": 0,
+  "pager_info": {
+    "total_pages": 2,
+    "pages": {
+      "1": 1,
+      "2": 2
+    }
+  },
+  "table": [
+    {
+      "nid": "181",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "10:00am-11:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "10:00am-11:00am",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Adult Swim 5.5 ft",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "18+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "7",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Adult Swim 5.5 ft",
+      "atc_info": [],
+      "min_age": "216",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "193",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "9:00pm-10:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "9:00pm-10:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "AM Fit & Fun",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "73",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "AM Fit & Fun",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "192",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "8:00pm-9:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "8:00pm-9:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Bellevue: No School Days - Package Option",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "73",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Bellevue: No School Days - Package Option",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "191",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "7:00pm-8:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "7:00pm-8:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Birthday Party",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "",
+      "gender": "",
+      "program_id": "73",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Birthday Party",
+      "atc_info": [],
+      "min_age": null,
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "182",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "11:00am-12:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "11:00am-12:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Family Swim",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "3+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Family Swim",
+      "atc_info": [],
+      "min_age": "36",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "185",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "2:00pm-3:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "2:00pm-3:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Kids Zone 4 wks -11 yrs",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": " - 11 years",
+      "gender": "",
+      "program_id": "73",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Kids Zone 4 wks -11 yrs",
+      "atc_info": [],
+      "min_age": null,
+      "max_age": "132",
+      "product_id": null
+    },
+    {
+      "nid": "184",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "1:00pm-2:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "1:00pm-2:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Lap Swim",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "6+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Lap Swim",
+      "atc_info": [],
+      "min_age": "72",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "180",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "9:00am-10:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "9:00am-10:00am",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Rec Swim with Slide",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "6+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "1",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Rec Swim with Slide",
+      "atc_info": [],
+      "min_age": "72",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "183",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "12:00pm-1:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "12:00pm-1:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Recreational Swim",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "3+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Recreational Swim",
+      "atc_info": [],
+      "min_age": "36",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "178",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "7:00am-8:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "7:00am-8:00am",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Recreational Swim 3ft",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "5+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Recreational Swim 3ft",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "190",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "6:00pm-7:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "6:00pm-7:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Room Rental",
+      "price": "$100.00 (member), $150.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "",
+      "gender": "",
+      "program_id": "73",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "50",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Room Rental",
+      "atc_info": [],
+      "min_age": null,
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "166",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "7:00pm-8:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "7:00pm-8:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lesson - Private",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "2+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "17",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lesson - Private",
+      "atc_info": [],
+      "min_age": "24",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "160",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "1:00pm-2:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "1:00pm-2:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Parent/Child Stage A: Water Discov.",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "2 - 5 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "0",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Parent/Child Stage A: Water Discov.",
+      "atc_info": [],
+      "min_age": "24",
+      "max_age": "60",
+      "product_id": null
+    },
+    {
+      "nid": "161",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "2:00pm-3:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "2:00pm-3:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Parent/Child Stage B: Water Explor.",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "2 - 5 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Parent/Child Stage B: Water Explor.",
+      "atc_info": [],
+      "min_age": "24",
+      "max_age": "60",
+      "product_id": null
+    },
+    {
+      "nid": "162",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "3:00pm-4:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "3:00pm-4:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Preschool Stage 1: Water Acclimat.",
+      "price": "$10.00 (member), $19.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "2 - 5 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "1",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Preschool Stage 1: Water Acclimat.",
+      "atc_info": [],
+      "min_age": "24",
+      "max_age": "60",
+      "product_id": null
+    },
+    {
+      "nid": "163",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "4:00pm-5:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "4:00pm-5:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Preschool Stage 2: Water Movement",
+      "price": "$12.00 (member), $17.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "2 - 5 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "3",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Preschool Stage 2: Water Movement",
+      "atc_info": [],
+      "min_age": "24",
+      "max_age": "60",
+      "product_id": null
+    },
+    {
+      "nid": "164",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "5:00pm-6:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "5:00pm-6:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Preschool Stage 3: Water Stamina",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "2 - 5 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "0",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Preschool Stage 3: Water Stamina",
+      "atc_info": [],
+      "min_age": "24",
+      "max_age": "60",
+      "product_id": null
+    },
+    {
+      "nid": "165",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "6:00pm-7:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "6:00pm-7:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Preschool Stage 4: Stroke Intro.",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "2 - 5 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "10",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Preschool Stage 4: Stroke Intro.",
+      "atc_info": [],
+      "min_age": "24",
+      "max_age": "60",
+      "product_id": null
+    },
+    {
+      "nid": "174",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "10:00am-11:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "10:00am-11:00am",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Teen",
+      "price": "$15.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "13 - 19 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "15",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Teen",
+      "atc_info": [],
+      "min_age": "156",
+      "max_age": "228",
+      "product_id": null
+    },
+    {
+      "nid": "177",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "6:00am-7:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "6:00am-7:00am",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Teen Advanced",
+      "price": "$40.00 (member), $45.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "13 - 19 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "1",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Teen Advanced",
+      "atc_info": [],
+      "min_age": "156",
+      "max_age": "228",
+      "product_id": null
+    },
+    {
+      "nid": "175",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "11:00am-12:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "11:00am-12:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Teen Beginning",
+      "price": "$5.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "13 - 19 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "0",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Teen Beginning",
+      "atc_info": [],
+      "min_age": "156",
+      "max_age": "228",
+      "product_id": null
+    },
+    {
+      "nid": "176",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "12:00pm-1:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "12:00pm-1:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Teen Intermediate",
+      "price": "$12.00 (member), $50.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "13 - 19 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "0",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Teen Intermediate",
+      "atc_info": [],
+      "min_age": "156",
+      "max_age": "228",
+      "product_id": null
+    },
+    {
+      "nid": "167",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "8:00pm-9:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "8:00pm-9:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Youth Stage 1: Water Acclimat.",
+      "price": "$12.00 (member), $25.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Youth Stage 1: Water Acclimat.",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "168",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "9:00pm-10:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "9:00pm-10:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Youth Stage 2: Water Movement",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "2",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Youth Stage 2: Water Movement",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "169",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "12:00pm-1:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "12:00pm-1:00pm",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Youth Stage 3: Water Stamina",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "0",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Youth Stage 3: Water Stamina",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "170",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "6:00am-7:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "6:00am-7:00am",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Youth Stage 4: Stroke Intro.",
+      "price": "$11.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "6",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Youth Stage 4: Stroke Intro.",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "171",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "7:00am-8:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "7:00am-8:00am",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Youth Stage 5: Stroke Devel.",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "2",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Youth Stage 5: Stroke Devel.",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "172",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "8:00am-9:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "8:00am-9:00am",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Lessons - Youth Stage 6: Stroke Mechanics",
+      "price": "$10.00 (member), $25.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "5 - 12 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "15",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Lessons - Youth Stage 6: Stroke Mechanics",
+      "atc_info": [],
+      "min_age": "60",
+      "max_age": "144",
+      "product_id": null
+    },
+    {
+      "nid": "173",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "9:00am-10:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "9:00am-10:00am",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Swim Team - Interest List",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "7.2 - 19 years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "20",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Swim Team - Interest List",
+      "atc_info": [],
+      "min_age": "86",
+      "max_age": "228",
+      "product_id": null
+    },
+    {
+      "nid": "179",
+      "availability_note": "Registration closed",
+      "availability_status": "closed",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 53,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "8:00am-9:00am"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "8:00am-9:00am",
+      "location": "West YMCA",
+      "location_id": "60",
+      "location_info": {
+        "type": "branch",
+        "address": "5801 West Orem Drive, Houston, TX, 77085",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "60",
+        "phone": "(555) 555-1234",
+        "title": "West YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Wade Swim 2ft",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url",
+      "description": "",
+      "ages": "3+ years",
+      "gender": "",
+      "program_id": "85",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "closed",
+      "note": "Registration closed",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Wade Swim 2ft",
+      "atc_info": [],
+      "min_age": "36",
+      "max_age": null,
+      "product_id": null
+    },
+    {
+      "nid": "186",
+      "availability_note": "",
+      "availability_status": "open",
+      "activity_type": "",
+      "dates": "Jun 08",
+      "weeks": 52,
+      "schedule": [
+        {
+          "days": "Monday, Tuesday",
+          "time": "3:00pm-3:00pm"
+        }
+      ],
+      "days": "Monday, Tuesday",
+      "times": "3:00pm-3:00pm",
+      "location": "Downtown YMCA",
+      "location_id": "61",
+      "location_info": {
+        "type": "branch",
+        "address": "808 Pease Street, Houston, TX, 77002",
+        "days": [
+          [
+            "Mon - Fri:",
+            ""
+          ],
+          [
+            "Sat - Sun:",
+            ""
+          ]
+        ],
+        "email": "info@example.com",
+        "nid": "61",
+        "phone": "(555) 555-1234",
+        "title": "Downtown YMCA"
+      },
+      "instructor": "",
+      "log_id": 0,
+      "name": "Youth Cooking - Future Chefs",
+      "price": "$10.00 (member), $15.00 (non-member)",
+      "link": "/af/register-redirect/0?url=https%3A//ds.ymca.org",
+      "description": "",
+      "ages": "6 - 12 years",
+      "gender": "",
+      "program_id": "80",
+      "offering_id": "",
+      "info": [],
+      "location_name": "",
+      "location_address": "",
+      "location_phone": "",
+      "spots_available": "5",
+      "status": "open",
+      "note": "",
+      "learn_more": "",
+      "more_results": "",
+      "more_results_type": "program",
+      "program_name": "Youth Cooking - Future Chefs",
+      "atc_info": [],
+      "min_age": "72",
+      "max_age": "144",
+      "product_id": null
+    }
+  ],
+  "groupedLocations": [
+    {
+      "value": [
+        {
+          "value": "24",
+          "label": "[Downtown Springfield]"
+        },
+        {
+          "value": "61",
+          "label": "Downtown YMCA"
+        },
+        {
+          "value": "62",
+          "label": "East YMCA"
+        },
+        {
+          "value": "63",
+          "label": "South YMCA"
+        },
+        {
+          "value": "60",
+          "label": "West YMCA"
+        }
+      ],
+      "label": "Branch",
+      "count": 31
+    }
+  ],
+  "sort": "title__ASC",
+  "expanderSectionsConfig": {
+    "_core": {
+      "default_config_hash": "cFVQJ1YqsOgU2_dNHKivrQt75afyN8ED5G-vOGsY_T8"
+    },
+    "backend": "openy_activity_finder.solr_backend",
+    "index": "default",
+    "bs_version": 4,
+    "ages": "6,6mos\r\n12,12mos\r\n18,18mos\r\n24,2yrs\r\n36,3yrs\r\n48,4yrs\r\n60,5yrs\r\n72,6yrs\r\n84,7yrs\r\n96,8yrs\r\n108,9yrs\r\n120,10yrs\r\n132,11yrs\r\n144,12yrs\r\n156,13yrs\r\n168,14yrs\r\n180,15yrs\r\n192,16+yrs\r\n660,55+yrs",
+    "location_types": {
+      "branch": "branch",
+      "camp": "camp",
+      "facility": "facility"
+    },
+    "weeks": "",
+    "exclude": "61",
+    "disable_search_box": 0,
+    "disable_spots_available": 0,
+    "hb_modal_text0": "No Results",
+    "hb_modal_text1": "Oh no you're headed to an empty results page",
+    "hb_modal_text2": "The options you've selected do not match any activities available at your selected Home Branch.",
+    "hb_modal_text3": "Please select one of the options below to proceed:",
+    "hb_modal_text4": "View available locations",
+    "hb_modal_text5": "Adjust my filters",
+    "disable_program_search_log": 1,
+    "disable_cache_debug_log": 1,
+    "allowed_query_arguments": [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content"
+    ],
+    "durations": "1|Single day\r\n5|Multi-day\r\n21|Weekly\r\n35|Monthly\r\n84|Season\r\n272|School year\r\n365|Full year"
+  }
+}

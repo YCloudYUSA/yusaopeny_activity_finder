@@ -1,6 +1,6 @@
 <template>
   <Foldable
-    :label="'Week(s)' | t"
+    :label="t('Week(s)')"
     :collapse-id="id + '-toggle'"
     :counter="filtersCount"
     class="weeks-filter-component"
@@ -26,7 +26,7 @@ export default {
     Foldable
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      selectedWeeks: this.value
+      selectedWeeks: this.modelValue
     }
   },
   computed: {
@@ -54,11 +54,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedWeeks = this.value
+    modelValue() {
+      this.selectedWeeks = this.modelValue
     },
     selectedWeeks() {
-      this.$emit('input', this.selectedWeeks)
+      this.$emit('update:modelValue', this.selectedWeeks)
     }
   },
   methods: {

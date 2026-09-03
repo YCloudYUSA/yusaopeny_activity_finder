@@ -1,6 +1,6 @@
 <template>
   <Foldable
-    :label="'Start Month(s)' | t"
+    :label="t('Start Month(s)')"
     :collapse-id="id + '-toggle'"
     :counter="filtersCount"
     class="start-month-filter-component"
@@ -30,7 +30,7 @@ export default {
     Foldable
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      selectedStartMonths: this.value
+      selectedStartMonths: this.modelValue
     }
   },
   computed: {
@@ -58,11 +58,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedStartMonths = this.value
+    modelValue() {
+      this.selectedStartMonths = this.modelValue
     },
     selectedStartMonths() {
-      this.$emit('input', this.selectedStartMonths)
+      this.$emit('update:modelValue', this.selectedStartMonths)
     }
   },
   methods: {

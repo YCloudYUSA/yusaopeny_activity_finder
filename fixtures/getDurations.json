@@ -1,0 +1,30 @@
+[
+    {
+        "label": "Single day",
+        "value": "1"
+    },
+    {
+        "label": "Multi-day",
+        "value": "5"
+    },
+    {
+        "label": "Weekly",
+        "value": "21"
+    },
+    {
+        "label": "Monthly",
+        "value": "35"
+    },
+    {
+        "label": "Season",
+        "value": "84"
+    },
+    {
+        "label": "School year",
+        "value": "272"
+    },
+    {
+        "label": "Full year",
+        "value": "365"
+    }
+]

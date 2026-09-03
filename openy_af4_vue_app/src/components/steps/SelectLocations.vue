@@ -1,13 +1,13 @@
 <template>
   <div class="select-locations-component">
     <Step
-      :skip-label="'All locations (Skip)' | t"
+      :skip-label="t('All locations (Skip)')"
       :filters-selected="filtersSelected"
       @skip="onSkip"
       @next="onNext"
     >
       <template v-slot:title>
-        {{ 'Do you have any location preferences?' | t }}
+        {{ t('Do you have any location preferences?') }}
       </template>
       <template v-slot:default="{ handleSticky }">
         <Fieldset
@@ -40,9 +40,7 @@
                   <span>
                     <span class="title">{{ location.label }}</span>
                     <span class="results-count">
-                      {{
-                        facetCount(location.value) | formatPlural('1 result', '@count results')
-                      }}
+                      {{ formatPlural(facetCount(location.value), '1 result', '@count results') }}
                     </span>
                   </span>
                 </label>
@@ -66,7 +64,7 @@ export default {
     Step
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -97,7 +95,7 @@ export default {
   },
   data() {
     return {
-      selectedLocations: this.value
+      selectedLocations: this.modelValue
     }
   },
   computed: {
@@ -143,12 +141,12 @@ export default {
       return filteredLocations
     },
     filtersSelected() {
-      return this.value.length >= 1
+      return this.modelValue.length >= 1
     }
   },
   watch: {
-    value() {
-      this.selectedLocations = this.value
+    modelValue() {
+      this.selectedLocations = this.modelValue
     }
   },
   mounted() {
@@ -166,11 +164,11 @@ export default {
   methods: {
     onChange(location) {
       this.trackEvent('selectLocations', 'Click on location ' + location.label, location.value)
-      this.$emit('input', this.selectedLocations)
+      this.$emit('update:modelValue', this.selectedLocations)
     },
     onSkip() {
       this.trackEvent('skip', 'Click on selectLocations')
-      this.$emit('input', [])
+      this.$emit('update:modelValue', [])
       this.$emit('nextStep')
     },
     onNext() {
@@ -186,7 +184,7 @@ export default {
     },
     subFiltersCount(index) {
       let result = 0
-      this.value.forEach(item => {
+      this.modelValue.forEach(item => {
         if (this.locations[index].value.find(location => location.value === item)) {
           result++
         }

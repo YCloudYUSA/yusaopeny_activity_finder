@@ -15,14 +15,16 @@ function hook_activity_finder_program_search_results_alter(&$data) {
 }
 
 /**
- * Alter the process results.
+ * Alter a single processed result row.
+ *
+ * Invoked by a backend while building the result table, once per row.
  *
  * @param array $data
- *   The array of processed result item for program search.
+ *   The processed result item for the program search.
  * @param \Drupal\node\NodeInterface $entity
  *   The node that has just been processed.
  *
- * @see Drupal\openy_activity_finder\OpenyActivityFinderSolrBackend
+ * @see \Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface
  */
 function hook_activity_finder_program_process_results_alter(array &$data, NodeInterface $entity) {
   $data['description'] = t('Test session description');

@@ -11,7 +11,7 @@
 export default {
   name: 'SortRadios',
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     },
@@ -22,17 +22,17 @@ export default {
   },
   data() {
     return {
-      selectedSort: this.value
+      selectedSort: this.modelValue
     }
   },
   watch: {
-    value() {
-      this.selectedSort = this.value
+    modelValue() {
+      this.selectedSort = this.modelValue
     }
   },
   methods: {
     onChange() {
-      this.$emit('input', this.selectedSort)
+      this.$emit('update:modelValue', this.selectedSort)
     }
   }
 }

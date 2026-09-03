@@ -1,13 +1,13 @@
 <template>
   <div class="select-days-component">
     <Step
-      :skip-label="'Any day (Skip)' | t"
+      :skip-label="t('Any day (Skip)')"
       :filters-selected="filtersSelected"
       @skip="onSkip"
       @next="onNext"
     >
       <template v-slot:title>
-        {{ 'What days are you looking to fill?' | t }}
+        {{ t('What days are you looking to fill?') }}
       </template>
       <template v-slot:default="{ handleSticky }">
         <Fieldset
@@ -33,11 +33,9 @@
                 />
                 <label :for="day.search_value" role="button">
                   <span>
-                    <span class="title">{{ day.search_value | capitalize }}</span>
+                    <span class="title">{{ capitalize(day.search_value) }}</span>
                     <span class="results-count">
-                      {{
-                        facetCount(day.search_value) | formatPlural('1 result', '@count results')
-                      }}
+                      {{ formatPlural(facetCount(day.search_value), '1 result', '@count results') }}
                     </span>
                   </span>
                 </label>
@@ -61,7 +59,7 @@ export default {
     Step
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -80,15 +78,15 @@ export default {
   },
   data() {
     return {
-      selectedDays: this.value
+      selectedDays: this.modelValue
     }
   },
   computed: {
     filtersSelected() {
-      return this.value.length >= 1
+      return this.modelValue.length >= 1
     },
     filtersCount() {
-      return this.value.length
+      return this.modelValue.length
     },
     optionsCount() {
       let count = 0
@@ -99,18 +97,18 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedDays = this.value
+    modelValue() {
+      this.selectedDays = this.modelValue
     }
   },
   methods: {
     onChange(day) {
       this.trackEvent('selectDays', 'Click on day ' + day.search_value, day.value)
-      this.$emit('input', this.selectedDays)
+      this.$emit('update:modelValue', this.selectedDays)
     },
     onSkip() {
       this.trackEvent('skip', 'Click on selectDays')
-      this.$emit('input', [])
+      this.$emit('update:modelValue', [])
       this.$emit('nextStep')
     },
     onNext() {

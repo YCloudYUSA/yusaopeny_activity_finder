@@ -1,13 +1,13 @@
 <template>
   <div class="select-days-times-component">
     <Step
-      :skip-label="'Any day & time (Skip)' | t"
+      :skip-label="t('Any day & time (Skip)')"
       :filters-selected="filtersSelected"
       @skip="onSkip"
       @next="onNext"
     >
       <template v-slot:title>
-        {{ 'What day or time are you looking for?' | t }}
+        {{ t('What day or time are you looking for?') }}
       </template>
       <template v-slot:default="{ handleSticky }">
         <Fieldset
@@ -45,7 +45,7 @@
                       </span>
                     </template>
                     <span class="results-count">
-                      {{ facetCount(time.value) | formatPlural('1 result', '@count results') }}
+                      {{ formatPlural(facetCount(time.value), '1 result', '@count results') }}
                     </span>
                   </span>
                 </label>
@@ -69,7 +69,7 @@ export default {
     Step
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -88,7 +88,7 @@ export default {
   },
   data() {
     return {
-      selectedDaysTimes: this.value
+      selectedDaysTimes: this.modelValue
     }
   },
   computed: {
@@ -106,7 +106,7 @@ export default {
       return filteredDaysTimes
     },
     filtersSelected() {
-      return this.value.length >= 1
+      return this.modelValue.length >= 1
     },
     firstItemWithOptions() {
       for (let key in this.days) {
@@ -118,8 +118,8 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedDaysTimes = this.value
+    modelValue() {
+      this.selectedDaysTimes = this.modelValue
     }
   },
   methods: {
@@ -129,11 +129,11 @@ export default {
         'Click on day ' + day.search_value + ' and time ' + time.label,
         time.value
       )
-      this.$emit('input', this.selectedDaysTimes)
+      this.$emit('update:modelValue', this.selectedDaysTimes)
     },
     onSkip() {
       this.trackEvent('skip', 'Click on selectDaysTimes')
-      this.$emit('input', [])
+      this.$emit('update:modelValue', [])
       this.$emit('nextStep')
     },
     onNext() {
@@ -152,7 +152,7 @@ export default {
     },
     subFiltersCount(index) {
       let result = 0
-      this.value.forEach(item => {
+      this.modelValue.forEach(item => {
         if (this.daysTimes[index].value.find(day => String(day.value) === String(item))) {
           result++
         }

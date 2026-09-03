@@ -1,0 +1,6 @@
+{
+    "schedule": true,
+    "category": true,
+    "locations": true,
+    "additional": true
+}

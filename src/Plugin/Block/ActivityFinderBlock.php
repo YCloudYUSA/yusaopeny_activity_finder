@@ -8,7 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\path_alias\AliasManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\openy_activity_finder\OpenyActivityFinderSolrBackend;
+use Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -93,7 +93,7 @@ class ActivityFinderBlock extends BlockBase implements ContainerFactoryPluginInt
   public function build() {
     $config = $this->configFactory->get('openy_activity_finder.settings');
     $backend_service_id = $config->get('backend');
-    $backend = \Drupal::service($backend_service_id);
+    $backend = \Drupal::service('plugin.manager.activity_finder_backend')->createInstance($backend_service_id);
     $node = $this->routeMatch->getParameter('node');
     $alias = '';
     if ($node instanceof NodeInterface) {
@@ -101,7 +101,7 @@ class ActivityFinderBlock extends BlockBase implements ContainerFactoryPluginInt
     }
 
     $locationsMapping = [];
-    if ($backend_service_id == 'openy_daxko2.openy_activity_finder_backend') {
+    if ($backend_service_id == 'daxko') {
       $openy_daxko2_config = $this->configFactory->get('openy_daxko2.settings');
       if (!empty($openy_daxko2_config->get('locations'))) {
         $nids = $this->entityTypeManager->getStorage('node')->getQuery()
@@ -154,7 +154,7 @@ class ActivityFinderBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    return Cache::mergeTags(parent::getCacheTags(), [OpenyActivityFinderSolrBackend::ACTIVITY_FINDER_CACHE_TAG]);
+    return Cache::mergeTags(parent::getCacheTags(), [OpenyActivityFinderBackendInterface::CACHE_TAG]);
   }
 
 }

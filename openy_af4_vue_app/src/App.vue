@@ -33,7 +33,7 @@
       :disable-search-box="disableSearchBox"
     >
       <template v-if="!disableSearchBox" v-slot:search="{ hideModal }">
-        <SearchForm v-model="searchKeywords" @input="hideModal" />
+        <SearchForm v-model="searchKeywords" @update:modelValue="hideModal" />
       </template>
       <template v-slot:filter="{ hideModal }">
         <Filters
@@ -73,7 +73,7 @@
         />
       </template>
       <template v-slot:sort="{ hideModal }">
-        <SortRadios v-model="selectedSort" :sort-options="sortOptions" @input="hideModal" />
+        <SortRadios v-model="selectedSort" :sort-options="sortOptions" @update:modelValue="hideModal" />
       </template>
     </ResultsBar>
     <Loading v-if="step !== 'results' && isLoadingData" />
@@ -94,11 +94,11 @@
       <template v-if="showHomeBranchBlock" v-slot:home-branch>
         <p>
           <a role="button" class="homebranch-link" @click.stop.prevent="viewHomeBranchResults">
-            <strong>{{ 'View all programs for Home Branch' | t }}</strong>
+            <strong>{{ t('View all programs for Home Branch') }}</strong>
           </a>
         </p>
         <p v-if="homeBranchResultsCount" class="homebranch-results-count">
-          {{ homeBranchResultsCount | formatPlural('1 result', '@count results') }}
+          {{ formatPlural(homeBranchResultsCount, '1 result', '@count results') }}
         </p>
       </template>
     </SelectPath>
@@ -297,6 +297,10 @@ export default {
     backendService: {
       type: String,
       required: true
+    },
+    backend: {
+      type: Array,
+      default: () => []
     },
     label: {
       type: String,
@@ -577,7 +581,8 @@ export default {
         limitloc: this.limitByLocation.join(','),
         excludeloc: this.excludeByLocation.join(','),
         durations: this.selectedDurations.join(','),
-        start_months: this.selectedStartMonths.join(',')
+        start_months: this.selectedStartMonths.join(','),
+        backend: this.backend
       }
 
       if (this.selectedInMemberships) {
@@ -697,12 +702,6 @@ export default {
     shouldUpdateData() {
       this.loadData()
     },
-    $route: {
-      handler() {
-        this.getDataFromUrl()
-      },
-      immediate: true
-    },
     cartItems() {
       localStorage.setItem(this.cartItemsKey, JSON.stringify(this.cartItems))
     },
@@ -714,10 +713,23 @@ export default {
     }
   },
   created() {
+    this._restoringFromHistory = false
+    this.getDataFromUrl()
     this.loadData()
     this.getHomeBranchResultsCount()
   },
+  beforeUnmount() {
+    window.removeEventListener('popstate', this._popstateHandler)
+  },
   mounted() {
+    this._popstateHandler = () => {
+      this._restoringFromHistory = true
+      this.getDataFromUrl()
+      this.$nextTick(() => {
+        this._restoringFromHistory = false
+      })
+    }
+    window.addEventListener('popstate', this._popstateHandler)
     if (localStorage.getItem(this.cartItemsKey)) {
       try {
         this.cartItems = JSON.parse(localStorage.getItem(this.cartItemsKey)).filter(
@@ -807,7 +819,7 @@ export default {
         })
     },
     getDataFromUrl() {
-      const query = this.$route.query
+      const query = Object.fromEntries(new URLSearchParams(window.location.search))
       const allowed_queries_array = window.drupalSettings?.utm
       if (allowed_queries_array && allowed_queries_array.length > 0) {
         const allowed_queries = allowed_queries_array
@@ -860,15 +872,17 @@ export default {
         }
       }
 
-      this.$router
-        .push({
-          query
-        })
-        // TODO: is there any good way to detect if we are already at this router location? - MPR-164
-        // Catch to avoid "NavigationDuplicated" error.
-        .catch(err => {
-          err
-        })
+      if (this._restoringFromHistory) {
+        return
+      }
+      const params = new URLSearchParams(query)
+      const newUrl = params.toString()
+        ? window.location.pathname + '?' + params.toString()
+        : window.location.pathname
+      if (newUrl === window.location.pathname + (window.location.search || '')) {
+        return
+      }
+      history.pushState({}, '', newUrl)
     },
     onFilterChange(event, callback = () => {}) {
       callback()
@@ -950,7 +964,8 @@ export default {
           params: {
             locations: this.homeBranchId,
             limit: this.searchParams.limit,
-            exclude: this.searchParams.exclude
+            exclude: this.searchParams.exclude,
+            backend: this.backend
           }
         })
         .then(response => {

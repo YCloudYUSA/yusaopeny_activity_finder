@@ -1,6 +1,6 @@
 <template>
   <Foldable
-    :label="'Day(s) & Time(s)' | t"
+    :label="t('Day(s) & Time(s)')"
     :collapse-id="id + '-toggle'"
     :counter="filtersCount"
     class="days-times-filter-component"
@@ -45,7 +45,7 @@ export default {
     FoldableInput
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -64,7 +64,7 @@ export default {
   },
   data() {
     return {
-      selectedDaysTimes: this.value
+      selectedDaysTimes: this.modelValue
     }
   },
   computed: {
@@ -73,11 +73,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedDaysTimes = this.value
+    modelValue() {
+      this.selectedDaysTimes = this.modelValue
     },
     selectedDaysTimes() {
-      this.$emit('input', this.selectedDaysTimes)
+      this.$emit('update:modelValue', this.selectedDaysTimes)
     }
   },
   methods: {

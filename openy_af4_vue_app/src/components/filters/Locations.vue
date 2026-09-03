@@ -31,7 +31,7 @@ export default {
     Foldable
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      selectedLocations: this.value
+      selectedLocations: this.modelValue
     }
   },
   computed: {
@@ -102,11 +102,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedLocations = this.value
+    modelValue() {
+      this.selectedLocations = this.modelValue
     },
     selectedLocations() {
-      this.$emit('input', this.selectedLocations)
+      this.$emit('update:modelValue', this.selectedLocations)
     }
   },
   methods: {

@@ -1,0 +1,13 @@
+name: 'LB Activity Finder Demo'
+type: module
+description: 'Demo Layout Builder landing page (header/banner/footer) with an Activity Finder v4 block, imported via migration. For local development and QA of AF4 in a Layout Builder context.'
+package: 'YMCA Website Services'
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:migrate
+  - migrate_plus:migrate_plus
+  - migrate_tools:migrate_tools
+  - openy_activity_finder:lb_activity_finder
+  - drupal:y_lb
+  - y_lb_demo_content:y_lb_demo_content
+  - openy_node_landing:openy_node_landing

@@ -1,0 +1,120 @@
+[
+    {
+        "value": [
+            {
+                "value": 70,
+                "label": "Kids Zone Activity Centers"
+            },
+            {
+                "value": 79,
+                "label": "Cooking & Crafts"
+            },
+            {
+                "value": 80,
+                "label": "Family Activities"
+            },
+            {
+                "value": 81,
+                "label": "Kids University & Enrichment Classes"
+            },
+            {
+                "value": 82,
+                "label": "Sports"
+            }
+        ],
+        "label": "Kids and Family Activities"
+    },
+    {
+        "value": [
+            {
+                "value": 71,
+                "label": "Active Older Adults"
+            },
+            {
+                "value": 72,
+                "label": "Group Exercise Classes"
+            },
+            {
+                "value": 73,
+                "label": "Health & Fitness for Kids & Teens"
+            },
+            {
+                "value": 74,
+                "label": "Personal Training"
+            },
+            {
+                "value": 75,
+                "label": "Programs for Health"
+            },
+            {
+                "value": 76,
+                "label": "Recreation"
+            },
+            {
+                "value": 77,
+                "label": "Small Group & Specialty Training"
+            },
+            {
+                "value": 78,
+                "label": "Weight Loss"
+            }
+        ],
+        "label": "Health and Fitness"
+    },
+    {
+        "value": [
+            {
+                "value": 83,
+                "label": "Swim Team"
+            },
+            {
+                "value": 84,
+                "label": "Drop-In Swim"
+            },
+            {
+                "value": 85,
+                "label": "Swim Lessons"
+            }
+        ],
+        "label": "Swimming"
+    },
+    {
+        "value": [
+            {
+                "value": 86,
+                "label": "Bold & Gold"
+            },
+            {
+                "value": 89,
+                "label": "Day Camps"
+            }
+        ],
+        "label": "Camps"
+    },
+    {
+        "value": [
+            {
+                "value": 87,
+                "label": "Before & After School Child Care"
+            },
+            {
+                "value": 90,
+                "label": "Preschool"
+            }
+        ],
+        "label": "Child Care"
+    },
+    {
+        "value": [
+            {
+                "value": 88,
+                "label": "Earth Service Corps"
+            },
+            {
+                "value": 91,
+                "label": "Academic Success"
+            }
+        ],
+        "label": "Youth Programs"
+    }
+]

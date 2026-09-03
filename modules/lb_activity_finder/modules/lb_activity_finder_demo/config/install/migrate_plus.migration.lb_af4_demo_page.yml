@@ -1,0 +1,255 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - lb_activity_finder_demo
+id: lb_af4_demo_page
+migration_tags:
+  - openy_complete_installation
+  - openy_standard_installation
+  - openy_extended_installation
+migration_group: lb_activity_finder_demo
+label: 'Import demo Layout Builder page - Activity Finder v4'
+source:
+  plugin: embedded_data
+  data_rows:
+    -
+      id: 1
+      title: 'Activity Finder v4 (Layout Builder)'
+      meta_description: "Find activities that suit your interests, age, location, and schedule!"
+      meta_image: af_page_image_1
+      sections:
+        1header:
+          components:
+            logo:
+              block_config: true
+              region: 'header_bottom_left'
+              config:
+                id: 'ws_site_logo'
+                label: 'Site Logo Block'
+                label_display: visible
+                provider: y_lb
+                context_mapping: { }
+                logo_type: colorway
+            website_name:
+              block_config: true
+              region: 'header_top_left'
+              config:
+                id: 'ws_site_name'
+                label: 'Website Name Block'
+                label_display: '0'
+                provider: y_lb
+                context_mapping: { }
+            menu:
+              block_config: true
+              region: 'header_bottom_middle'
+              config:
+                id: 'system_menu_block:main'
+                label: 'Demo Main navigation'
+                label_display: '0'
+                provider: system
+                context_mapping: { }
+                level: 1
+                depth: 0
+                expand_all_items: false
+            account:
+              block_config: true
+              region: 'header_bottom_right'
+              config:
+                id: 'system_menu_block:account'
+                label: 'Demo Account menu'
+                label_display: '0'
+                provider: system
+                context_mapping: { }
+                level: 1
+                depth: 0
+                expand_all_items: false
+            translate:
+              block_config: true
+              region: 'header_top_right'
+              config:
+                id: openy_gtranslate_block
+                label: 'Open Y Google Translate'
+                label_display: '0'
+                provider: openy_gtranslate
+                context_mapping: { }
+            search:
+              block_config: true
+              region: 'header_bottom_middle'
+              config:
+                id: ws_search_bar
+                label: 'Search Bar Block'
+                label_display: '0'
+                provider: y_lb
+                context_mapping: { }
+            utility:
+              block_config: true
+              region: 'header_top_right'
+              config:
+                id: 'system_menu_block:utility'
+                label: 'Utility menu'
+                label_display: '0'
+                provider: system
+                context_mapping: { }
+                level: 1
+                depth: 1
+                expand_all_items: false
+        2banner:
+          components:
+            lb_hero:
+              uuid: "cac81455-bb5e-4296-93ed-c06613646763"
+              region: 'blb_region_col_1'
+              config:
+                id: "inline_block:lb_hero"
+                label_display: "hidden"
+                label: "Activity Finder"
+                view_mode: "full"
+                provider: "layout_builder"
+              additional:
+                bootstrap_styles:
+                  block_style:
+                    ws_style_option:
+                      hero_banner: lb_hero_standard
+                      button_fill_component: ws_button_fill_component_filled
+        3af:
+          components:
+            lb_activity_finder:
+              uuid: 'af4d0001-1273-4af4-9af4-0123456789ab'
+              region: 'blb_region_col_1'
+              config:
+                id: "inline_block:lb_activity_finder"
+                label: "Activity Finder v4"
+                label_display: 0
+                provider: "layout_builder"
+                view_mode: "full"
+        4footer:
+          components:
+            copyright:
+              region: 'footer_bottom_left'
+              uuid: 'cb76bc7c-a957-4b69-96fb-e565ee85f38a'
+              config:
+                id: 'block_content:cb76bc7c-a957-4b69-96fb-e565ee85f38a'
+                label: 'Footer Copyright Block'
+                label_display: 0
+                provider: block_content
+                status: true
+                info: ''
+                view_mode: full
+                context_mapping: { }
+            site_logo:
+              block_config: true
+              region: 'footer_top_left'
+              config:
+                id: ws_site_logo
+                label: 'Site Logo'
+                label_display: '0'
+                provider: y_lb
+                context_mapping: { }
+                logo_type: white
+            menu_right:
+              block_config: true
+              region: 'footer_top_middle'
+              config:
+                id: 'system_menu_block:helpful-links'
+                label: 'Helpful Links'
+                label_display: 1
+                provider: system
+                context_mapping: { }
+                level: 1
+                depth: 0
+                expand_all_items: false
+            stay_connected:
+              block_config: true
+              region: 'footer_top_right'
+              config:
+                id: 'block_content:e350fe26-bc73-4c69-af18-a51a052dbcd3'
+                label: 'Stay Connected'
+                label_display: visible
+                provider: block_content
+                status: true
+                info: ''
+                view_mode: full
+                context_mapping: { }
+            menu:
+              block_config: true
+              region: 'footer_bottom_right'
+              config:
+                id: 'system_menu_block:footer'
+                label: Footer
+                label_display: 0
+                provider: system
+                context_mapping: { }
+                level: 1
+                depth: 0
+                expand_all_items: false
+  ids:
+    id:
+      type: integer
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: en
+  title: title
+  type:
+    plugin: default_value
+    default_value: landing_page_lb
+  status:
+    plugin: default_value
+    default_value: 1
+  uid:
+    plugin: default_value
+    default_value: 1
+  override_styles:
+    plugin: default_value
+    default_value: 1
+  styles/value:
+    plugin: default_value
+    default_value: 'a:6:{s:8:"colorway";s:17:"ws_colorway_green";s:13:"border_radius";s:19:"ws_border_radius_10";s:19:"border_style_global";s:34:"ws_border_style_global_drop_shadow";s:21:"text_alignment_global";s:29:"ws_text_alignment_global_left";s:22:"button_position_global";s:32:"ws_button_position_global_inside";s:18:"button_fill_global";s:28:"ws_button_fill_global_filled";}'
+  __layout_builder__layout: sections
+  __layout_builder__layout_defaults:
+    plugin: default_value
+    default_value:
+      1header:
+        label: "Header"
+        id: 'ws_header'
+        wrapper_classes: ''
+      2banner:
+        bs_col: "blb_col_1"
+        label: "Banner"
+        container: "w-100"
+        remove_gutters: "1"
+      3af:
+        bs_col: "blb_col_1"
+        label: "Activity Finder"
+        container: "container"
+        remove_gutters: "1"
+        section_classes: 'mt-5'
+        container_wrapper_attributes:
+          id: 'af'
+      4footer:
+        label: "Footer"
+        id: 'ws_footer'
+        wrapper_classes: ''
+  layout_builder__layout:
+    -
+      plugin: merge_recursive
+      source:
+        - '@__layout_builder__layout_defaults'
+        - '@__layout_builder__layout'
+    - plugin: lb_sections
+  field_meta_image:
+    - plugin: migration_lookup
+      migration: y_lb_demo_media_image
+      source: meta_image
+  field_meta_description: meta_description
+destination:
+  plugin: 'entity:node'
+  default_bundle: landing_page_lb
+migration_dependencies:
+  required:
+    - lb_af4_demo_block
+    - y_lb_demo_block_banner_standard
+    - y_lb_demo_media_image
+  optional: {  }

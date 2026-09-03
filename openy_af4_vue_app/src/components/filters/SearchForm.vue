@@ -4,7 +4,7 @@
       v-model="searchKeywords"
       type="text"
       class="form-control"
-      :placeholder="'Add keyword(s)' | t"
+      :placeholder="t('Add keyword(s)')"
       @keyup.enter.prevent="runSearch"
     />
     <button class="btn" @click.stop.prevent="runSearch">
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { Icon } from '@iconify/vue2'
+import { Icon } from '@iconify/vue'
 
 export default {
   name: 'SearchForm',
@@ -22,24 +22,24 @@ export default {
     Icon
   },
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     }
   },
   data() {
     return {
-      searchKeywords: this.value
+      searchKeywords: this.modelValue
     }
   },
   watch: {
-    value() {
-      this.searchKeywords = this.value
+    modelValue() {
+      this.searchKeywords = this.modelValue
     }
   },
   methods: {
     runSearch() {
-      this.$emit('input', this.searchKeywords)
+      this.$emit('update:modelValue', this.searchKeywords)
     }
   }
 }
@@ -92,7 +92,7 @@ export default {
   :-moz-placeholder,
   ::-moz-placeholder,
   :-ms-input-placeholder {
-    font-family: var(--ylb-font-family-verdana, Verdana), sans-serif;
+    font-family: $af-font-body;
     font-weight: 400;
     line-height: 22px;
   }

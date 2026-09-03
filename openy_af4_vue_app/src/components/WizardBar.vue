@@ -8,15 +8,15 @@
               <a :class="{ 'no-filters': !filtersCount }" role="button" @click="showFiltersModal()">
                 <Icon icon="material-symbols:filter-list" />
                 <span v-if="filtersCount">
-                  {{ filtersCount | formatPlural('1 Filter Applied', '@count Filters Applied') }}
+                  {{ formatPlural(filtersCount, '1 Filter Applied', '@count Filters Applied') }}
                 </span>
                 <span v-if="!filtersCount">
-                  {{ '0 Filter Applied' | t }}
+                  {{ t('0 Filter Applied') }}
                 </span>
               </a>
             </span>
             <span class="start-over">
-              <a class="start-over" role="button" @click="startOver()">{{ 'Start Over' | t }}</a>
+              <a class="start-over" role="button" @click="startOver()">{{ t('Start Over') }}</a>
             </span>
           </div>
         </div>
@@ -49,7 +49,7 @@
 
 <script>
 import FiltersModal from '@/components/modals/Filters.vue'
-import { Icon } from '@iconify/vue2'
+import { Icon } from '@iconify/vue'
 
 export default {
   name: 'WizardBar',
@@ -177,7 +177,7 @@ export default {
 
     .filters {
       font-size: 18px;
-      font-family: var(--ylb-font-family-verdana, Verdana), sans-serif;
+      font-family: $af-font-body;
       line-height: 28px;
       .fa-filter {
         margin-right: 8px;
@@ -193,7 +193,7 @@ export default {
 
     .start-over {
       font-size: 18px;
-      font-family: var(--ylb-font-family-verdana, Verdana), sans-serif;
+      font-family: $af-font-body;
       color: $af-black;
       text-decoration: underline;
       line-height: 28px;

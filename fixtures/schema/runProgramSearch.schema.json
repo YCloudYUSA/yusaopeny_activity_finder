@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "openy_activity_finder/runProgramSearch.schema.json",
+  "title": "Activity Finder backend runProgramSearch() response",
+  "description": "Response contract every ActivityFinderBackend plugin returns from runProgramSearch(). Derived from measured OpenyActivityFinderSolrBackend output (W0b DECISIONS D10). Backend-specific extras go under an optional 'externals' map, never as new top-level keys.",
+  "type": "object",
+  "required": ["count", "facets", "pager", "pager_info", "table", "groupedLocations", "sort"],
+  "properties": {
+    "count": {
+      "type": "integer",
+      "description": "Total number of matching results across all pages."
+    },
+    "pager": {
+      "type": "integer",
+      "description": "Current zero-based page index."
+    },
+    "pager_info": {
+      "type": "object",
+      "required": ["total_pages", "pages"],
+      "properties": {
+        "total_pages": { "type": "integer" },
+        "pages": {
+          "type": "object",
+          "description": "Map of 1-based page number (string key) to page number (int).",
+          "additionalProperties": { "type": "integer" }
+        }
+      }
+    },
+    "sort": {
+      "type": "string",
+      "description": "Active sort id, e.g. 'title__ASC'."
+    },
+    "table": {
+      "type": "array",
+      "description": "Result rows for the current page.",
+      "items": { "$ref": "#/definitions/result" }
+    },
+    "facets": {
+      "type": "object",
+      "description": "Filter facets keyed by facet machine name. Each value is a list of facet options.",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/facet" }
+      }
+    },
+    "groupedLocations": {
+      "type": "array",
+      "description": "Locations grouped by type for the location filter.",
+      "items": { "$ref": "#/definitions/locationGroup" }
+    },
+    "error": {
+      "type": "string",
+      "description": "Present only on failure; human-readable error message."
+    },
+    "externals": {
+      "type": "object",
+      "description": "Open key-value map for backend-specific extras (e.g. Daxko-only fields). Common consumers ignore it.",
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "result": {
+      "type": "object",
+      "required": ["nid", "name", "location", "link"],
+      "properties": {
+        "nid": { "type": "string" },
+        "availability_note": { "type": "string" },
+        "availability_status": { "type": "string" },
+        "activity_type": { "type": "string" },
+        "dates": { "type": "string" },
+        "weeks": { "type": ["integer", "string"] },
+        "schedule": { "type": "array", "items": { "type": "object" } },
+        "days": { "type": "string" },
+        "times": { "type": "string" },
+        "location": { "type": "string" },
+        "location_id": { "type": ["string", "null"] },
+        "location_info": { "type": ["object", "array"] },
+        "instructor": { "type": "string" },
+        "log_id": { "type": ["integer", "null"] },
+        "name": { "type": "string" },
+        "price": { "type": "string" },
+        "link": { "type": "string" },
+        "description": { "type": "string" },
+        "ages": { "type": "string" },
+        "gender": { "type": "string" },
+        "program_id": { "type": ["string", "null"] },
+        "offering_id": { "type": ["string", "null"] },
+        "info": { "type": "array" },
+        "location_name": { "type": "string" },
+        "location_address": { "type": "string" },
+        "location_phone": { "type": "string" },
+        "spots_available": { "type": "string" },
+        "status": { "type": "string" },
+        "note": { "type": "string" },
+        "learn_more": { "type": "string" },
+        "more_results": { "type": "string" },
+        "more_results_type": { "type": "string" },
+        "program_name": { "type": "string" },
+        "atc_info": { "type": "array" },
+        "min_age": { "type": ["string", "null"] },
+        "max_age": { "type": ["string", "null"] },
+        "product_id": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "facet": {
+      "type": "object",
+      "description": "A facet option. {filter,count} for query facets; {label,value,count} for static facets.",
+      "properties": {
+        "filter": { "type": "string" },
+        "label": { "type": "string" },
+        "value": { "type": "string" },
+        "count": { "type": "integer" },
+        "id": { "type": ["string", "integer"] }
+      },
+      "additionalProperties": true
+    },
+    "locationGroup": {
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "value": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": ["string", "integer"] },
+              "label": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

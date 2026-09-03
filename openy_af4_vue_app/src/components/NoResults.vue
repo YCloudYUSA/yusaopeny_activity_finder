@@ -4,10 +4,10 @@
       <div
         class="col-12 col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4 m-auto text-center"
       >
-        <h2>{{ 'Oh no!' | t }}</h2>
-        <p>{{ "We're sorry, but no results meet your search criteria." | t }}</p>
+        <h2>{{ t('Oh no!') }}</h2>
+        <p>{{ t("We're sorry, but no results meet your search criteria.") }}</p>
         <p v-if="selectedDimensions >= 2">
-          <strong>{{ 'What criteria is most important to you?' | t }}</strong>
+          <strong>{{ t('What criteria is most important to you?') }}</strong>
         </p>
         <div v-if="selectedDimensions >= 2" class="actions">
           <button
@@ -16,7 +16,7 @@
             class="btn btn-lg"
             @click="onChoice('selectedAges')"
           >
-            {{ 'Age' | t }}
+            {{ t('Age') }}
           </button>
           <button
             v-if="selectedDays.length"
@@ -24,7 +24,7 @@
             class="btn btn-lg"
             @click="onChoice('selectedDays')"
           >
-            {{ 'Day' | t }}
+            {{ t('Day') }}
           </button>
           <button
             v-if="selectedDaysTimes.length"
@@ -32,7 +32,7 @@
             class="btn btn-lg"
             @click="onChoice('selectedDaysTimes')"
           >
-            {{ 'Day & time' | t }}
+            {{ t('Day & time') }}
           </button>
           <button
             v-if="selectedLocations.length"
@@ -40,7 +40,7 @@
             class="btn btn-lg"
             @click="onChoice('selectedLocations')"
           >
-            {{ 'Location' | t }}
+            {{ t('Location') }}
           </button>
           <button
             v-if="selectedActivities.length"
@@ -48,12 +48,12 @@
             class="btn btn-lg"
             @click="onChoice('selectedActivities')"
           >
-            {{ 'Activity' | t }}
+            {{ t('Activity') }}
           </button>
         </div>
         <div v-else class="actions">
           <button v-if="selectedDimensions" type="button" class="btn btn-lg" @click="onChoice()">
-            {{ 'Clear Filters' | t }}
+            {{ t('Clear Filters') }}
           </button>
           <button
             v-if="searchKeywords.length"
@@ -61,7 +61,7 @@
             class="btn btn-lg"
             @click="clearKeywords()"
           >
-            {{ 'Clear Keywords' | t }}
+            {{ t('Clear Keywords') }}
           </button>
         </div>
       </div>

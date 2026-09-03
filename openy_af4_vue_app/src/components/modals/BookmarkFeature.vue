@@ -1,7 +1,7 @@
 <template>
   <Modal
     id="activity-finder-bookmark-feature"
-    :title="'New feature!' | t"
+    :title="t('New feature!')"
     :value="visibility"
     narrow
   >

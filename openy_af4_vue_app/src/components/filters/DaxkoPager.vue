@@ -5,7 +5,7 @@
         class="prev-page"
         :class="{ disabled: value === 1 }"
         role="button"
-        :title="'Previous page' | t"
+        :title="t('Previous page')"
         @click="prevPage"
       >
         <i class="fa fa-chevron-left"></i>
@@ -16,7 +16,7 @@
         class="next-page"
         :class="{ disabled: !daxkoPages[value + 1] }"
         role="button"
-        :title="'Next page' | t"
+        :title="t('Next page')"
         @click="nextPage"
       >
         <i class="fa fa-chevron-right"></i>
@@ -29,7 +29,7 @@
 export default {
   name: 'DaxkoPager',
   props: {
-    value: {
+    modelValue: {
       type: Number,
       required: true
     },
@@ -40,12 +40,12 @@ export default {
   },
   data() {
     return {
-      selectedPage: this.value
+      selectedPage: this.modelValue
     }
   },
   watch: {
-    value() {
-      this.selectedPage = this.value
+    modelValue() {
+      this.selectedPage = this.modelValue
     }
   },
   methods: {
@@ -66,7 +66,7 @@ export default {
       this.updateParent()
     },
     updateParent() {
-      this.$emit('input', this.selectedPage)
+      this.$emit('update:modelValue', this.selectedPage)
     }
   }
 }

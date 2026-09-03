@@ -7,6 +7,7 @@ dependencies:
   - drupal:node
   - openy_node_landing:openy_node_landing
   - openy_prgf_activity_finder_4:openy_prgf_activity_finder_4
+  - openy_activity_finder:openy_activity_finder_solr
   - paragraphs:paragraphs
   - plugin:plugin
 version: 4.2.1

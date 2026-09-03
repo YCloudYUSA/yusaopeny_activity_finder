@@ -2,12 +2,12 @@
   <Modal
     id="activity-finder-activity-details"
     v-model="visible"
-    :title="'Activity details' | t"
+    :title="t('Activity details')"
     narrow
     responsive
   >
-    <template>
-      <div class="activity-details-modal-content">
+    <template v-slot:default>
+      <div v-if="item" class="activity-details-modal-content">
         <Loading v-if="isLoadingData" />
         <div v-else class="row">
           <div class="col-12 col-xs-12 col-md-6 left-wrapper">
@@ -16,18 +16,18 @@
               <div class="description">{{ item.description }}</div>
               <div v-if="item.ages" class="row ages">
                 <div class="col-3 col-xs-3">
-                  {{ 'Ages:' | t }}
+                  {{ t('Ages:') }}
                 </div>
                 <div class="col-9 col-xs-9">{{ item.ages }}</div>
               </div>
               <div v-if="item.gender" class="row gender">
                 <div class="col-3 col-xs-3">
-                  {{ 'Gender:' | t }}
+                  {{ t('Gender:') }}
                 </div>
                 <div class="col-9 col-xs-9">{{ item.gender }}</div>
               </div>
               <a :href="item.link" target="_blank" class="learn-more">
-                {{ 'Learn more about this program' | t }}
+                {{ t('Learn more about this program') }}
               </a>
             </div>
           </div>
@@ -128,7 +128,7 @@
                     class="btn btn-lg action-taken"
                     @click="resetAction()"
                   >
-                    <span>{{ 'Sent to register' | t }}</span>
+                    <span>{{ t('Sent to register') }}</span>
                     <i class="fa fa-redo fa-repeat"></i>
                   </a>
                   <a
@@ -159,7 +159,7 @@
                     class="btn btn-lg action-taken"
                     @click="resetAction()"
                   >
-                    <span>{{ 'Item bookmarked' | t }}</span>
+                    <span>{{ t('Item bookmarked') }}</span>
                     <i class="fa fa-times-circle fa-times-circle-o"></i>
                   </a>
                 </template>
@@ -177,7 +177,7 @@ import client from '@/client/index.js'
 import Modal from '@/components/modals/Modal.vue'
 import AvailableSpots from '@/components/AvailableSpots'
 import Loading from '@/components/Loading.vue'
-import { Icon } from '@iconify/vue2'
+import { Icon } from '@iconify/vue'
 
 export default {
   name: 'ActivityDetailsModal',
@@ -188,7 +188,7 @@ export default {
     Icon
   },
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
       default: false
     },
@@ -215,7 +215,7 @@ export default {
   },
   data() {
     return {
-      visible: this.value,
+      visible: this.modelValue,
       buttonState: 'default',
       // Flag to show if the data request is in progress.
       isLoadingData: false
@@ -238,11 +238,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.visible = this.value
+    modelValue() {
+      this.visible = this.modelValue
     },
     visible() {
-      this.$emit('input', this.visible)
+      this.$emit('update:modelValue', this.visible)
       if (this.visible) {
         this.loadData()
         this.buttonState = 'default'

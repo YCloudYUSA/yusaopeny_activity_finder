@@ -13,7 +13,8 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Url;
-use Drupal\openy_activity_finder\OpenyActivityFinderSolrBackend;
+use Drupal\openy_activity_finder\ActivityFinderBackendManager;
+use Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface;
 use Drupal\openy_map\OpenyMapManager;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -81,6 +82,13 @@ class SettingsForm extends ConfigFormBase {
   protected TypedConfigManagerInterface $typedConfigManager;
 
   /**
+   * The Activity Finder backend plugin manager.
+   *
+   * @var \Drupal\openy_activity_finder\ActivityFinderBackendManager
+   */
+  protected $backendManager;
+
+  /**
    * SettingsForm constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -111,7 +119,8 @@ class SettingsForm extends ConfigFormBase {
     CacheBackendInterface $cache,
     CacheTagsInvalidatorInterface $cacheTagsInvalidator,
     OpenyMapManager $openyMapManager,
-    LoggerChannelInterface $logger
+    LoggerChannelInterface $logger,
+    ActivityFinderBackendManager $backend_manager
   ) {
     parent::__construct($config_factory, $typedConfigManager);
     $this->moduleHandler = $module_handler;
@@ -121,6 +130,7 @@ class SettingsForm extends ConfigFormBase {
     $this->cacheTagsInvalidator = $cacheTagsInvalidator;
     $this->openyMapManager = $openyMapManager;
     $this->logger = $logger;
+    $this->backendManager = $backend_manager;
   }
 
   /**
@@ -136,7 +146,8 @@ class SettingsForm extends ConfigFormBase {
       $container->get('cache.render'),
       $container->get('cache_tags.invalidator'),
       $container->get('openy_map.manager'),
-      $container->get('logger.factory')->get('openy_activity_finder')
+      $container->get('logger.factory')->get('openy_activity_finder'),
+      $container->get('plugin.manager.activity_finder_backend')
     );
   }
 
@@ -165,12 +176,8 @@ class SettingsForm extends ConfigFormBase {
     $form_state->setCached(FALSE);
 
     $backend_options = [];
-    if ($this->moduleHandler->moduleExists('search_api')) {
-      $backend_options['openy_activity_finder.solr_backend'] = 'Solr Backend (local db)';
-    }
-
-    if ($this->moduleHandler->moduleExists('openy_daxko2')) {
-      $backend_options['openy_daxko2.openy_activity_finder_backend'] = $this->t('Daxko 2 (live API calls)');
+    foreach ($this->backendManager->getDefinitions() as $id => $definition) {
+      $backend_options[$id] = (string) $definition['label'];
     }
     $allowed_values = implode(PHP_EOL, $config->get('allowed_query_arguments'));
 
@@ -211,10 +218,10 @@ class SettingsForm extends ConfigFormBase {
         '#description' => $this->t('Search API Index to use for SOLR backend.'),
         '#states' => [
           'visible' => [
-            ':input[name="backend"]' => ['value' => 'openy_activity_finder.solr_backend'],
+            ':input[name="backend"]' => ['value' => 'solr'],
           ],
           'required' => [
-            ':input[name="backend"]' => ['value' => 'openy_activity_finder.solr_backend'],
+            ':input[name="backend"]' => ['value' => 'solr'],
           ],
         ],
       ];
@@ -442,7 +449,7 @@ class SettingsForm extends ConfigFormBase {
     $allowed_values = array_filter(array_map('trim', $allowed_values));
     $config->set('allowed_query_arguments', $allowed_values)->save();
     $this->cache->deleteAll();
-    $this->cacheTagsInvalidator->invalidateTags([OpenyActivityFinderSolrBackend::ACTIVITY_FINDER_CACHE_TAG]);
+    $this->cacheTagsInvalidator->invalidateTags([OpenyActivityFinderBackendInterface::CACHE_TAG]);
 
     parent::submitForm($form, $form_state);
   }

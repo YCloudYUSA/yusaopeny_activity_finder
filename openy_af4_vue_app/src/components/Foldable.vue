@@ -1,6 +1,6 @@
 <template>
   <div class="foldable-component">
-    <div v-b-toggle="collapseId" class="foldable-title">
+    <div class="foldable-title" :class="{ collapsed: !isOpen }" @click="isOpen = !isOpen">
       <span class="left">
         <span class="title">
           {{ label }}
@@ -8,7 +8,7 @@
       </span>
       <span class="right">
         <span v-if="counterMax > 0 && counter >= counterMax" class="max text-uppercase">
-          {{ 'Max' | t }}
+          {{ t('Max') }}
         </span>
         <span v-if="counter > 0" class="counter">
           {{ counter }}
@@ -17,9 +17,9 @@
         <font-awesome-icon icon="chevron-up" />
       </span>
     </div>
-    <b-collapse :id="collapseId" role="tabpanel" class="foldable-content">
+    <div v-show="isOpen" role="tabpanel" class="foldable-content">
       <slot />
-    </b-collapse>
+    </div>
   </div>
 </template>
 
@@ -43,6 +43,9 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  data() {
+    return { isOpen: false }
   }
 }
 </script>

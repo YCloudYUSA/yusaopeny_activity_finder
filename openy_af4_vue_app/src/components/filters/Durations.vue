@@ -1,6 +1,6 @@
 <template>
   <Foldable
-    :label="'Duration(s)' | t"
+    :label="t('Duration(s)')"
     :collapse-id="id + '-toggle'"
     :counter="filtersCount"
     class="duration-filter-component"
@@ -26,7 +26,7 @@ export default {
     Foldable
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      selectedDurations: this.value
+      selectedDurations: this.modelValue
     }
   },
   computed: {
@@ -54,11 +54,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedDurations = this.value
+    modelValue() {
+      this.selectedDurations = this.modelValue
     },
     selectedDurations() {
-      this.$emit('input', this.selectedDurations)
+      this.$emit('update:modelValue', this.selectedDurations)
     }
   },
   methods: {

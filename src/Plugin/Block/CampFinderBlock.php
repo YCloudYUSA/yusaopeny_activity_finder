@@ -5,7 +5,7 @@ namespace Drupal\openy_activity_finder\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\node\NodeInterface;
-use Drupal\openy_activity_finder\OpenyActivityFinderSolrBackend;
+use Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface;
 
 /**
  * Provides a 'Camp Finder' block.
@@ -24,7 +24,7 @@ class CampFinderBlock extends BlockBase {
   public function build() {
     $config = \Drupal::service('config.factory')->get('openy_activity_finder.settings');
     $backend_service_id = $config->get('backend');
-    $backend = \Drupal::service($backend_service_id);
+    $backend = \Drupal::service('plugin.manager.activity_finder_backend')->createInstance($backend_service_id);
     $node = \Drupal::routeMatch()->getParameter('node');
     $alias = '';
     if ($node instanceof NodeInterface) {
@@ -60,7 +60,7 @@ class CampFinderBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    return Cache::mergeTags(parent::getCacheTags(), [OpenyActivityFinderSolrBackend::ACTIVITY_FINDER_CACHE_TAG]);
+    return Cache::mergeTags(parent::getCacheTags(), [OpenyActivityFinderBackendInterface::CACHE_TAG]);
   }
 
 }

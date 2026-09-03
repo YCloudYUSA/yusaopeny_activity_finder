@@ -1,0 +1,13 @@
+{
+    "title__ASC": "Sort by Title (A-Z)",
+    "title__DESC": "Sort by Title (Z-A)",
+    "field_session_location__ASC": "Sort by Location (A-Z)",
+    "field_session_location__DESC": "Sort by Location (Z-A)",
+    "class_title__ASC": "Sort by Activity (A-Z)",
+    "class_title__DESC": "Sort by Activity (Z-A)",
+    "af_time_of_day__ACS": "Sort by Start time (A-Z)",
+    "af_time_of_day__DESC": "Sort by Start time (Z-A)",
+    "af_date_of_day__ACS": "Sort by Nearest Date (A-Z)",
+    "af_date_of_day__DESC": "Sort by Furthest Date (Z-A)",
+    "search_api_relevance__DESC": "Sort by Relevance"
+}

@@ -1,0 +1,54 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - lb_activity_finder_demo
+id: lb_af4_demo_block
+migration_tags:
+  - openy_complete_installation
+  - openy_standard_installation
+  - openy_extended_installation
+migration_group: lb_activity_finder_demo
+label: 'Import demo Layout Builder block - Activity Finder v4'
+source:
+  plugin: embedded_data
+  data_rows:
+    -
+      id: 1
+      uuid: 'af4d0001-1273-4af4-9af4-0123456789ab'
+      title: 'Activity Finder v4'
+  ids:
+    id:
+      type: integer
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: en
+  status:
+    plugin: default_value
+    default_value: 1
+  reusable:
+    plugin: default_value
+    default_value: 0
+  type:
+    plugin: default_value
+    default_value: lb_activity_finder
+  uuid: uuid
+  info: title
+  field_block:
+    plugin: default_value
+    default_value:
+      plugin_id: activity_finder_4
+      plugin_configuration:
+        id: activity_finder_4
+        label: 'Activity Finder v4'
+        label_display: '0'
+        provider: openy_activity_finder
+        backend_plugin: mock
+      plugin_configuration_schema_id: block.settings.activity_finder_4
+destination:
+  plugin: 'entity:block_content'
+  default_bundle: lb_activity_finder
+migration_dependencies: {  }

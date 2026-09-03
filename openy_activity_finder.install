@@ -367,3 +367,29 @@ function _openy_activity_finder_migrate_background_image_row($database, string $
 
   return 1;
 }
+
+/**
+ * Convert the global backend service id to a plugin id; keep Solr sites on Solr.
+ *
+ * The backend is now a plugin (ActivityFinderBackend) selected by id. Sites that
+ * used the Solr service get the openy_activity_finder_solr submodule enabled and
+ * their backend setting mapped to the 'solr' plugin, so behaviour is unchanged.
+ * Fresh installs default to the 'mock' plugin (no Solr).
+ */
+function openy_activity_finder_update_9006() {
+  $config = \Drupal::configFactory()->getEditable('openy_activity_finder.settings');
+  $map = [
+    'openy_activity_finder.solr_backend' => 'solr',
+    'openy_daxko2.openy_activity_finder_backend' => 'daxko',
+  ];
+  $current = $config->get('backend');
+  if (!isset($map[$current])) {
+    return (string) t('Backend setting %v is already a plugin id; nothing to convert.', ['%v' => $current]);
+  }
+  $plugin_id = $map[$current];
+  if ($plugin_id === 'solr') {
+    \Drupal::service('module_installer')->install(['openy_activity_finder_solr']);
+  }
+  $config->set('backend', $plugin_id)->save();
+  return (string) t('Converted backend to the %p plugin.', ['%p' => $plugin_id]);
+}

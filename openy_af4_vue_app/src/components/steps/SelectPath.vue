@@ -13,10 +13,10 @@
       <div class="row">
         <div class="col-12 col-xs-12">
           <div class="description text-center">
-            <p>{{ 'Start your search for an activity!' | t }}</p>
+            <p>{{ t('Start your search for an activity!') }}</p>
             <p>
-              {{ 'Pick any of the categories to find something that works for you.' | t }}
-              <a role="button" class=" " @click="viewResults">{{ 'Or, skip to all results.' | t }}</a>
+              {{ t('Pick any of the categories to find something that works for you.') }}
+              <a role="button" class=" " @click="viewResults">{{ t('Or, skip to all results.') }}</a>
             </p>
           </div>
         </div>
@@ -36,8 +36,8 @@
       <div class="row">
         <div class="col-12 col-xs-12">
           <div class="search">
-            <h4>{{ 'Search by keyword instead' | t }}</h4>
-            <label for="form-control">{{ 'Search by keyword' | t }}</label>
+            <h4>{{ t('Search by keyword instead') }}</h4>
+            <label for="form-control">{{ t('Search by keyword') }}</label>
             <slot name="search" />
           </div>
         </div>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { Icon } from '@iconify/vue2'
+import { Icon } from '@iconify/vue'
 
 export default {
   name: 'SelectPath',
@@ -60,7 +60,7 @@ export default {
     Icon
   },
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     },
@@ -113,7 +113,7 @@ export default {
     },
     onClick(id) {
       this.trackEvent('selectPath', 'Start with ' + id)
-      this.$emit('input', id)
+      this.$emit('update:modelValue', id)
       this.$emit('nextStep')
     },
     viewResults() {
@@ -194,7 +194,7 @@ export default {
   }
 
   .description {
-    font-family: var(--ylb-font-family-cachet, Cachet), Verdana, sans-serif;
+    font-family: $af-font-cachet;
     margin: 20px 0;
 
     @include media-breakpoint-up('lg') {
@@ -202,7 +202,7 @@ export default {
     }
 
     & p:first-child {
-      font-family: var(--ylb-font-family-cachet, Cachet), Verdana, sans-serif;
+      font-family: $af-font-cachet;
       font-size: 32px;
       line-height: 54px;
 
@@ -212,7 +212,7 @@ export default {
     }
 
     p {
-      font-family: var(--ylb-font-family-verdana, Verdana), sans-serif;
+      font-family: $af-font-body;
       font-size: 18px;
       line-height: 28px;
     }

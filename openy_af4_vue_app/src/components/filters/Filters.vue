@@ -2,13 +2,13 @@
   <div class="filters-component">
     <div class="filters-header" :class="headerClasses">
       <span class="text-uppercase">
-        <span class="title">{{ 'Filter' | t }}</span>
+        <span class="title">{{ t('Filter') }}</span>
       </span>
-      <a role="button" @click="clearFilters">{{ 'Clear Filters' | t }}</a>
+      <a role="button" @click="clearFilters">{{ t('Clear Filters') }}</a>
     </div>
     <div class="filters">
       <Fieldset
-        :label="'Schedules' | t"
+        :label="t('Schedules')"
         :collapse-id="id + '-toggle-schedules'"
         :collapsed="fieldsetCollapseState('schedule')"
         :counter="scheduleFiltersCount"
@@ -47,7 +47,7 @@
       </Fieldset>
 
       <Fieldset
-        :label="'Activities' | t"
+        :label="t('Activities')"
         :collapse-id="id + '-toggle-activities'"
         :collapsed="fieldsetCollapseState('category')"
         :counter="activityFiltersCount"
@@ -65,7 +65,7 @@
       </Fieldset>
 
       <Fieldset
-        :label="'Locations' | t"
+        :label="t('Locations')"
         :collapse-id="id + '-toggle-locations'"
         :collapsed="fieldsetCollapseState('locations')"
         :counter="locationFiltersCount"
@@ -82,7 +82,7 @@
       </Fieldset>
       <Fieldset
         v-if="inMembershipsFilter || durationFilter || startMonthFilter"
-        :label="'Additional' | t"
+        :label="t('Additional')"
         :collapse-id="id + '-toggle-additional'"
         :collapsed="fieldsetCollapseState('additional')"
         :counter="additionalFiltersCount"
@@ -114,10 +114,10 @@
       <div class="buttons">
         <div class="separator"></div>
         <button v-if="hasChanges" type="button" class="btn btn-lg btn-apply" @click="applyFilters">
-          {{ 'Apply' | t }}
+          {{ t('Apply') }}
         </button>
         <button v-else type="button" class="btn btn-lg btn-clear" @click="clearFilters">
-          {{ 'Clear filters' | t }}
+          {{ t('Clear filters') }}
         </button>
       </div>
     </div>
@@ -449,14 +449,14 @@ export default {
 
     .title {
       font-size: 14px;
-      font-family: var(--ylb-font-family-verdana, Verdana), sans-serif;
+      font-family: $af-font-body;
       font-weight: 400;
       line-height: 18px;
     }
 
     a {
       font-size: 18px;
-      font-family: var(--ylb-font-family-verdana, Verdana), sans-serif;
+      font-family: $af-font-body;
       line-height: 22px;
     }
   }
@@ -498,7 +498,7 @@ export default {
   .fieldset-component {
     .fieldset-title {
       .title {
-        font-family: var(--ylb-font-family-verdana, Verdana), sans-serif;
+        font-family: $af-font-body;
         font-size: 15px;
         font-weight: 700;
         line-height: 18px;

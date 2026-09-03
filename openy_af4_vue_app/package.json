@@ -3,38 +3,32 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build --target lib --formats umd-min --name activity_finder_4 src/main.js",
-    "dev": "vue-cli-service build --target lib --formats umd-min --name activity_finder_4 src/main.js --watch --mode development",
-    "lint": "vue-cli-service lint"
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "lint": "eslint src --ext .vue,.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/vue-fontawesome": "^2.0.6",
-    "axios": "^0.27.2",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.25.0",
-    "vue": "^2.6.14",
     "vue-router": "^3.5.3"
   },
   "devDependencies": {
-    "@iconify/vue2": "^2.1.0",
-    "@vue/cli-plugin-babel": "^4.5.13",
-    "@vue/cli-plugin-eslint": "^4.5.13",
-    "@vue/cli-plugin-router": "^4.5.13",
-    "@vue/cli-service": "^4.5.13",
+    "@iconify/vue": "^4.1.2",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "@vue/compiler-sfc": "^3.4.0",
+    "vue": "^3.4.0",
     "@vue/eslint-config-prettier": "^5.1.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^5.16.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^7.32.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint-plugin-vue": "^7.0.0",
     "prettier": "^1.18.2",
     "sass": "^1.89.2",
-    "sass-loader": "^8.0.2 || ^10",
-    "style-resources-loader": "^1.4.1",
-    "vue-cli-plugin-style-resources-loader": "^0.1.5",
-    "vue-template-compiler": "^2.6.14"
+    "vite": "^5.0.0"
   },
   "prettier": {
     "printWidth": 100,

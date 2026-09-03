@@ -1,10 +1,10 @@
 <template>
   <div class="foldable-input-component">
-    <div v-b-toggle="collapseId" class="foldable-title">
+    <div class="foldable-title" :class="{ collapsed: !isOpen }" @click="isOpen = !isOpen">
       <span class="left">
         <span class="input" @click.stop="onInputClick"></span>
         <span class="title">
-          {{ label | capitalize }}
+          {{ capitalize(label) }}
           <span v-if="counter > 0" class="subcounter">[+{{ counter }}]</span>
         </span>
       </span>
@@ -13,9 +13,9 @@
         <font-awesome-icon icon="chevron-up" />
       </span>
     </div>
-    <b-collapse :id="collapseId" role="tabpanel" class="foldable-content">
+    <div v-show="isOpen" role="tabpanel" class="foldable-content">
       <slot />
-    </b-collapse>
+    </div>
   </div>
 </template>
 
@@ -35,6 +35,9 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  data() {
+    return { isOpen: false }
   },
   methods: {
     onInputClick() {

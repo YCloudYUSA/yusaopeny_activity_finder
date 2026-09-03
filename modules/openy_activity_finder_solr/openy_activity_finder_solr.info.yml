@@ -1,0 +1,9 @@
+name: 'Activity Finder Solr Backend'
+type: module
+description: 'Solr (Search API) backend plugin for Activity Finder. Provides the "solr" ActivityFinderBackend plugin and its index processors.'
+package: 'YMCA Website Services'
+core_version_requirement: ^10 || ^11
+dependencies:
+  - openy_activity_finder:openy_activity_finder
+  - drupal:search_api
+  - search_api_solr:search_api_solr

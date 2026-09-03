@@ -6,9 +6,14 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Implements interface.
+ * Legacy Solr search helper.
+ *
+ * Parent of OpenyActivityFinderSolrBackend. No longer implements the plugin
+ * contract (OpenyActivityFinderBackendInterface) — the SolrBackend plugin wraps
+ * this class and exposes the granular contract (W0b). Kept for the shared
+ * config/option helpers the Solr service relies on.
  */
-abstract class OpenyActivityFinderBackend implements OpenyActivityFinderBackendInterface {
+abstract class OpenyActivityFinderBackend {
 
   use StringTranslationTrait;
 

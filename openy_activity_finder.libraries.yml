@@ -68,13 +68,9 @@ activity_finder_4:
       openy_af4_vue_app/dist/activity_finder_4.css: { minified: true }
   dependencies:
     - openy_system/polyfill
-    - openy_system/vue
-    - openy_system/vue-router
-    - openy_system/axios
-    - openy_activity_finder/bootstrap-vue
-    - openy_activity_finder/popper
     - openy_system/openy_system.ajax_spinner
     - openy_system/openy_system.modal
+    - openy_system/vue3
 
 bootstrap-vue:
   version: 2.1.0

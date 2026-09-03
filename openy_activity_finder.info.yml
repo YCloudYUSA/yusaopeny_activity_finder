@@ -7,3 +7,4 @@ core_version_requirement: ^10 || ^11
 dependencies:
   - drupal:rest
   - openy_map
+  - openy_system

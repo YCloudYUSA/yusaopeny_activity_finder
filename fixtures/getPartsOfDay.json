@@ -1,0 +1,17 @@
+[
+    {
+        "label": "Morning",
+        "description": "Open - 12 p.m.",
+        "value": "1"
+    },
+    {
+        "label": "Afternoon",
+        "description": "12 - 5 p.m.",
+        "value": "2"
+    },
+    {
+        "label": "Evening",
+        "description": "5 p.m. - Close",
+        "value": "3"
+    }
+]

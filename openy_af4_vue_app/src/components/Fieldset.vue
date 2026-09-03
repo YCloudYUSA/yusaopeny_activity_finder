@@ -1,6 +1,6 @@
 <template>
   <div class="fieldset-component">
-    <div v-b-toggle="collapseId" class="fieldset-title">
+    <div class="fieldset-title" :class="{ collapsed: !isOpen }" @click="collapsible && (isOpen = !isOpen)">
       <span class="left">
         <span class="title">{{ label }}</span>
         <span v-if="counter" class="counter" :class="{ 'hide-counter': hideCounter }">
@@ -9,14 +9,14 @@
       </span>
       <span class="right">
         <span v-if="counterMax > 0 && counter >= counterMax" class="max text-uppercase">
-          {{ 'Max' | t }}
+          {{ t('Max') }}
         </span>
         <span
           v-else-if="counterOptions >= 0"
           class="options"
           :class="{ 'no-options': counterOptions === 0 }"
         >
-          {{ counterOptions | formatPlural('1 result', '@count results') }}
+          {{ formatPlural(counterOptions, '1 result', '@count results') }}
         </span>
         <span v-if="collapsible" class="icon">
           <Icon icon="material-symbols:add-circle-outline" class="circle-plus" />
@@ -27,18 +27,14 @@
         </span>
       </span>
     </div>
-    <b-collapse
+    <div
       v-if="collapsible"
-      :id="collapseId"
+      v-show="isOpen"
       role="tabpanel"
       class="fieldset-content"
-      :accordion="accordion"
-      :visible="!collapsed"
-      @shown="handleSticky"
-      @hidden="handleSticky"
     >
       <slot />
-    </b-collapse>
+    </div>
     <div v-else class="fieldset-content">
       <slot />
     </div>
@@ -46,7 +42,7 @@
 </template>
 
 <script>
-import { Icon } from '@iconify/vue2'
+import { Icon } from '@iconify/vue'
 
 export default {
   name: 'Fieldset',
@@ -94,6 +90,12 @@ export default {
       type: Function,
       default: () => {}
     }
+  },
+  data() {
+    return { isOpen: !this.collapsed }
+  },
+  watch: {
+    isOpen() { this.handleSticky() }
   }
 }
 </script>
@@ -119,7 +121,7 @@ export default {
     }
 
     .title {
-      font-family: var(--ylb-font-family-cachet, Cachet), Verdana, sans-serif;
+      font-family: $af-font-cachet;
       font-size: 32px;
       line-height: 34px;
       font-weight: 500;
@@ -247,7 +249,7 @@ export default {
             border-radius: 5px;
             display: flex;
             margin: 0;
-            font-family: Verdana, Geneva, sans-serif;
+            font-family: $af-font-body;
             height: 100%;
             padding: 10px;
             line-height: 28px;

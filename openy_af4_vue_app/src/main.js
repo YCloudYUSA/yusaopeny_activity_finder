@@ -1,9 +1,6 @@
-import Vue from 'vue'
-// Enable dev tools only if NODE_ENV is development.
-Vue.config.devtools = process.env.NODE_ENV === 'development'
-import BootstrapVue from 'bootstrap-vue'
+import { createApp } from 'vue'
+
 import App from '@/App.vue'
-import router from '@/router/index.js'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faFilter,
@@ -29,9 +26,8 @@ library.add([
   faBookmark,
   faPlusCircle,
   faMinusCircle,
-  faSortAmountDown,
-]);
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+  faSortAmountDown
+])
 
 // Listen to custom event to track events in Google Analytics.
 document.addEventListener('openy_activity_finder_event', e => {
@@ -48,77 +44,42 @@ document.addEventListener('openy_activity_finder_event', e => {
   }
 })
 
-Vue.config.productionTip = false;
-Vue.use(BootstrapVue)
+const app = createApp({
+  components: { 'activity-finder': App }
+})
 
-// Global filters.
-Vue.filter('capitalize', function(str) {
+app.component('font-awesome-icon', FontAwesomeIcon)
+
+// Global helper methods — available as this.t(), t() in templates via globalProperties.
+app.config.globalProperties.t = function(value, args, options = { context: 'Activity Finder' }) {
+  return window.Drupal.t(value, args, options)
+}
+app.config.globalProperties.formatPlural = function(value, singular, plural, args, options = { context: 'Activity Finder' }) {
+  if (!value) return ''
+  return window.Drupal.formatPlural(value, singular, plural, args, options)
+}
+app.config.globalProperties.capitalize = function(str) {
   if (!str) return ''
   str = str.toString()
   return str[0].toUpperCase() + str.slice(1)
-})
-Vue.filter('t', function(value, args, options = { context: 'Activity Finder' }) {
-  return window.Drupal.t(value, args, options)
-})
-Vue.filter('formatPlural', function(
-  value,
-  singular,
-  plural,
-  args,
-  options = { context: 'Activity Finder' }
-) {
-  if (!value) {
-    return ''
+}
+app.config.globalProperties.trackEvent = function(action, label, value = 0, category = 'Activity Finder') {
+  const event = new CustomEvent('openy_activity_finder_event', {
+    detail: { action, label, value, category }
+  })
+  document.dispatchEvent(event)
+}
+app.config.globalProperties.getCookie = function(cname) {
+  const name = cname + '='
+  const decodedCookie = decodeURIComponent(document.cookie)
+  const ca = decodedCookie.split(';')
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i]
+    while (c[0] === ' ') c = c.slice(1)
+    if (c.startsWith(name)) return c.slice(name.length, c.length)
   }
-  return window.Drupal.formatPlural(value, singular, plural, args, options)
-})
+  return ''
+}
+app.config.globalProperties.isIosMobile = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 
-Vue.mixin({
-  computed: {
-    isIosMobile() {
-      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
-    }
-  },
-  methods: {
-    trackEvent(action, label, value = 0, category = 'Activity Finder') {
-      // Custom event for external code to listen to and react upon.
-      const event = new CustomEvent('openy_activity_finder_event', {
-        detail: {
-          action,
-          label,
-          value,
-          category
-        }
-      })
-      document.dispatchEvent(event)
-    },
-    t(value, args, options = { context: 'Activity Finder' }) {
-      return window.Drupal.t(value, args, options)
-    },
-    formatPlural(value, singular, plural, args, options = { context: 'Activity Finder' }) {
-      return window.Drupal.formatPlural(value, singular, plural, args, options)
-    },
-    getCookie(cname) {
-      const name = cname + '='
-      const decodedCookie = decodeURIComponent(document.cookie)
-      const ca = decodedCookie.split(';')
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        while (c[0] === ' ') {
-          c = c.slice(1)
-        }
-        if (c.startsWith(name)) {
-          return c.slice(name.length, c.length)
-        }
-      }
-      return ''
-    }
-  }
-})
-
-new Vue({
-  router,
-  components: {
-    'activity-finder': App
-  }
-}).$mount('#activity-finder')
+app.mount('#activity-finder')

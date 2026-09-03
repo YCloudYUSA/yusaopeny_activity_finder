@@ -8,7 +8,7 @@
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\node\NodeInterface;
-use Drupal\openy_activity_finder\OpenyActivityFinderSolrBackend;
+use Drupal\openy_activity_finder\OpenyActivityFinderBackendInterface;
 use Drupal\search_api\IndexInterface;
 
 /**
@@ -58,6 +58,7 @@ function openy_activity_finder_theme() {
     'openy_activity_finder_4_block' => [
       'variables' => [
         'backend_service' => '',
+        'backend_plugins' => [],
         'label' => '',
         'label_display' => TRUE,
         'ages' => [],
@@ -132,7 +133,7 @@ function _openy_activity_finder_invalidate_cache($entity) {
   }
 
   // Invalidate activity finder cache.
-  Cache::invalidateTags([OpenyActivityFinderSolrBackend::ACTIVITY_FINDER_CACHE_TAG]);
+  Cache::invalidateTags([OpenyActivityFinderBackendInterface::CACHE_TAG]);
 }
 
 /**

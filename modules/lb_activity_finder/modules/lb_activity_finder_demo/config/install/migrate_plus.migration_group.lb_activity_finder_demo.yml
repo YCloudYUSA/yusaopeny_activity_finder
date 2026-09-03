@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - lb_activity_finder_demo
+id: lb_activity_finder_demo
+label: 'LB Activity Finder Demo'
+description: 'Demo Layout Builder page with an Activity Finder v4 block.'
+source_type: 'Embedded data'

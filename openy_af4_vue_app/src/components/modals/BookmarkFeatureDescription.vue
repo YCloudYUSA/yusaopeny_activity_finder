@@ -4,16 +4,14 @@
       <span class="bookmark-icon">
         <font-awesome-icon icon="bookmark" />
       </span>
-      <p class="title">{{ 'Now you can bookmark activities!' | t }}</p>
+      <p class="title">{{ t('Now you can bookmark activities!') }}</p>
       <p>
-        {{
-          'Build up a list of activities, manage the items within it, and register when ready.' | t
-        }}
+        {{ t('Build up a list of activities, manage the items within it, and register when ready.') }}
       </p>
     </div>
     <div class="bottom">
       <p>
-        {{ "When you find an activity you're interested in, just click the bookmark icon." | t }}
+        {{ t("When you find an activity you're interested in, just click the bookmark icon.") }}
       </p>
     </div>
   </div>

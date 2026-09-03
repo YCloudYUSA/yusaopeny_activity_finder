@@ -40,6 +40,7 @@ function openy_prgf_af4_demo_install() {
          'plugin_id' => 'activity_finder_4',
          'plugin_configuration' => [
            'exclude_by_category' => [],
+           'backend_plugin' => 'solr',
          ],
        ],
      ],

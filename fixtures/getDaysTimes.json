@@ -1,0 +1,184 @@
+[
+    {
+        "label": "Mon",
+        "search_value": "monday",
+        "value": [
+            {
+                "label": "Anytime",
+                "description": "",
+                "value": "10"
+            },
+            {
+                "label": "Morning",
+                "description": "Open - 12 p.m.",
+                "value": "11"
+            },
+            {
+                "label": "Afternoon",
+                "description": "12 - 5 p.m.",
+                "value": "12"
+            },
+            {
+                "label": "Evening",
+                "description": "5 p.m. - Close",
+                "value": "13"
+            }
+        ]
+    },
+    {
+        "label": "Tue",
+        "search_value": "tuesday",
+        "value": [
+            {
+                "label": "Anytime",
+                "description": "",
+                "value": "20"
+            },
+            {
+                "label": "Morning",
+                "description": "Open - 12 p.m.",
+                "value": "21"
+            },
+            {
+                "label": "Afternoon",
+                "description": "12 - 5 p.m.",
+                "value": "22"
+            },
+            {
+                "label": "Evening",
+                "description": "5 p.m. - Close",
+                "value": "23"
+            }
+        ]
+    },
+    {
+        "label": "Wed",
+        "search_value": "wednesday",
+        "value": [
+            {
+                "label": "Anytime",
+                "description": "",
+                "value": "30"
+            },
+            {
+                "label": "Morning",
+                "description": "Open - 12 p.m.",
+                "value": "31"
+            },
+            {
+                "label": "Afternoon",
+                "description": "12 - 5 p.m.",
+                "value": "32"
+            },
+            {
+                "label": "Evening",
+                "description": "5 p.m. - Close",
+                "value": "33"
+            }
+        ]
+    },
+    {
+        "label": "Thu",
+        "search_value": "thursday",
+        "value": [
+            {
+                "label": "Anytime",
+                "description": "",
+                "value": "40"
+            },
+            {
+                "label": "Morning",
+                "description": "Open - 12 p.m.",
+                "value": "41"
+            },
+            {
+                "label": "Afternoon",
+                "description": "12 - 5 p.m.",
+                "value": "42"
+            },
+            {
+                "label": "Evening",
+                "description": "5 p.m. - Close",
+                "value": "43"
+            }
+        ]
+    },
+    {
+        "label": "Fri",
+        "search_value": "friday",
+        "value": [
+            {
+                "label": "Anytime",
+                "description": "",
+                "value": "50"
+            },
+            {
+                "label": "Morning",
+                "description": "Open - 12 p.m.",
+                "value": "51"
+            },
+            {
+                "label": "Afternoon",
+                "description": "12 - 5 p.m.",
+                "value": "52"
+            },
+            {
+                "label": "Evening",
+                "description": "5 p.m. - Close",
+                "value": "53"
+            }
+        ]
+    },
+    {
+        "label": "Sat",
+        "search_value": "saturday",
+        "value": [
+            {
+                "label": "Anytime",
+                "description": "",
+                "value": "60"
+            },
+            {
+                "label": "Morning",
+                "description": "Open - 12 p.m.",
+                "value": "61"
+            },
+            {
+                "label": "Afternoon",
+                "description": "12 - 5 p.m.",
+                "value": "62"
+            },
+            {
+                "label": "Evening",
+                "description": "5 p.m. - Close",
+                "value": "63"
+            }
+        ]
+    },
+    {
+        "label": "Sun",
+        "search_value": "sunday",
+        "value": [
+            {
+                "label": "Anytime",
+                "description": "",
+                "value": "70"
+            },
+            {
+                "label": "Morning",
+                "description": "Open - 12 p.m.",
+                "value": "71"
+            },
+            {
+                "label": "Afternoon",
+                "description": "12 - 5 p.m.",
+                "value": "72"
+            },
+            {
+                "label": "Evening",
+                "description": "5 p.m. - Close",
+                "value": "73"
+            }
+        ]
+    }
+]

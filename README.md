@@ -6,10 +6,57 @@ This module requires the following modules:
 
 - [openy_map](https://github.com/open-y-subprojects/openy_map) (For pulling the list of location-related content types.)
 
-This module also requires one of the following to store data:
+The data backend is **pluggable** (see "Backend plugin system" below). Out of
+the box the module ships a **Mock** backend (static fixtures, no infrastructure)
+as the default, so Activity Finder runs with no Solr.
 
-- A Solr server (preferably a server or index per-environment).
-- A subscription with access to the [Daxko API](https://api.daxko.com/v3/docs).
+> **Front-end / theme work needs no Solr.** Because Mock serves real-shaped data
+> with zero infrastructure, you no longer have to stand up a Solr stack just to
+> work on the UI — fixing a button's colour or padding, template/markup tweaks,
+> the Vue app, etc. Enable the Solr backend only when you need real indexed
+> search results.
+
+For real data, enable the **Solr** backend — the `openy_activity_finder_solr`
+submodule, which needs a Solr server (preferably a server or index
+per-environment).
+
+> **Daxko (`openy_daxko2`) is legacy and non-functional.** It long predates the
+> plugin system, its hosted API is **disabled**, and it has not worked for a
+> long time — do not use it. It is not converted to an `ActivityFinderBackend`
+> plugin here; if a Daxko integration is ever revived it should ship its own
+> plugin.
+
+## Backend plugin system
+
+The data backend is a Drupal **plugin type** (`ActivityFinderBackend`),
+discovered via the `plugin.manager.activity_finder_backend` factory. Every
+Activity Finder app (AF4, AF3, Camp Finder) resolves its backend through that
+factory.
+
+- **Plugins** live in `src/Plugin/ActivityFinderBackend/`. Shipped: `mock`
+  (fixtures, no Solr — the default) and `solr` (in the
+  `openy_activity_finder_solr` submodule). (The old `openy_daxko2` backend is
+  legacy and non-functional — see Requirements — and is not provided as a
+  plugin.)
+- **Contract.** Each plugin implements `OpenyActivityFinderBackendInterface`:
+  search is decomposed into `getResultsCount()`, `getFacets()` and
+  `getResults($params, $offset, $limit, $log_id)` plus the option getters; the
+  full response shape is assembled once in `ActivityFinderBackendAggregator`
+  (count summed, facets merged, the global page routed across backends). The
+  response schema is documented in
+  `fixtures/schema/runProgramSearch.schema.json`.
+- **Selection.** The global default backend is set at
+  `/admin/openy/settings/activity-finder` (stored as a plugin id). An AF4 block
+  may override it per block (a single backend) in the block form; with "Site
+  default" selected the block inherits the global default. (Running several
+  backends at once is an experimental follow-up — see the queue.)
+- **`externals`.** Backends attach backend-specific extras under the response
+  `externals` map without changing the shared schema.
+
+Existing sites are migrated by `hook_update_N`: the legacy global service id
+(`openy_activity_finder.solr_backend`) is mapped to the `solr` plugin and the
+Solr submodule is enabled, so they keep using Solr. Fresh installs default to
+Mock. Upgrading custom backends: see [`UPGRADING.md`](UPGRADING.md).
 
 ## Recommended modules
 

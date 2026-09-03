@@ -1,14 +1,14 @@
 <template>
   <div class="select-ages-component">
     <Step
-      :skip-label="'Any age (skip)' | t"
+      :skip-label="t('Any age (skip)')"
       :filters-selected="filtersSelected"
       @skip="onSkip"
       @next="onNext"
     >
       <template v-slot:title>
-        {{ 'What ages are you searching for?' | t }}
-        <div v-if="maxAges">{{ 'Choose a maximum of !maxAges ages.' | t({ '!maxAges': maxAges }) }} </div>
+        {{ t('What ages are you searching for?') }}
+        <div v-if="maxAges">{{ t('Choose a maximum of !maxAges ages.', { '!maxAges': maxAges }) }} </div>
       </template>
       <template v-slot:default="{ handleSticky }">
         <Fieldset
@@ -33,17 +33,19 @@
                   :disabled="isDisabled(age.value)"
                   @change="onChange(age)"
                 />
-                <label :id="'label-' + age.value" :for="age.value" role="button">
+                <label
+                  :id="'label-' + age.value"
+                  :for="age.value"
+                  role="button"
+                  :title="isTooltipDisplay(age.value) ? t('Please unselect any of the selected options first') : undefined"
+                >
                   <span>
                     <span class="title">{{ age.label }}</span>
                     <span v-if="facetCount(age.value) !== null" class="results-count">
-                      {{ facetCount(age.value) | formatPlural('1 result', '@count results') }}
+                      {{ formatPlural(facetCount(age.value), '1 result', '@count results') }}
                     </span>
                   </span>
                 </label>
-                <b-tooltip v-if="isTooltipDisplay(age.value)" :target="'label-' + age.value">
-                  {{ 'Please unselect any of the selected options first' | t }}
-                </b-tooltip>
               </div>
             </div>
           </div>
@@ -64,7 +66,7 @@ export default {
     Step
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       required: true
     },
@@ -87,15 +89,15 @@ export default {
   },
   data() {
     return {
-      selectedAges: this.value
+      selectedAges: this.modelValue
     }
   },
   computed: {
     filtersSelected() {
-      return this.value.length >= 1
+      return this.modelValue.length >= 1
     },
     filtersCount() {
-      return this.value.length
+      return this.modelValue.length
     },
     optionsCount() {
       let count = 0
@@ -106,18 +108,18 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.selectedAges = this.value
+    modelValue() {
+      this.selectedAges = this.modelValue
     }
   },
   methods: {
     onChange(age) {
       this.trackEvent('selectAges', 'Click on age ' + age.label, age.value)
-      this.$emit('input', this.selectedAges)
+      this.$emit('update:modelValue', this.selectedAges)
     },
     onSkip() {
       this.trackEvent('skip', 'Click on selectAges')
-      this.$emit('input', [])
+      this.$emit('update:modelValue', [])
       this.$emit('nextStep')
     },
     onNext() {
@@ -134,14 +136,14 @@ export default {
     isDisabled(value) {
       return !!(
         this.facetCount(value) === 0 ||
-        (this.maxAges && this.value.length >= this.maxAges && !this.value.includes(value))
+        (this.maxAges && this.modelValue.length >= this.maxAges && !this.modelValue.includes(value))
       )
     },
     isTooltipDisplay(value) {
       return !!(
         this.maxAges &&
-        this.value.length >= this.maxAges &&
-        !this.value.includes(value) &&
+        this.modelValue.length >= this.maxAges &&
+        !this.modelValue.includes(value) &&
         this.facetCount(value) > 0
       )
     }

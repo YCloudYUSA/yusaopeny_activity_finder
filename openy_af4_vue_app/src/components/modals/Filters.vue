@@ -1,11 +1,11 @@
 <template>
   <Modal id="activity-finder-filters" v-model="visible" title="Filters" narrow>
-    <template>
+    <template v-slot:default>
       <div class="filters-modal-content">
         <div class="row">
           <div class="col-12 col-xs-12">
             <div class="content">
-              <div class="description">{{ 'The following filters have been applied' | t }}:</div>
+              <div class="description">{{ t('The following filters have been applied') }}:</div>
               <ul>
                 <li v-for="(item, index) in filterList" :key="index">
                   {{ item }}
@@ -13,7 +13,7 @@
               </ul>
               <div class="text-center">
                 <button type="button" class="btn btn-lg view-results" @click="viewResults()">
-                  {{ 'View results' | t }}
+                  {{ t('View results') }}
                 </button>
               </div>
             </div>
@@ -44,7 +44,7 @@ export default {
     Modal
   },
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
       default: false
     },
@@ -123,7 +123,7 @@ export default {
   },
   data() {
     return {
-      visible: this.value
+      visible: this.modelValue
     }
   },
   computed: {
@@ -142,11 +142,11 @@ export default {
     }
   },
   watch: {
-    value() {
-      this.visible = this.value
+    modelValue() {
+      this.visible = this.modelValue
     },
     visible() {
-      this.$emit('input', this.visible)
+      this.$emit('update:modelValue', this.visible)
     }
   },
   methods: {

@@ -38,3 +38,11 @@ $af-ages: (
 );
 
 $af-border-radius: 8px;
+
+// Cachet brand typography tokens. See openy_af4_vue_app/docs/CACHET_BRANDBOOK.md.
+// Consume the host theme's --ylb-font-family-* custom properties (injected by the
+// openy_font + y_lb modules); never @font-face Cachet here (licensed font).
+$af-font-cachet: var(--ylb-font-family-cachet, Cachet), Verdana, sans-serif;
+$af-font-medium: var(--ylb-font-family-medium, "Cachet Medium"), Verdana, sans-serif;
+$af-font-book:   var(--ylb-font-family-book, "Cachet W01 Book"), Verdana, sans-serif;
+$af-font-body:   var(--ylb-font-family-verdana, Verdana), sans-serif;
