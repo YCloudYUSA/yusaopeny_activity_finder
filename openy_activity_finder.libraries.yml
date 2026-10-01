@@ -16,7 +16,6 @@ openy_activity_finder:
     - openy_system/vue
     - openy_system/vue-router
     - openy_system/moment
-    - core/js-cookie
 
 openy_camp_finder:
   version: 0.1
@@ -36,7 +35,6 @@ openy_camp_finder:
     - openy_system/vue
     - openy_system/vue-router
     - openy_system/moment
-    - core/jquery.cookie
 
 openy_activity_finder_search:
   version: 0.1
@@ -57,7 +55,6 @@ openy_activity_finder_search:
     - openy_system/vue-router
     - openy_system/moment
     - openy_system/addtocal
-    - core/jquery.cookie
 
 activity_finder_4:
   version: 4.65
