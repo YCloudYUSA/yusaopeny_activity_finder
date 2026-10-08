@@ -535,7 +535,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
           ['log' => $log_id],
           ['query' => ['url' => $entity->field_session_reg_link->uri]])
           ->toString(TRUE)->getGeneratedUrl(),
-        'description' => html_entity_decode(strip_tags(\Drupal::service(TextSummary::class)->generate($entity->field_session_description->value ?? '', $entity->field_session_description->format, 600) ?? '')),
+        'description' => html_entity_decode(strip_tags($this->summarize($entity->field_session_description->value ?? '', $entity->field_session_description->format) ?? '')),
         'ages' => $this->convertData([$entity->field_session_min_age->value, $entity->field_session_max_age->value ?? '0']),
         'gender' => !empty($entity->field_session_gender->value) ? $entity->field_session_gender->value : '',
         // We keep empty variables in order to have the same structure with other backends (e.g. Daxko) for avoiding unexpected errors.
@@ -1083,6 +1083,16 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     $query->addCondition('status', 1);
     $query->addCondition('nid', $session_ids, 'IN');
     return $query->execute();
+  }
+
+  /**
+   * Trims text to a summary; TextSummary service exists in Drupal 11.4+ only.
+   */
+  protected function summarize(string $text, ?string $format): ?string {
+    $container = \Drupal::getContainer();
+    return $container->has(TextSummary::class)
+      ? $container->get(TextSummary::class)->generate($text, $format, 600)
+      : text_summary($text, $format, 600);
   }
 
 }
