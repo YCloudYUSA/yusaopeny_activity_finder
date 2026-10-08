@@ -17,124 +17,66 @@ for full discussion, review history, and measured bundle-size deltas.
 
 #### Added
 
-- **Backend plugin architecture** — Activity Finder search backend (Solr/Mock)
-  is now a Drupal plugin type (`ActivityFinderBackend`) instead of a
-  hardcoded global service. `runProgramSearch()` decomposed into
-  `getResultsCount()` / `getFacets()` / `getResults(offset, limit)`. Shared
-  by all three apps (AF4, AF3, Camp Finder) via one factory.
-- **Mock backend** — fixture-driven backend requiring no live Solr stack;
-  new install default. Enables local dev/QA without infrastructure.
-- Per-block backend selector (single `select`: "Site default" or an
-  explicit plugin id).
-- `getExternals()` on the backend contract — backends can attach extra data
-  into the response `externals` map.
-- Vite 5 build (`vite.config.js`) replaces vue-cli 4 / webpack; UMD lib mode
-  preserves the `activity_finder_4.umd.min.js` contract.
-- `openy_activity_finder_solr` submodule — Solr implementation + 8
-  search_api processors extracted out of the main module.
-- `hook_update_9006` — upgrade path mapping the legacy global
-  `openy_activity_finder.solr_backend` service to the new `solr` plugin.
-- `openy_af4_vue_app/docs/CACHET_BRANDBOOK.md` and `$af-font-*` SCSS tokens
-  centralizing font-family declarations (host-theme `--ylb-font-family-*`
-  passthrough, no visual change).
-- `lb_activity_finder_demo` submodule — Layout Builder demo page mounting
-  real AF4 for dev/QA in an LB context.
+- **Backend Plugin Architecture** — Converted the search backend from a hardcoded service into an extensible Drupal plugin type (`ActivityFinderBackend`). Search execution is now split into distinct count, facet, and paged result steps, shared across AF4, AF3, and Camp Finder via a unified backend factory.
+- **Mock Search Backend** — Added a zero-infrastructure, fixture-driven backend (`mock`) as the default for new installations, enabling local development and QA without requiring a running Solr stack.
+  - **In-Memory Filtering**: Filters sample session data across locations, categories, ages, keywords, days, time slots, and block restrictions.
+  - **Dynamic Facet Recomputation**: Dynamically recalculates facets (sub-category, top-level group, location, weekday/time-of-day) on filtered results using Solr-compatible slot overlap rules.
+  - **Automatic Date Shifting**: Shifts sample session dates forward in whole-week increments from a capture anchor so fixture data never drifts into the past while maintaining correct weekdays.
+  - **Schema Compatibility**: Enforces JSON schema validation to guarantee wire compatibility with the Solr backend contract.
+  - **Best-Effort Scope**: Uses direct substring matching for keyword search and returns empty results for deferred live availability lookups (`getProgramsMoreInfo`).
+- **Per-Block Backend Selection** — Added a backend selector dropdown to block configuration to toggle between "Site default" and explicit backend plugins.
+- **Backend Response Extensions** — Added `getExternals()` to the plugin contract, allowing backends to include supplemental metadata in response payloads.
+- **Vite 5 Build Pipeline** — Replaced Vue CLI 4 / Webpack with Vite 5, preserving the UMD library output contract.
+- **Solr Submodule Extraction** — Extracted Solr integration and Search API processors into a dedicated `openy_activity_finder_solr` submodule to keep the core module lightweight.
+- **Automated Upgrade Path** — Added `hook_update_9006` to automatically transition existing sites from the legacy global Solr service to the new `solr` plugin.
+- **Layout Builder Demo Submodule** — Added the `lb_activity_finder_demo` submodule to test AF4 rendering within Layout Builder environments.
+- **Brand & Styling Tokens** — Added `CACHET_BRANDBOOK.md` documentation and `$af-font-*` SCSS tokens to standardize theme font variable pass-throughs without visual regressions.
 
 #### Changed
 
-- **Vue 2.6 (EOL) → Vue 3.4.** Core swap via `@vue/compat` MODE:2 for
-  gradual migration, later fully removed — pure Vue 3, no compat layer, no
-  runtime warnings.
-- BootstrapVue (no Vue 3 build exists) → hand-rolled components: modal,
-  collapsible fieldset/foldable, tooltips.
-- ~101 filter-pipe usages (`{{ x | t }}`) across 34 `.vue` files → method
-  calls (`{{ t(x) }}`) — Vue 3 dropped template filters.
-- Global mixin → `app.config.globalProperties`.
-- 27 components: Vue 2 `v-model` (`value`/`input`) → Vue 3
-  (`modelValue`/`update:modelValue`).
-- `axios` → native `fetch`; same `client(flag).request({params})` call
-  contract preserved. Array params re-serialized manually
-  (`backend[]=mock`) since `URLSearchParams` doesn't replicate axios's
-  bracket notation.
-- `@iconify/vue2` → `@iconify/vue` v4 (Vue 3 native, same Icon API);
-  FontAwesome v2 → v3.
-- `vue-router` removed (it defined zero routes — AF4 navigates via
-  step-state, not routing); the 3 leftover `$route`/`$router` usages in
-  `App.vue` for URL query state replaced with native `history.pushState` /
-  `URLSearchParams`.
-- Vue 3 runtime **externalized** to the shared `openy_system/vue3` library
-  (cdnjs 3.5.41) instead of bundled in the UMD — cuts
-  `activity_finder_4.umd.min.js` from 373.4K to 222.3K (**-40.5%**).
-- Block backend selection narrowed from a checkbox list (multi-backend) to
-  a single `select` — multi-backend aggregation stays dormant/experimental,
-  not shipped as a claimed feature.
-- Solr-related `search_api.server`/`search_api.index` config and the
-  `hook_activity_finder_program_process_results_alter` doc moved to the
-  `openy_activity_finder_solr` submodule (main module no longer references
-  Solr).
+- **Vue 3.4 Upgrade** — Upgraded core app from Vue 2.6 (EOL) to Vue 3.4, completely removing `@vue/compat` for a clean, warning-free Vue 3 runtime.
+- **Custom Accessible UI Components** — Replaced BootstrapVue with lightweight, native Vue 3 components for modals, collapsible fieldsets/accordion folds, and tooltips.
+- **Vue 3 Template & API Modernization**:
+  - Converted Vue 2 template filters (`{{ x | t }}`) to helper method calls (`{{ t(x) }}`).
+  - Refactored component two-way bindings to Vue 3 `v-model` props (`modelValue` / `update:modelValue`).
+  - Replaced global mixins with `app.config.globalProperties`.
+- **Native Browser Fetch & Icon Libraries**:
+  - Replaced `axios` with native browser `fetch`, maintaining custom bracket array serialization for query parameters.
+  - Upgraded Iconify to `@iconify/vue` v4 and updated FontAwesome packages.
+- **Simplified Navigation & State Management** — Removed `vue-router` (AF4 uses step-based state) and replaced URL query parameter handling with the native Browser History API (`pushState`).
+- **Externalized Vue Runtime & Bundle Optimization** — Externalized the Vue 3 runtime to the shared `openy_system/vue3` library, shrinking the UMD bundle (`activity_finder_4.umd.min.js`) from 373.4 KB to 222.3 KB (**-40.5%**).
+- **Single-Backend Block Configuration** — Simplified block configuration from multi-select backend aggregation to a single backend selector.
+- **Solr Configuration Separation** — Moved Solr Search API server/index configurations and alter hook documentation into the `openy_activity_finder_solr` submodule.
 
 #### Fixed
 
-- **Mock backend age filter** — `ages` parameter was silently ignored;
-  every request returned all fixture sessions regardless of selection.
-- **Mock backend facets** — category, weekday/time-of-day, and location
-  facet counts were static fixture totals, not recomputed from the
-  filtered result set.
-- **Mock fixture dates** — captured fixture dates would drift into the past
-  as real time advanced; now shift forward by whole weeks from the capture
-  anchor, including date *ranges* (e.g. `"Jun 08-Jun 09"`).
-- **URL state loss** — dropping `vue-router` silently broke `$route`/
-  `$router` reads in `App.vue`; URL params stopped updating and page reload
-  lost all filter state. Fixed via native History API, plus edge cases:
-  duplicate history entries on same-URL updates, stale re-entry flag on
-  back/forward navigation.
-- **Bookmarked items modal UI** — double scrollbar, missing body-scroll
-  lock while open, oversized close button, backdrop opacity mismatch vs.
-  design.
-- Empty `externals` PHP array serialized as `[]`, failing the JSON
-  schema's `externals:object` — cast to object so it serializes as `{}`.
-- `process.env.NODE_ENV` reference in `main.js` threw `ReferenceError` in
-  the browser under Vite (webpack/vue-cli auto-injected this; Vite
-  doesn't).
-- Stale `OpenyActivityFinderSolrBackend` class reference left in
-  `openy_activity_finder.module` after the Solr submodule extraction —
-  caused a fatal error on `program_subcategory`/`branch` save.
-- `openy_activity_finder.info.yml` never declared `openy_system` as a
-  module dependency, despite `libraries.yml` depending on it since 2020.
-- `openy_system/vue3` didn't exist before `open-y-subprojects/openy_custom`
-  3.2.0 — externalizing Vue without bumping this constraint broke sites
-  still locked to 3.1.5.
-- AF4 block backend now inherits the site default
-  (`openy_activity_finder.settings:backend`) when none is selected,
-  instead of a hardcoded `'mock'`.
+- **Mock Backend Age Filtering** — Fixed an issue where the `ages` search parameter was ignored and returned all fixture sessions.
+- **Mock Backend Dynamic Facets** — Fixed static facet counts for categories, locations, and time slots by dynamically updating counts based on active search filters.
+- **Mock Backend Date Drifting** — Fixed sample session dates drifting into the past by automatically shifting fixture dates forward in whole-week increments.
+- **URL Query State & History Navigation** — Resolved lost search state on page reloads and back/forward browser navigation, preventing duplicate history entries.
+- **Bookmarked Items Modal Styling** — Resolved UI bugs in the bookmarks modal, including double scrollbars, missing body scroll lock, oversized close icons, and backdrop opacity.
+- **JSON Schema Externals Serialization** — Fixed schema validation errors when `externals` is empty by serializing empty PHP arrays as objects (`{}`).
+- **Vite Environment Variable Crash** — Fixed a browser `ReferenceError` caused by un-replaced `process.env.NODE_ENV` references under Vite.
+- **Solr Class Reference Fatal Error** — Removed a stale `OpenyActivityFinderSolrBackend` class reference in module hooks that triggered fatal errors when saving program subcategories or branches.
+- **Module Dependency Constraints** — Added missing `openy_system` module dependency and bumped `openy_custom` constraint to `^3.2.0` to ensure Vue 3 library availability.
+- **Block Fallback Configuration** — Fixed AF4 blocks fallback handling to correctly inherit the site default backend setting when unselected.
 
 #### Removed
 
-- `axios` dependency (replaced by `fetch`).
-- `@vue/compat` and its config once the pure-Vue-3 migration completed.
-- Cross-backend routing/merge code (`routeSlice`, `mergeFacets`,
-  `collectExternals` over N backends) — descoped to single-backend-per-block;
-  kept only as a documented experimental follow-up.
+- Deprecated dependencies including `axios` (replaced by `fetch`) and `@vue/compat`.
+- Legacy multi-backend aggregation and merge logic (`routeSlice`, `mergeFacets`, `collectExternals`), focusing block execution on a single active backend.
 
 #### Known issues
 
-- AF3/Camp Finder same-page `window.Vue` collision with the externalized
-  `openy_system/vue3` global build is unverified.
-- `Step.vue`'s `handleSticky()` references `this.$refs.bottom`, which has
-  no matching `ref="bottom"` in the template — throws (non-fatal) on step
-  navigation; pre-existing gap from the Vue 3 rewrite.
-- `vue-router` and `bootstrap-vue` still listed in `package.json` but
-  unused — dead dependencies, no functional impact.
-- No full visual/functional QA pass recorded across every AF4 screen
-  (desktop/tablet/mobile) at this head.
+- Potential global `window.Vue` namespace collision when rendering legacy AF3 or Camp Finder on the same page as AF4 Vue 3.
+- Non-fatal console error in `Step.vue` (`this.$refs.bottom`) during step navigation.
+- Unused legacy packages (`vue-router`, `bootstrap-vue`) remaining in `package.json`.
+- Comprehensive visual and responsive QA pass across all mobile and tablet breakpoints is pending.
+- Mock backend date shifting for multi-day date ranges spanning a new year boundary (e.g. Dec 30 – Jan 2) is untested and may miscalculate target years.
+- Mock backend time-slot boundary definitions are duplicated across helper methods and require synchronized updates if Solr boundaries change.
 
 #### Upgrade notes
 
-- Requires `open-y-subprojects/openy_custom ^3.2.0` (adds
-  `openy_system/vue3`).
-- Sites on the legacy `openy_activity_finder.solr_backend` service
-  auto-map to the `solr` plugin via `hook_update_9006`; fresh installs
-  default to `mock`.
-- Preserved contract: same UMD global (`activity_finder_4`), same mount id
-  (`#activity-finder`), same `libraries.yml`/`dist/` paths. AF3 and Camp
-  Finder are untouched (still Vue 2, out of scope).
+- **Dependency Requirements** — Requires `open-y-subprojects/openy_custom ^3.2.0` to provide the shared Vue 3 library.
+- **Backend Migration** — Existing sites using the legacy `openy_activity_finder.solr_backend` service will automatically migrate to the `solr` plugin via `hook_update_9006`. New installations default to `mock`.
+- **Integration Backwards Compatibility** — Maintains the existing UMD global (`activity_finder_4`), mount selector (`#activity-finder`), and asset paths. AF3 and Camp Finder remain on Vue 2 and are unaffected.
