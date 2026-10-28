@@ -193,6 +193,7 @@
       :request-more-info="daxko"
       :bs-version="bsVersion"
       :filters-on-top="filtersOnTop"
+      :skip-wizard="skipWizard"
       @startOver="startOver()"
       @addItem="addItem($event)"
       @removeItem="removeItem($event)"
