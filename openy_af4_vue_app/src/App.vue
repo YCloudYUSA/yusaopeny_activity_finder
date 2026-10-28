@@ -55,6 +55,10 @@
           :initial-in-memberships="selectedInMemberships"
           :initial-durations="selectedDurations"
           :initial-start-months="selectedStartMonths"
+          :category-tags="categoryTags"
+          :initial-category-tags="selectedCategoryTags"
+          :limit-by-category-tag="limitByCategoryTag"
+          :exclude-by-category-tag="excludeByCategoryTag"
           :max-ages="maxAges"
           :legacy-mode="legacyMode"
           :weeks-filter="weeksFilter"
@@ -62,6 +66,8 @@
           :duration-filter="durationFilter"
           :in-memberships-filter="inMembershipsFilter"
           :filters-section-config="filtersSectionConfig"
+          :show-category-tags-step="showCategoryTagsStep"
+          :show-activity-step="showActivityStep"
           :daxko="daxko"
           :bs-version="bsVersion"
           :limit-by-category="limitByCategory"
@@ -154,6 +160,16 @@
       :exclude-by-location="excludeByLocation"
       @nextStep="nextStep('selectLocations')"
     />
+    <SelectCategoryTags
+      v-else-if="step === 'selectCategoryTags'"
+      v-model="selectedCategoryTags"
+      :category-tags="categoryTags"
+      :facets="data.facets.field_session_category_tags ? data.facets.field_session_category_tags : []"
+      :limit-by-category-tag="limitByCategoryTag"
+      :exclude-by-category-tag="excludeByCategoryTag"
+      :first-step="selectedPath === 'selectCategoryTags'"
+      @nextStep="nextStep('selectCategoryTags')"
+    />
     <SelectActivities
       v-else-if="step === 'selectActivities'"
       v-model="selectedActivities"
@@ -205,6 +221,10 @@
           :initial-in-memberships="selectedInMemberships"
           :initial-durations="selectedDurations"
           :initial-start-months="selectedStartMonths"
+          :category-tags="categoryTags"
+          :initial-category-tags="selectedCategoryTags"
+          :limit-by-category-tag="limitByCategoryTag"
+          :exclude-by-category-tag="excludeByCategoryTag"
           :max-ages="maxAges"
           :legacy-mode="legacyMode"
           :weeks-filter="weeksFilter"
@@ -212,6 +232,8 @@
           :duration-filter="durationFilter"
           :in-memberships-filter="inMembershipsFilter"
           :filters-section-config="filtersSectionConfig"
+          :show-category-tags-step="showCategoryTagsStep"
+          :show-activity-step="showActivityStep"
           :daxko="daxko"
           :bs-version="bsVersion"
           :limit-by-category="limitByCategory"
@@ -258,6 +280,7 @@ import SelectDaysTimes from '@/components/steps/SelectDaysTimes.vue'
 import SelectWeeks from '@/components/steps/SelectWeeks.vue'
 import SelectLocations from '@/components/steps/SelectLocations.vue'
 import SelectActivities from '@/components/steps/SelectActivities.vue'
+import SelectCategoryTags from '@/components/steps/SelectCategoryTags.vue'
 import Results from '@/components/Results.vue'
 import Loading from '@/components/Loading.vue'
 import ResultsBar from '@/components/ResultsBar.vue'
@@ -281,6 +304,7 @@ export default {
     SelectWeeks,
     SelectLocations,
     SelectActivities,
+    SelectCategoryTags,
     Results,
     Loading,
     ResultsBar,
@@ -342,6 +366,10 @@ export default {
       type: Array,
       required: true
     },
+    categoryTags: {
+      type: Array,
+      required: true
+    },
     categoriesType: {
       type: String,
       required: true
@@ -369,6 +397,14 @@ export default {
     limitByCategory: {
       type: Array,
       required: true
+    },
+    limitByCategoryTag: {
+      type: Array,
+      required: true
+    },
+    excludeByCategoryTag: {
+      type: Array,
+      default: () => []
     },
     excludeByCategory: {
       type: Array,
@@ -429,6 +465,14 @@ export default {
     skipWizard: {
       type: Boolean,
       required: true
+    },
+    showCategoryTagsStep: {
+      type: Boolean,
+      default: true
+    },
+    showActivityStep: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -446,6 +490,7 @@ export default {
       steps: [
         'selectPath',
         'selectAges',
+        'selectCategoryTags',
         'selectActivities',
         'selectDaysTimes',
         'selectLocations',
@@ -454,6 +499,7 @@ export default {
       completedSteps: [],
       wizardSteps: [
         'selectAges',
+        'selectCategoryTags',
         'selectActivities',
         'selectTimes',
         'selectDays',
@@ -481,6 +527,11 @@ export default {
           id: 'selectActivities',
           name: this.t('Activity'),
           icon: 'material-symbols:sprint'
+        },
+        {
+          id: 'selectCategoryTags',
+          name: this.t('Category'),
+          icon: 'material-symbols:sell'
         }
       ],
       selectedPath: '',
@@ -494,6 +545,7 @@ export default {
         selectedWeeks: [],
         selectedLocations: [],
         selectedActivities: [],
+        selectedCategoryTags: [],
         selectedInMemberships: false,
         selectedStartMonths: [],
         selectedDurations: [],
@@ -521,6 +573,7 @@ export default {
       data.steps = [
         'selectPath',
         'selectAges',
+        'selectCategoryTags',
         'selectActivities',
         'selectDays',
         'selectLocations',
@@ -539,6 +592,7 @@ export default {
       data.steps = [
         'selectPath',
         'selectAges',
+        'selectCategoryTags',
         'selectActivities',
         'selectWeeks',
         'selectLocations',
@@ -549,6 +603,15 @@ export default {
         name: this.t('Week'),
         icon: 'fa-calendar'
       }
+    }
+
+    if (!this.showCategoryTagsStep) {
+      data.steps = data.steps.filter(s => s !== 'selectCategoryTags')
+      data.paths = data.paths.filter(p => p.id !== 'selectCategoryTags')
+    }
+    if (!this.showActivityStep) {
+      data.steps = data.steps.filter(s => s !== 'selectActivities')
+      data.paths = data.paths.filter(p => p.id !== 'selectActivities')
     }
 
     // Initialize reactive properties for every default value.
@@ -577,10 +640,13 @@ export default {
         sort: this.selectedSort,
         keywords: this.searchKeywords,
         limit: this.limitByCategory.join(','),
+        limit_category_tag: this.limitByCategoryTag.join(','),
+        exclude_category_tag: this.excludeByCategoryTag.join(','),
         exclude: this.excludeByCategory.join(','),
         limitloc: this.limitByLocation.join(','),
         excludeloc: this.excludeByLocation.join(','),
         durations: this.selectedDurations.join(','),
+        category_tags: this.step === 'selectCategoryTags' ? '' : this.selectedCategoryTags.join(','),
         start_months: this.selectedStartMonths.join(','),
         backend: this.backend
       }
@@ -608,6 +674,7 @@ export default {
         ...this.selectedDaysTimes,
         ...this.selectedWeeks,
         ...this.selectedLocations,
+        ...this.selectedCategoryTags,
         ...this.selectedActivities,
         ...this.selectedDurations,
         ...this.selectedStartMonths,
@@ -626,6 +693,7 @@ export default {
         ...this.selectedDaysTimes,
         ...this.selectedWeeks,
         ...this.selectedLocations,
+        ...this.selectedCategoryTags,
         ...this.selectedActivities,
         ...this.selectedDurations,
         ...this.selectedStartMonths,

@@ -53,6 +53,7 @@
       :start-months="{{ start_months|json_encode }}"
       :categories="{{ categories|json_encode }}"
       :categories-type="{{ categories_type|json_encode }}"
+      :category-tags="{{ category_tags|json_encode }}"
       :activities="{{ activities|json_encode }}"
       :locations="{{ locations|json_encode }}"
       :sort-options="{{ sort_options|json_encode }}"
@@ -60,6 +61,8 @@
       :relevance-sort-option="{{ relevance_sort_option|json_encode }}"
       :limit-by-location="{{ limit_by_location|json_encode }}"
       :limit-by-category="{{ limit_by_category|json_encode }}"
+      :limit-by-category-tag="{{ limit_by_category_tag|json_encode }}"
+      :exclude-by-category-tag="{{ exclude_by_category_tag|json_encode }}"
       :exclude-by-location="{{ exclude_by_location|json_encode }}"
       :exclude-by-category="{{ exclude_by_category|json_encode }}"
       :legacy-mode="{{ legacy_mode|json_encode }}"
@@ -76,6 +79,8 @@
       :filters-section-config="{{ filters_section_config|json_encode }}"
       :bs-version="{{ bs_version|json_encode }}"
       :skip-wizard="{{ skip_wizard|json_encode }}"
+      :show-category-tags-step="{{ show_category_tags_step|json_encode }}"
+      :show-activity-step="{{ show_activity_step|json_encode }}"
     ></activity-finder>
   </div>
 </div>

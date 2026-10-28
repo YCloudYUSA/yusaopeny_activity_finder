@@ -47,6 +47,26 @@
       </Fieldset>
 
       <Fieldset
+        v-if="categoryTags.length && showCategoryTagsStep"
+        :label="t('Categories')"
+        :collapse-id="id + '-toggle-category-tags'"
+        :collapsed="fieldsetCollapseState('category_tags')"
+        :counter="categoryTagsFiltersCount"
+        :hide-counter="true"
+      >
+        <CategoryTagsFilter
+          :id="id + '-category-tags-filter'"
+          v-model="selectedCategoryTags"
+          :category-tags="categoryTags"
+          :facets="data.facets.field_session_category_tags ? data.facets.field_session_category_tags : []"
+          :limit-by-category-tag="limitByCategoryTag"
+          :exclude-by-category-tag="excludeByCategoryTag"
+          variant="list"
+        />
+      </Fieldset>
+
+      <Fieldset
+        v-if="showActivityStep"
         :label="t('Activities')"
         :collapse-id="id + '-toggle-activities'"
         :collapsed="fieldsetCollapseState('category')"
@@ -135,6 +155,7 @@ import ActivitiesFilter from '@/components/filters/Activities.vue'
 import InMembershipsFilter from '@/components/filters/InMemberships.vue'
 import DurationsFilter from '@/components/filters/Durations.vue'
 import StartMonthsFilter from '@/components/filters/StartMonths.vue'
+import CategoryTagsFilter from '@/components/filters/CategoryTags.vue'
 
 export default {
   name: 'Filters',
@@ -148,7 +169,8 @@ export default {
     ActivitiesFilter,
     InMembershipsFilter,
     DurationsFilter,
-    StartMonthsFilter
+    StartMonthsFilter,
+    CategoryTagsFilter
   },
   props: {
     id: {
@@ -264,6 +286,22 @@ export default {
       type: Boolean,
       default: false
     },
+    categoryTags: {
+      type: Array,
+      required: true
+    },
+    initialCategoryTags: {
+      type: Array,
+      required: true
+    },
+    limitByCategoryTag: {
+      type: Array,
+      required: true
+    },
+    excludeByCategoryTag: {
+      type: Array,
+      default: () => []
+    },
     limitByCategory: {
       type: Array,
       required: true
@@ -283,6 +321,14 @@ export default {
     bsVersion: {
       type: Number,
       required: true
+    },
+    showCategoryTagsStep: {
+      type: Boolean,
+      default: true
+    },
+    showActivityStep: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -295,7 +341,8 @@ export default {
       selectedActivities: this.initialActivities,
       selectedInMemberships: this.initialInMemberships,
       selectedDurations: this.initialDurations,
-      selectedStartMonths: this.initialStartMonths
+      selectedStartMonths: this.initialStartMonths,
+      selectedCategoryTags: this.initialCategoryTags
     }
   },
   computed: {
@@ -306,6 +353,9 @@ export default {
         this.selectedDaysTimes.length +
         this.selectedWeeks.length
       )
+    },
+    categoryTagsFiltersCount() {
+      return this.selectedCategoryTags.length
     },
     activityFiltersCount() {
       return this.selectedActivities.length
@@ -333,7 +383,8 @@ export default {
         !this.isEqual(this.selectedActivities, this.initialActivities) ||
         !this.isEqual(this.selectedInMemberships, this.initialInMemberships) ||
         !this.isEqual(this.selectedDurations, this.initialDurations) ||
-        !this.isEqual(this.selectedStartMonths, this.initialStartMonths)
+        !this.isEqual(this.selectedStartMonths, this.initialStartMonths) ||
+        !this.isEqual(this.selectedCategoryTags, this.initialCategoryTags)
       )
     },
     headerClasses() {
@@ -371,6 +422,9 @@ export default {
     initialStartMonths() {
       this.selectedStartMonths = this.initialStartMonths
     },
+    initialCategoryTags() {
+      this.selectedCategoryTags = this.initialCategoryTags
+    },
     selectedAges() {
       this.filterChange({ filter: 'selectedAges', value: this.selectedAges })
     },
@@ -397,6 +451,9 @@ export default {
     },
     selectedStartMonths() {
       this.filterChange({ filter: 'selectedStartMonths', value: this.selectedStartMonths })
+    },
+    selectedCategoryTags() {
+      this.filterChange({ filter: 'selectedCategoryTags', value: this.selectedCategoryTags })
     }
   },
   methods: {
@@ -415,6 +472,7 @@ export default {
         'DaysTimes',
         'Weeks',
         'Locations',
+        'CategoryTags',
         'Activities',
         'InMemberships',
         'Durations',

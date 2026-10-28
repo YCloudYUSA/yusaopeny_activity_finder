@@ -96,6 +96,8 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       'backend_plugin' => '',
       'limit_by_category_daxko' => [],
       'limit_by_category' => [],
+      'limit_by_category_tag' => [],
+      'exclude_by_category_tag' => [],
       'exclude_by_category' => [],
       'limit_by_location' => [],
       'exclude_by_location' => [],
@@ -107,6 +109,9 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       'duration_filter' => 0,
       'start_month_filter' => 0,
       'skip_wizard' => 0,
+      'category_filter_mode' => 'activity',
+      'show_category_tags_step' => 0,
+      'show_activity_step' => 1,
     ];
   }
 
@@ -223,6 +228,7 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       '#weeks' => $backend->getWeeks(),
       '#categories' => $backend->getCategories(),
       '#categories_type' => $backend->getCategoriesType(),
+      '#category_tags' => $backend->getCategoryTags(),
       '#activities' => $activities,
       '#locations' => $locations,
       '#disable_search_box' => (bool) $activity_finder_settings->get('disable_search_box'),
@@ -233,6 +239,8 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       '#relevance_sort_option' => $backend->getRelevanceSort(),
       '#filters_section_config' => $backend->getFiltersSectionConfig(),
       '#limit_by_category' => $limit_by_category,
+      '#limit_by_category_tag' => $conf['limit_by_category_tag'] ?? [],
+      '#exclude_by_category_tag' => $conf['exclude_by_category_tag'] ?? [],
       '#exclude_by_category' => $conf['exclude_by_category'],
       '#limit_by_location' => $conf['limit_by_location'] ?? [],
       '#exclude_by_location' => $conf['exclude_by_location'],
@@ -243,6 +251,8 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
       '#in_memberships_filter' => (bool) $conf['in_memberships_filter'],
       '#hide_home_branch_block' => (bool) $conf['hide_home_branch_block'],
       '#skip_wizard' => (bool) $conf['skip_wizard'],
+      '#show_category_tags_step' => (bool) ($conf['show_category_tags_step'] ?? FALSE),
+      '#show_activity_step' => (bool) ($conf['show_activity_step'] ?? TRUE),
       '#background_image' => [
         'mobile' => $image_mobile,
         'desktop' => $image_desktop,
@@ -338,7 +348,9 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
         '#open' => ( $conf['limit_by_location'] ||
           $conf['exclude_by_location'] ||
           $conf['limit_by_category'] ||
-          $conf['exclude_by_category']
+          $conf['exclude_by_category'] ||
+          $conf['limit_by_category_tag'] ||
+          $conf['exclude_by_category_tag']
         ),
       ];
 
@@ -354,17 +366,72 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
           ? $this->entityTypeManager->getStorage('node')->loadMultiple($conf['exclude_by_location'])
           : NULL,
       ];
-      $form['location_category']['limit_by_category'] = $base_by_category + [
-        '#title' => $this->t('Limit by category'),
+
+      $mode = $conf['category_filter_mode'] ?? 'activity';
+
+      $form['location_category']['category_filter_mode'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Category filters (wizard and results)'),
+        '#description' => $this->t('Choose which category type drives the wizard steps and sidebar filter. The selected mode activates its limit/exclude fields; the other set is disabled.'),
+        '#options' => [
+          'activity' => $this->t('Activity (Program Subcategory)'),
+          'category_tag' => $this->t('Category Tag'),
+        ],
+        '#default_value' => $mode,
+        '#attributes' => ['class' => ['js-af-category-filter-mode']],
+      ];
+
+      $activity_disabled_state = [
+        '#states' => [
+          'invisible' => [
+            ':input[name*="category_filter_mode"]' => ['value' => 'category_tag'],
+          ],
+        ],
+      ];
+      $tag_disabled_state = [
+        '#states' => [
+          'invisible' => [
+            ':input[name*="category_filter_mode"]' => ['value' => 'activity'],
+          ],
+        ],
+      ];
+
+      $form['location_category']['limit_by_category'] = $base_by_category + $activity_disabled_state + [
+        '#title' => $this->t('Limit by category (activity)'),
         '#default_value' => $conf['limit_by_category']
           ? $this->entityTypeManager->getStorage('node')->loadMultiple($conf['limit_by_category'])
           : NULL,
       ];
 
-      $form['location_category']['exclude_by_category'] = $base_by_category + [
-        '#title' => $this->t('Exclude by category'),
+      $form['location_category']['exclude_by_category'] = $base_by_category + $activity_disabled_state + [
+        '#title' => $this->t('Exclude by category (activity)'),
         '#default_value' => $conf['exclude_by_category']
           ? $this->entityTypeManager->getStorage('node')->loadMultiple($conf['exclude_by_category'])
+          : NULL,
+      ];
+
+      $base_by_category_tag = [
+        '#type' => 'entity_autocomplete',
+        '#target_type' => 'taxonomy_term',
+        '#tags' => TRUE,
+        '#selection_settings' => ['target_bundles' => ['category_tags']],
+        '#size' => 100,
+        '#maxlength' => 2048,
+      ];
+
+      $form['location_category']['limit_by_category_tag'] = $base_by_category_tag + $tag_disabled_state + [
+        '#title' => $this->t('Limit by category tag'),
+        '#description' => $this->t('Restrict this block to sessions with these tags only. Leave empty to show all tags.'),
+        '#default_value' => $conf['limit_by_category_tag']
+          ? $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($conf['limit_by_category_tag'])
+          : NULL,
+      ];
+
+      $form['location_category']['exclude_by_category_tag'] = $base_by_category_tag + $tag_disabled_state + [
+        '#title' => $this->t('Exclude by category tag'),
+        '#description' => $this->t('Exclude sessions with these tags from results.'),
+        '#default_value' => $conf['exclude_by_category_tag']
+          ? $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($conf['exclude_by_category_tag'])
           : NULL,
       ];
     }
@@ -457,6 +524,12 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
     $this->configuration['limit_by_category'] = $location_category['limit_by_category']
       ? array_column($location_category['limit_by_category'], 'target_id')
       : [];
+    $this->configuration['limit_by_category_tag'] = $location_category['limit_by_category_tag']
+      ? array_column($location_category['limit_by_category_tag'], 'target_id')
+      : [];
+    $this->configuration['exclude_by_category_tag'] = $location_category['exclude_by_category_tag']
+      ? array_column($location_category['exclude_by_category_tag'], 'target_id')
+      : [];
     $this->configuration['exclude_by_category'] = $location_category['exclude_by_category']
       ? array_column($location_category['exclude_by_category'], 'target_id')
       : [];
@@ -474,6 +547,19 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
     $this->configuration['in_memberships_filter'] = $additional_filters['in_memberships_filter'];
     $this->configuration['hide_home_branch_block'] = $form_state->getValue('hide_home_branch_block');
     $this->configuration['skip_wizard'] = $form_state->getValue('skip_wizard');
+    $mode = $location_category['category_filter_mode'] ?? 'activity';
+    $this->configuration['category_filter_mode'] = $mode;
+    $this->configuration['show_category_tags_step'] = (int) ($mode === 'category_tag');
+    $this->configuration['show_activity_step'] = (int) ($mode === 'activity');
+    // Clear fields that belong to the inactive mode so they don't affect results.
+    if ($mode === 'activity') {
+      $this->configuration['limit_by_category_tag'] = [];
+      $this->configuration['exclude_by_category_tag'] = [];
+    }
+    else {
+      $this->configuration['limit_by_category'] = [];
+      $this->configuration['exclude_by_category'] = [];
+    }
     $this->configuration['background_image'] = $form_state->getValue('background_image');
   }
 
