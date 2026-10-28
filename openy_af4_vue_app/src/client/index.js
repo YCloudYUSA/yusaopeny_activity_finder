@@ -33,7 +33,10 @@ const client = flag => {
   return {
     request({ params = {} } = {}) {
       const query = toQueryString(params)
-      const url = query ? `${baseURL}?${query}` : baseURL
+      const target = query ? `${baseURL}?${query}` : baseURL
+      // A page opened as https://user:pass@host makes fetch() reject relative
+      // URLs; the origin carries no credentials.
+      const url = new URL(target, window.location.origin)
       return fetch(url)
         .then(res => res.json())
         .then(data => ({ data }))
