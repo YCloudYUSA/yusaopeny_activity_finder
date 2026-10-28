@@ -472,9 +472,14 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         foreach ($date->field_session_time_days->getValue() as $time_days) {
           $days[] = ucfirst($time_days['value']);
         }
+        // A date-only value ('YYYY-MM-DD') becomes midnight UTC, which prints
+        // as an identical start and end time after the timezone shift.
+        $has_time_of_day = strlen($_period['value'] ?? '') > 10 || strlen($_period['end_value'] ?? '') > 10;
         $schedule_items[] = [
           'days' => implode(', ', $days),
-          'time' => $_from->format('g:ia') . '-' . $_to->format('g:ia'),
+          'time' => $has_time_of_day
+            ? $_from->format('g:ia') . '-' . $_to->format('g:ia')
+            : '',
         ];
         $from_md = $_from->format('M d');
         $to_md = $_to->format('M d');
