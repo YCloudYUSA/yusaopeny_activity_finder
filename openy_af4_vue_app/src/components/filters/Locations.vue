@@ -75,11 +75,11 @@ export default {
           // Items must pass both tests, so we intentionally do not ELSE these.
           // If there are excludes, the item must NOT be excluded.
           if (this.excludeByLocation.length) {
-            r = !this.excludeByLocation.includes(item.value.toString())
+            r = !this.excludeByLocation.map(String).includes(item.value.toString())
           }
           // If there are limits, ONLY items in the limit list are included.
           if (this.limitByLocation.length) {
-            r = this.limitByLocation.includes(item.value.toString())
+            r = this.limitByLocation.map(String).includes(item.value.toString())
           }
 
           return r
