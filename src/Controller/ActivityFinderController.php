@@ -129,7 +129,10 @@ class ActivityFinderController extends ControllerBase {
       'excludeloc' => $request->query->get('excludeloc'),
       'in_membership' => $request->query->get('in_membership'),
       'durations' => $request->query->get('durations'),
+      'category_tags' => $request->query->get('category_tags'),
       'start_months' => $request->query->get('start_months'),
+      'limit_category_tag' => $request->query->get('limit_category_tag'),
+      'exclude_category_tag' => $request->query->get('exclude_category_tag'),
     ];
     $record['hash'] = md5(json_encode($record));
 

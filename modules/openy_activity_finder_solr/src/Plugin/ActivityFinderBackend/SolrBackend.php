@@ -178,4 +178,11 @@ class SolrBackend extends ActivityFinderBackendPluginBase {
     return $this->backend->getProgramsMoreInfo($request);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCategoryTags(): array {
+    return $this->backend->getCategoryTags();
+  }
+
 }

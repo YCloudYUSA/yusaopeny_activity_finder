@@ -192,6 +192,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       'field_program_description',
       'category_title',
       'field_category_description',
+      'category_tags_title',
     ]);
     $query->addCondition('status', 1);
 
@@ -300,6 +301,28 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     }
     if ($limit_categories) {
       $query->addCondition('field_activity_category', $limit_categories, 'IN');
+    }
+
+    // Limit to category tags set in block config (admin scope, always applied).
+    if (!empty($parameters['limit_category_tag'])) {
+      $limit_tag_tids = array_filter(array_map('intval', explode(',', $parameters['limit_category_tag'])));
+      if ($limit_tag_tids) {
+        $query->addCondition('field_session_category_tags', $limit_tag_tids, 'IN');
+      }
+    }
+
+    // Exclude category tags set in block config (admin scope, always applied).
+    if (!empty($parameters['exclude_category_tag'])) {
+      $exclude_tag_tids = array_filter(array_map('intval', explode(',', $parameters['exclude_category_tag'])));
+      if ($exclude_tag_tids) {
+        $query->addCondition('field_session_category_tags', $exclude_tag_tids, 'NOT IN');
+      }
+    }
+
+    // Filter by the category tags selected by the visitor.
+    if (!empty($parameters['category_tags'])) {
+      $tag_tids = array_map('intval', explode(',', rawurldecode($parameters['category_tags'])));
+      $query->addCondition('field_session_category_tags', $tag_tids, 'IN');
     }
 
     // Ensure to exclude categories.
@@ -617,6 +640,9 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
             $facets_m[$f][$i]['id'] = (int) $facets_m[$f][$i]['filter'];
           }
         }
+        if ($f == 'field_session_category_tags') {
+          $facets_m[$f][$i]['id'] = (int) $facets_m[$f][$i]['filter'];
+        }
         // Pass counters to static ages filter.
         if ($f == 'static_age_filter') {
           if (isset($facets['af_ages_min_max'])) {
@@ -736,6 +762,13 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       ],
       'af_weekdays_parts_of_day' => [
         'field' => 'af_weekdays_parts_of_day',
+        'limit' => 0,
+        'operator' => 'AND',
+        'min_count' => 1,
+        'missing' => TRUE,
+      ],
+      'field_session_category_tags' => [
+        'field' => 'field_session_category_tags',
         'limit' => 0,
         'operator' => 'AND',
         'min_count' => 1,
@@ -897,6 +930,38 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $categories[$item['program']['nid']]['label'] = $item['program']['title'];
     }
     return array_values($categories);
+  }
+
+  /**
+   * Get all category tag terms for the AF4 filter UI.
+   *
+   * Returns a flat list of {value: tid, label: name} from the category_tags
+   * vocabulary, sorted alphabetically.
+   */
+  public function getCategoryTags(): array {
+    $cid = 'openy_activity_finder:category_tags';
+    if ($cache = $this->cache->get($cid)) {
+      return $cache->data;
+    }
+
+    $terms = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['vid' => 'category_tags', 'status' => 1]);
+
+    $tags = [];
+    foreach ($terms as $term) {
+      $tags[] = [
+        'value' => $term->id(),
+        'label' => $term->label(),
+      ];
+    }
+
+    usort($tags, fn($a, $b) => $a['label'] <=> $b['label']);
+
+    $expire = $this->time->getRequestTime() + self::CACHE_TTL;
+    $this->cache->set($cid, $tags, $expire, [self::ACTIVITY_FINDER_CACHE_TAG]);
+
+    return $tags;
   }
 
   /**

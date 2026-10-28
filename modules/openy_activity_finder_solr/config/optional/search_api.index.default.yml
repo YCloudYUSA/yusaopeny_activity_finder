@@ -17,6 +17,7 @@ dependencies:
     - field.storage.node.field_session_min_age
     - field.storage.node.field_session_nmbr_price
     - field.storage.node.field_activity_category
+    - field.storage.node.field_session_category_tags
     - field.storage.node.field_category_program
     - field.storage.node.field_program_description
     - field.storage.node.field_category_description
@@ -146,6 +147,26 @@ field_settings:
         - field.storage.node.field_activity_category
         - field.storage.node.field_class_activity
         - field.storage.node.field_session_class
+      module:
+        - node
+  field_session_category_tags:
+    label: 'Category Tag (term id)'
+    datasource_id: 'entity:node'
+    property_path: 'field_session_category_tags:entity:tid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_session_category_tags
+      module:
+        - node
+  category_tags_title:
+    label: 'Category Tag Title'
+    datasource_id: 'entity:node'
+    property_path: 'field_session_category_tags:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_session_category_tags
       module:
         - node
   field_activity_description:
