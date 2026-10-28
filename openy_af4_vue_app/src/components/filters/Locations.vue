@@ -69,9 +69,6 @@ export default {
 
       const filteredLocations = {}
       this.locations.forEach((locationGroup, key) => {
-        // Filter out excluded locations.
-        filteredLocations[key] = locationGroup
-
         const filteredValue = locationGroup.value.filter(item => {
           let r = true
 

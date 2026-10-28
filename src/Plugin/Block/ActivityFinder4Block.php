@@ -193,12 +193,19 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
         }
       }
     }
+    // unset() leaves index gaps, and json_encode() turns such an array into an
+    // object, which breaks Array.filter() in the Vue Locations component.
+    foreach ($locations as &$type) {
+      $type['value'] = array_values($type['value'] ?? []);
+    }
+    unset($type);
     // Remove empty location groups.
     foreach ($locations as $indexType => $type) {
       if (empty($type['value'])) {
         unset($locations[$indexType]);
       }
     }
+    $locations = array_values($locations);
 
     \Drupal::moduleHandler()->alter('activity_finder_location_list', $locations);
     return [
