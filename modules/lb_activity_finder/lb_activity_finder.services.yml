@@ -1,0 +1,5 @@
+services:
+  lb_activity_finder.ws_style_group_applies_to_alter:
+    class: Drupal\lb_activity_finder\EventSubscriber\WSStyleGroupAlter
+    tags:
+      - { name: event_subscriber }

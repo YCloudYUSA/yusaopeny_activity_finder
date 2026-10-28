@@ -192,6 +192,7 @@
       :disable-spots-available="disableSpotsAvailable"
       :request-more-info="daxko"
       :bs-version="bsVersion"
+      :filters-on-top="filtersOnTop"
       @startOver="startOver()"
       @addItem="addItem($event)"
       @removeItem="removeItem($event)"
@@ -241,6 +242,7 @@
           :limit-by-location="limitByLocation"
           :exclude-by-location="excludeByLocation"
           filters-mode="instant"
+          :filters-on-top="filtersOnTop"
           @filterChange="onFilterChange($event)"
           @clearFilters="clearFilters"
         />
@@ -560,7 +562,8 @@ export default {
       // The Home Branch ID from cookie.
       homeBranchId: this.getHomeBranchId(),
       // Results count for the Home Branch.
-      homeBranchResultsCount: null
+      homeBranchResultsCount: null,
+      filtersOnTop: false
     }
 
     // Identify daxko backend.
@@ -790,6 +793,8 @@ export default {
     window.removeEventListener('popstate', this._popstateHandler)
   },
   mounted() {
+    this.filtersOnTop = !!this.$el.closest('.af4-filters-top')
+
     this._popstateHandler = () => {
       this._restoringFromHistory = true
       this.getDataFromUrl()

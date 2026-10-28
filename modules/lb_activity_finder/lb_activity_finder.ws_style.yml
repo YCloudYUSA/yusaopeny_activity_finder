@@ -1,0 +1,6 @@
+af4_layout:
+  label: Activity Finder Layout
+  name: af4_layout
+  global: false
+  applies_to: ['inline_block:lb_activity_finder']
+  library: null

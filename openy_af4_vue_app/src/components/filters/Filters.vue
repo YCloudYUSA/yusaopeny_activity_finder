@@ -13,6 +13,9 @@
         :collapsed="fieldsetCollapseState('schedule')"
         :counter="scheduleFiltersCount"
         :hide-counter="true"
+        :filters-on-top="filtersOnTop"
+        :active-id="activeFieldset"
+        @activate="activeFieldset = $event"
       >
         <div class="schedules-filter-component">
           <AgesFilter
@@ -53,6 +56,9 @@
         :collapsed="fieldsetCollapseState('category_tags')"
         :counter="categoryTagsFiltersCount"
         :hide-counter="true"
+        :filters-on-top="filtersOnTop"
+        :active-id="activeFieldset"
+        @activate="activeFieldset = $event"
       >
         <CategoryTagsFilter
           :id="id + '-category-tags-filter'"
@@ -72,6 +78,9 @@
         :collapsed="fieldsetCollapseState('category')"
         :counter="activityFiltersCount"
         :hide-counter="true"
+        :filters-on-top="filtersOnTop"
+        :active-id="activeFieldset"
+        @activate="activeFieldset = $event"
       >
         <ActivitiesFilter
           :id="id + '-activities-filter'"
@@ -90,6 +99,9 @@
         :collapsed="fieldsetCollapseState('locations')"
         :counter="locationFiltersCount"
         :hide-counter="true"
+        :filters-on-top="filtersOnTop"
+        :active-id="activeFieldset"
+        @activate="activeFieldset = $event"
       >
         <LocationsFilter
           :id="id + '-locations-filter'"
@@ -107,6 +119,9 @@
         :collapsed="fieldsetCollapseState('additional')"
         :counter="additionalFiltersCount"
         :hide-counter="true"
+        :filters-on-top="filtersOnTop"
+        :active-id="activeFieldset"
+        @activate="activeFieldset = $event"
       >
         <InMembershipsFilter
           v-if="inMembershipsFilter"
@@ -329,6 +344,10 @@ export default {
     showActivityStep: {
       type: Boolean,
       default: true
+    },
+    filtersOnTop: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -342,7 +361,8 @@ export default {
       selectedInMemberships: this.initialInMemberships,
       selectedDurations: this.initialDurations,
       selectedStartMonths: this.initialStartMonths,
-      selectedCategoryTags: this.initialCategoryTags
+      selectedCategoryTags: this.initialCategoryTags,
+      activeFieldset: ''
     }
   },
   computed: {
