@@ -8,6 +8,23 @@ via its `.info.yml` `version` key.
 
 ## [Unreleased]
 
+### AF4: Category Tags, Filters on Top and location fixes
+
+Requires `drupal/openy_node_session` `^2.4` (Category Tags vocabulary and
+session field). Run `drush cr` and a Search API reindex after updating.
+
+#### Added
+
+- **Category Tags** — A block can filter by the session Category Tags instead of the Activity categories (block setting *Category filters*), with limit/exclude by tag. The Solr backend indexes the tag id (facet) and title (search); `getCategoryTags()` is part of the backend interface.
+- **Filters on Top** — A Layout Builder style for the `lb_activity_finder` block that moves the filters into a bar above the results. Requires `ycloudyusa/y_lb` `>=3.0.16`.
+
+#### Fixed
+
+- **Limit by Locations** — The Locations dropdown stays populated (reindexed arrays, limits compared as strings), selecting a location returns only that location, and a selection outside the limit falls back to the limit.
+- **Basic-auth URLs** — The AF4 request URL is built from the page origin, so pages opened as `https://user:pass@host` load results.
+- **Date-only sessions** — A session without a time of day no longer renders an identical start and end time.
+- **Skipped wizard** — The Start Over link is hidden when the wizard is skipped.
+
 ### AF4: Vue 2 → Vue 3 migration (ITCR-1273)
 
 Migrates Activity Finder v4 (`openy_af4_vue_app/`) from Vue 2.6 (EOL) to Vue
