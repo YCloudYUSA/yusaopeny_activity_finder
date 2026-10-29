@@ -6,53 +6,6 @@
  */
 
 /**
- * Adds field_session_category_tags fields to the default Search API index.
- *
- * Extracted so both hook_install and update hooks can call it. Idempotent —
- * skips fields that already exist on the index.
- */
-function _openy_activity_finder_solr_add_category_tags_index_fields(): void {
-  $index = \Drupal\search_api\Entity\Index::load('default');
-  $tags_field_exists = \Drupal\field\Entity\FieldStorageConfig::loadByName('node', 'field_session_category_tags');
-  if (!$index || !$tags_field_exists) {
-    return;
-  }
-
-  $tag_fields = [
-    'field_session_category_tags' => [
-      'label' => 'Category Tag (term id)',
-      'type' => 'string',
-      'property_path' => 'field_session_category_tags:entity:tid',
-    ],
-    'category_tags_title' => [
-      'label' => 'Category Tag Title',
-      'type' => 'text',
-      'property_path' => 'field_session_category_tags:entity:name',
-    ],
-  ];
-
-  $fields_helper = \Drupal::service('search_api.fields_helper');
-  $changed = FALSE;
-  foreach ($tag_fields as $key => $info) {
-    if ($index->getField($key)) {
-      continue;
-    }
-    $field = $fields_helper->createField($index, $key, [
-      'label' => $info['label'],
-      'type' => $info['type'],
-      'datasource_id' => 'entity:node',
-      'property_path' => $info['property_path'],
-    ]);
-    $index->addField($field);
-    $changed = TRUE;
-  }
-
-  if ($changed) {
-    $index->save();
-  }
-}
-
-/**
  * Implements hook_install().
  *
  * A fresh install starts at the highest update number, so update_8001 never
