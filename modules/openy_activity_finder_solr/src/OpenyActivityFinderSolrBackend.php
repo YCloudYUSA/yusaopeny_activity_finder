@@ -303,8 +303,12 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $query->addCondition('field_activity_category', $limit_categories, 'IN');
     }
 
+    // A condition on a field missing from the index throws, so tag conditions
+    // wait until the tag fields have been added.
+    $tags_indexed = (bool) $query->getIndex()->getField('field_session_category_tags');
+
     // Limit to category tags set in block config (admin scope, always applied).
-    if (!empty($parameters['limit_category_tag'])) {
+    if ($tags_indexed && !empty($parameters['limit_category_tag'])) {
       $limit_tag_tids = array_filter(array_map('intval', explode(',', $parameters['limit_category_tag'])));
       if ($limit_tag_tids) {
         $query->addCondition('field_session_category_tags', $limit_tag_tids, 'IN');
@@ -312,7 +316,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     }
 
     // Exclude category tags set in block config (admin scope, always applied).
-    if (!empty($parameters['exclude_category_tag'])) {
+    if ($tags_indexed && !empty($parameters['exclude_category_tag'])) {
       $exclude_tag_tids = array_filter(array_map('intval', explode(',', $parameters['exclude_category_tag'])));
       if ($exclude_tag_tids) {
         $query->addCondition('field_session_category_tags', $exclude_tag_tids, 'NOT IN');
@@ -320,7 +324,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     }
 
     // Filter by the category tags selected by the visitor.
-    if (!empty($parameters['category_tags'])) {
+    if ($tags_indexed && !empty($parameters['category_tags'])) {
       $tag_tids = array_map('intval', explode(',', rawurldecode($parameters['category_tags'])));
       $query->addCondition('field_session_category_tags', $tag_tids, 'IN');
     }
