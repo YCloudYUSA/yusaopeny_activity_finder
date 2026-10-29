@@ -85,8 +85,6 @@ export default {
   },
   data() {
     return {
-      sticky: false,
-      stickyHeight: 125,
       stickyDesktop: false,
       stickyDesktopHeight: 95
     }
@@ -96,7 +94,7 @@ export default {
     window.addEventListener('scroll', this.handleSticky)
     window.addEventListener('resize', this.handleSticky)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('scroll', this.handleSticky)
     window.removeEventListener('resize', this.handleSticky)
   },
@@ -109,8 +107,6 @@ export default {
     },
     handleSticky() {
       const clientHeight = window.document.documentElement.clientHeight
-      const rect = this.$refs.bottom.getBoundingClientRect()
-      this.sticky = rect.top + this.stickyHeight >= clientHeight ? true : false
       const rectDesktop = this.$refs.bottomDesktop.getBoundingClientRect()
       this.stickyDesktop = rectDesktop.top + this.stickyDesktopHeight >= clientHeight ? true : false
     }

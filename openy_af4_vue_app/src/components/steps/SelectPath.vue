@@ -99,7 +99,7 @@ export default {
     this.chooseImage()
     window.addEventListener('resize', this.chooseImage)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('resize', this.chooseImage)
   },
   methods: {
