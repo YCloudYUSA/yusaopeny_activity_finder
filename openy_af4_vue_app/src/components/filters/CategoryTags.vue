@@ -90,10 +90,10 @@ export default {
       return this.categoryTags.filter(tag => {
         const tagId = String(tag.value)
         if (this.limitByCategoryTag.length) {
-          return this.limitByCategoryTag.includes(tagId)
+          return this.limitByCategoryTag.map(String).includes(tagId)
         }
         if (this.excludeByCategoryTag.length) {
-          return !this.excludeByCategoryTag.includes(tagId)
+          return !this.excludeByCategoryTag.map(String).includes(tagId)
         }
         return true
       })
