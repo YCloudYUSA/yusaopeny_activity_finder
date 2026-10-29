@@ -1,3 +1,9 @@
+af4-filters-top:
+  version: 1.0
+  css:
+    theme:
+      assets/css/af4-filters-top.css: {}
+
 #Colorway styles.
 colorway:
   version: 0.3

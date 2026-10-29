@@ -32,6 +32,11 @@ class MockBackend extends ActivityFinderBackendPluginBase {
   protected string $fixturesDir;
 
   /**
+   * Tag ids per session nid, loaded on first use.
+   */
+  protected ?array $tagAssignments = NULL;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -173,7 +178,40 @@ class MockBackend extends ActivityFinderBackendPluginBase {
     $rows = $this->filterByField($rows, 'location_id', $parameters['limitloc'] ?? '');
     $rows = $this->excludeByField($rows, 'program_id', $parameters['exclude'] ?? '');
     $rows = $this->excludeByField($rows, 'location_id', $parameters['excludeloc'] ?? '');
+    $rows = $this->filterByCategoryTags($rows, $parameters['category_tags'] ?? '');
+    $rows = $this->filterByCategoryTags($rows, $parameters['limit_category_tag'] ?? '');
+    $rows = $this->excludeByCategoryTags($rows, $parameters['exclude_category_tag'] ?? '');
     return array_values($rows);
+  }
+
+  /**
+   * Tag ids of a fixture row; the tags are sample data kept apart from the capture.
+   */
+  protected function rowTagIds(array $row): array {
+    $this->tagAssignments ??= $this->fixture('getCategoryTagAssignments');
+    return array_map('strval', $this->tagAssignments[(string) ($row['nid'] ?? '')] ?? []);
+  }
+
+  /**
+   * Keeps rows that carry any of the comma-separated tag ids.
+   */
+  protected function filterByCategoryTags(array $rows, string $csv): array {
+    $selected = array_filter(explode(',', rawurldecode($csv)));
+    if (!$selected) {
+      return $rows;
+    }
+    return array_filter($rows, fn($row) => (bool) array_intersect($this->rowTagIds($row), $selected));
+  }
+
+  /**
+   * Removes rows that carry any of the comma-separated tag ids.
+   */
+  protected function excludeByCategoryTags(array $rows, string $csv): array {
+    $excluded = array_filter(explode(',', $csv));
+    if (!$excluded) {
+      return $rows;
+    }
+    return array_filter($rows, fn($row) => !array_intersect($this->rowTagIds($row), $excluded));
   }
 
   /**
@@ -496,6 +534,18 @@ class MockBackend extends ActivityFinderBackendPluginBase {
       ));
     }
 
+    // Count sessions per Category Tag.
+    $tagCounts = [];
+    foreach ($filtered as $row) {
+      foreach ($this->rowTagIds($row) as $tid) {
+        $tagCounts[$tid] = ($tagCounts[$tid] ?? 0) + 1;
+      }
+    }
+    $facets['field_session_category_tags'] = [];
+    foreach ($tagCounts as $tid => $count) {
+      $facets['field_session_category_tags'][] = ['filter' => (string) $tid, 'count' => $count, 'id' => (int) $tid];
+    }
+
     // Recompute weekday+time-of-day slot counts (af_weekdays_parts_of_day).
     $facets['af_weekdays_parts_of_day'] = $this->recomputeWeekdaysPartsOfDay($filtered);
 
@@ -605,6 +655,13 @@ class MockBackend extends ActivityFinderBackendPluginBase {
    */
   public function getFiltersSectionConfig() {
     return $this->fixture('getFiltersSectionConfig', []);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCategoryTags(): array {
+    return $this->fixture('getCategoryTags');
   }
 
   /**

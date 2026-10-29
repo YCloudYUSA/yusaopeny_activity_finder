@@ -1,0 +1,10 @@
+af4.layout.ws_style_option:
+  - label: Wizard (Default)
+    name: af4_layout_wizard
+    group: af4_layout
+    default: true
+  - label: Filters on Top
+    name: af4_layout_filters_top
+    group: af4_layout
+    class: af4-filters-top
+    library: lb_activity_finder/af4-filters-top

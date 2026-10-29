@@ -24,14 +24,14 @@
             <span class="results" v-if="data.count">
               {{ formatPlural(data.count, '1 result', '@count results') }}
             </span>
-            <a class="start-over" role="button" @click="startOver()">{{ t('Start Over') }}</a>
+            <a v-if="!skipWizard" class="start-over" role="button" @click="startOver()">{{ t('Start Over') }}</a>
           </div>
           <div class="header d-none d-md-flex hidden-xs hidden-sm">
             <span>
               <span class="results" v-if="data.count">
                 {{ formatPlural(data.count, '1 result', '@count results') }}
               </span>
-              | <a class="start-over" role="button" @click="startOver()">{{ t('Start Over') }}</a>
+              <template v-if="!skipWizard"> | <a class="start-over" role="button" @click="startOver()">{{ t('Start Over') }}</a></template>
             </span>
             <span>
               <slot name="sort" />
@@ -142,6 +142,14 @@ export default {
     bsVersion: {
       type: Number,
       required: true
+    },
+    filtersOnTop: {
+      type: Boolean,
+      default: false
+    },
+    skipWizard: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -157,9 +165,15 @@ export default {
   },
   computed: {
     filtersClasses() {
+      if (this.filtersOnTop) {
+        return 'col-12'
+      }
       return this.bsVersion === 4 ? 'col-3 d-none d-lg-block' : 'col-lg-3 d-none d-lg-block'
     },
     resultsClasses() {
+      if (this.filtersOnTop) {
+        return 'col-12'
+      }
       return this.bsVersion === 4 ? 'col-12 col-lg-9' : ' col-xs-12 col-lg-9'
     }
   },

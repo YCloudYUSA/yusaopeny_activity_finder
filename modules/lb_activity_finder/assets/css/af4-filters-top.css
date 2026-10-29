@@ -1,0 +1,452 @@
+/**
+ * Activity Finder 4 — Filters on Top layout style.
+ *
+ * Transforms the default sidebar layout into a horizontal filter bar above results.
+ *
+ * Applied when Y Style "Filters on Top" is selected on the lb_activity_finder block.
+ * Wrapper class: .af4-filters-top
+ *
+ * SCOPE: All rules target .results-component or .filters-component which are only
+ * rendered by Vue when step === 'results'. Wizard steps (selectPath, selectAges,
+ * selectLocations, etc.) are completely unaffected — those components don't contain
+ * .results-component or .filters-component in the DOM.
+ */
+
+/* ============================================================
+   1. LAYOUT: Filters row full-width on top, results below
+   ============================================================ */
+
+/* Stack columns vertically instead of side by side */
+.af4-filters-top .results-component > .container > .row {
+  flex-direction: column;
+}
+
+/* ============================================================
+   2. FILTERS COMPONENT: Horizontal bar with dropdowns
+   ============================================================ */
+
+.af4-filters-top .filters-component {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 0;
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  /* Containing block for absolutely-positioned .fieldset-content dropdowns.
+     Needed because .fieldset-component and .filters both use display:contents
+     and therefore cannot act as containing blocks themselves. */
+  position: relative;
+}
+
+/* Move filters-header after buttons in the same row, hide "Filter" title.
+   Override d-none d-lg-flex Bootstrap classes so it's always visible. */
+.af4-filters-top .filters-component .filters-header {
+  display: flex !important;
+  order: 2;
+  align-self: center;
+  margin-bottom: 0;
+}
+
+.af4-filters-top .filters-component .filters-header .title {
+  display: none;
+}
+
+/* Make the filters list horizontal */
+/* display:contents makes .filters transparent — its children become direct flex
+   children of .filters-component, sharing the same row/order context as .filters-header */
+.af4-filters-top .filters-component .filters {
+  display: contents;
+}
+
+/* Hide the filters footer (Apply/Clear buttons in sidebar) */
+.af4-filters-top .filters-component .filters-footer {
+  display: none;
+}
+
+/* ============================================================
+   3. FIELDSET: Each filter group as a dropdown button.
+   IMPORTANT: Scoped to .filters-component to avoid affecting
+   wizard step components (SelectActivities, SelectLocations etc.)
+   which also use .fieldset-component internally.
+   ============================================================ */
+
+/* display:contents makes .fieldset-component transparent to flex layout:
+   .fieldset-title and .fieldset-content become direct flex children of .filters.
+   Buttons (order:1) stay in one row; open dropdown (order:2, 100% width) appears below. */
+.af4-filters-top .filters-component .fieldset-component {
+  display: contents;
+}
+
+/* Buttons row */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title {
+  order: 1;
+  flex-shrink: 0;
+}
+
+/* Style the fieldset title as a pill/button */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 50px;
+  justify-content: space-between;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Remove the collapsed border-bottom: 0 override from sidebar style */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title.collapsed {
+  border-bottom-width: 1px;
+}
+
+/* Override --wsBorderRadius on first-child top corners */
+.af4-filters-top .filters-component .filters .fieldset-component:first-child .fieldset-title {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Override --wsBorderRadius on last-child bottom corners */
+.af4-filters-top .filters-component .filters .fieldset-component:last-child .fieldset-title.collapsed {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Fieldset title text — smaller than sidebar (was 32px) */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title .title {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* Show counter badge on button */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title .counter.hide-counter {
+  display: inline-block;
+}
+
+/* Dropdown panel: absolute overlay above results */
+.af4-filters-top .filters-component .fieldset-component .fieldset-content {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 200;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  padding: 24px;
+  min-width: 280px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18), 0 0 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Save Filters button — sticky at the bottom of the dropdown panel */
+.af4-filters-top .filters-component .fieldset-save-btn {
+  position: sticky;
+  bottom: 0;
+  display: block;
+  margin-top: 16px;
+  margin-left: auto;
+  padding: 8px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.af4-filters-top .filters-component .fieldset-save-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Close button inside dropdown panel */
+.af4-filters-top .filters-component .fieldset-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  font-size: 0.8em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.af4-filters-top .filters-component .fieldset-close-x {
+  font-size: 0.9em;
+}
+
+/* Activities, Locations and Category Tags dropdowns span full width */
+.af4-filters-top .filters-component .fieldset-component .fieldset-content:has(.activities-filter-component),
+.af4-filters-top .filters-component .fieldset-component .fieldset-content:has(.locations-filter-component),
+.af4-filters-top .filters-component .fieldset-component .fieldset-content:has(.category-tags-filter-component) {
+  width: 100%;
+}
+
+/* ============================================================
+   4. SEARCH FIELD: Place search above filter buttons
+   ============================================================ */
+
+/* Search slot sits above the filters row */
+.af4-filters-top .results-component .search {
+  flex: 0 0 100%;
+  margin-bottom: 8px;
+}
+
+/* Search form: gray background, max-width matches ymcafw reference */
+.af4-filters-top .results-component .search .search-form-component {
+  background: #e6e6e6;
+  border-color: #e6e6e6;
+  border-radius: 6px;
+  max-width: 450px;
+  margin: 0 14px 20px 0;
+}
+
+.af4-filters-top .results-component .search .search-form-component .form-control {
+  background: #e6e6e6;
+  color: #9e9e9e;
+}
+
+.af4-filters-top .results-component .search .search-form-component .form-control::placeholder {
+  color: #9e9e9e;
+}
+
+/* ============================================================
+   5. RESULTS HEADER: Show "Start Over" link on all sizes
+   ============================================================ */
+
+.af4-filters-top .results-component .header.d-none {
+  display: flex !important;
+}
+
+/* ============================================================
+   6. FOLDABLE OVERRIDES: Remove gray bg, fixed height, and title background
+   ============================================================ */
+
+.af4-filters-top .foldable-component .foldable-content {
+  background-color: transparent;
+}
+
+.af4-filters-top .foldable-component .foldable-content .option {
+  height: 30px;
+}
+
+.af4-filters-top .foldable-component .foldable-title {
+  background-color: transparent;
+  line-height: 30px;
+  font-size: 14px;
+}
+
+.af4-filters-top .schedules-filter-component .foldable-component > .foldable-title,
+.af4-filters-top .activities-filter-component .foldable-component > .foldable-title,
+.af4-filters-top .locations-filter-component .foldable-component > .foldable-title {
+  margin: 0 0 14px 0;
+}
+
+.af4-filters-top .foldable-component .foldable-title .left {
+  line-height: 30px;
+}
+
+/* ============================================================
+   7. SCHEDULES: Age + Day/Time as two side-by-side columns
+   ============================================================ */
+
+/* Container: flex row */
+.af4-filters-top .schedules-filter-component {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Age column ~45% */
+.af4-filters-top .ages-filter-component {
+  flex: 0 0 45%;
+  max-width: 45%;
+}
+
+/* Day/Time column takes remaining space */
+.af4-filters-top .days-times-filter-component {
+  flex: 1;
+}
+
+/* Top-level section header: plain label (no chevron, not clickable) */
+.af4-filters-top .schedules-filter-component .foldable-component > .foldable-title {
+  pointer-events: none;
+  border-bottom: none;
+  padding: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.af4-filters-top .schedules-filter-component .foldable-component > .foldable-title .title {
+  font-weight: 700;
+}
+
+.af4-filters-top .schedules-filter-component .foldable-component > .foldable-title .fa-chevron-up,
+.af4-filters-top .schedules-filter-component .foldable-component > .foldable-title .fa-chevron-down {
+  display: none;
+}
+
+/* Force top-level foldable content always open */
+.af4-filters-top .schedules-filter-component .foldable-component > .foldable-content {
+  display: block !important;
+}
+
+/* ============================================================
+   8. ACTIVITIES, LOCATIONS & CATEGORY TAGS: headers as plain bold labels, 3-col grid
+   ============================================================ */
+
+.af4-filters-top .activities-filter-component .foldable-component > .foldable-title,
+.af4-filters-top .locations-filter-component .foldable-component > .foldable-title,
+.af4-filters-top .category-tags-filter-component .foldable-component > .foldable-title {
+  pointer-events: none;
+  border-bottom: none;
+  padding: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.af4-filters-top .activities-filter-component .foldable-component > .foldable-title .title,
+.af4-filters-top .locations-filter-component .foldable-component > .foldable-title .title,
+.af4-filters-top .category-tags-filter-component .foldable-component > .foldable-title .title {
+  font-weight: 700;
+}
+
+.af4-filters-top .activities-filter-component .foldable-component > .foldable-title .fa-chevron-up,
+.af4-filters-top .activities-filter-component .foldable-component > .foldable-title .fa-chevron-down,
+.af4-filters-top .locations-filter-component .foldable-component > .foldable-title .fa-chevron-up,
+.af4-filters-top .locations-filter-component .foldable-component > .foldable-title .fa-chevron-down,
+.af4-filters-top .category-tags-filter-component .foldable-component > .foldable-title .fa-chevron-up,
+.af4-filters-top .category-tags-filter-component .foldable-component > .foldable-title .fa-chevron-down {
+  display: none;
+}
+
+.af4-filters-top .activities-filter-component .foldable-component > .foldable-content {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.af4-filters-top .locations-filter-component .foldable-component > .foldable-content {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.af4-filters-top .category-tags-filter-component .foldable-component > .foldable-content {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+/* ============================================================
+   9. ICONS: Replace circle +/- with CSS chevron arrows
+   ============================================================ */
+
+/* Hide Material Symbols SVG icons */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title .icon svg {
+  display: none;
+}
+
+/* Make icon span a flex container so ::after centers vertically */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title .icon {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* Draw chevron-down arrow when collapsed */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title .icon::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #333;
+  border-bottom: 2px solid #333;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* Rotate to chevron-up when open */
+.af4-filters-top .filters-component .fieldset-component .fieldset-title:not(.collapsed) .icon::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+/* Option labels: smaller font to fit dropdown panels */
+.af4-filters-top .foldable-component .foldable-content .option input[type='checkbox'] + label,
+.af4-filters-top .foldable-component .foldable-content .option input[type='radio'] + label {
+  font-size: 14px;
+}
+
+.af4-filters-top .category-tags-filter-component .ct-option input[type='checkbox'] + label {
+  font-size: 14px;
+}
+
+/* ============================================================
+   10. RESPONSIVE: Mobile adjustments
+   ============================================================ */
+
+@media (max-width: 767px) {
+  .af4-filters-top .filters-component {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .af4-filters-top .filters-component .filters {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .af4-filters-top .filters-component .fieldset-component {
+    width: 100%;
+  }
+
+  .af4-filters-top .filters-component .fieldset-component .fieldset-title {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .af4-filters-top .filters-component .fieldset-component .fieldset-content {
+    box-shadow: none;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .af4-filters-top .activities-filter-component,
+  .af4-filters-top .locations-filter-component,
+  .af4-filters-top .category-tags-filter-component {
+    width: 100%;
+  }
+
+  .af4-filters-top .activities-filter-component .foldable-component > .foldable-content,
+  .af4-filters-top .locations-filter-component .foldable-component > .foldable-content,
+  .af4-filters-top .category-tags-filter-component .foldable-component > .foldable-content {
+    grid-template-columns: 1fr;
+  }
+
+  .af4-filters-top .schedules-filter-component {
+    flex-direction: column;
+  }
+
+  .af4-filters-top .ages-filter-component,
+  .af4-filters-top .days-times-filter-component {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

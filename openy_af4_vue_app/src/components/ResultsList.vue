@@ -59,8 +59,10 @@
           <Icon icon="material-symbols:clock-outline" />
           <span class="schedule-items">
             <span v-for="(schedule, index) in item.schedule" :key="index" class="schedule-item">
-              <span class="info">{{ schedule.time }}</span>
-              <br />
+              <template v-if="schedule.time">
+                <span class="info">{{ schedule.time }}</span>
+                <br />
+              </template>
               <span class="details">{{ schedule.days }}</span>
             </span>
           </span>
@@ -117,8 +119,10 @@
               <Icon icon="material-symbols:schedule-outline" />
               <span class="schedule-items">
                 <span v-for="(schedule, index) in item.schedule" :key="index" class="schedule-item">
-                  <span class="info">{{ schedule.time }}</span>
-                  <br />
+                  <template v-if="schedule.time">
+                    <span class="info">{{ schedule.time }}</span>
+                    <br />
+                  </template>
                   <span class="details">{{ schedule.days }}</span>
                 </span>
               </span>

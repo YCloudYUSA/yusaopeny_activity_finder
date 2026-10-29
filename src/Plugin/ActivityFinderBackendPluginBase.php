@@ -32,4 +32,11 @@ abstract class ActivityFinderBackendPluginBase extends PluginBase implements Ope
     return [];
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCategoryTags(): array {
+    return [];
+  }
+
 }

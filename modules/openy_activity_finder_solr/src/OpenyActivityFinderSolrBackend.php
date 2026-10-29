@@ -192,6 +192,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       'field_program_description',
       'category_title',
       'field_category_description',
+      'category_tags_title',
     ]);
     $query->addCondition('status', 1);
 
@@ -302,6 +303,32 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $query->addCondition('field_activity_category', $limit_categories, 'IN');
     }
 
+    // A condition on a field missing from the index throws, so tag conditions
+    // wait until the tag fields have been added.
+    $tags_indexed = (bool) $query->getIndex()->getField('field_session_category_tags');
+
+    // Limit to category tags set in block config (admin scope, always applied).
+    if ($tags_indexed && !empty($parameters['limit_category_tag'])) {
+      $limit_tag_tids = array_filter(array_map('intval', explode(',', $parameters['limit_category_tag'])));
+      if ($limit_tag_tids) {
+        $query->addCondition('field_session_category_tags', $limit_tag_tids, 'IN');
+      }
+    }
+
+    // Exclude category tags set in block config (admin scope, always applied).
+    if ($tags_indexed && !empty($parameters['exclude_category_tag'])) {
+      $exclude_tag_tids = array_filter(array_map('intval', explode(',', $parameters['exclude_category_tag'])));
+      if ($exclude_tag_tids) {
+        $query->addCondition('field_session_category_tags', $exclude_tag_tids, 'NOT IN');
+      }
+    }
+
+    // Filter by the category tags selected by the visitor.
+    if ($tags_indexed && !empty($parameters['category_tags'])) {
+      $tag_tids = array_map('intval', explode(',', rawurldecode($parameters['category_tags'])));
+      $query->addCondition('field_session_category_tags', $tag_tids, 'IN');
+    }
+
     // Ensure to exclude categories.
     $exclude_nids = [];
     if (!empty($parameters['exclude'])) {
@@ -323,19 +350,32 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     // Select locations based on filters.
     $locations = null;
     $locations_info = $this->getLocationsInfo();
-    $locations_nids = [];
 
-    // Get locations selected in parameters, if specified.
-    if (!empty($parameters['locations'])) {
-      $locations_nids = explode(',', rawurldecode($parameters['locations']));
-    }
+    // Collect the allowed set: limitloc param + config limitloc.
+    $limit_nids = [];
     if (!empty($parameters['limitloc'])) {
-      $locations_nids = array_merge($locations_nids, explode(',', $parameters['limitloc']));
+      $limit_nids = array_merge($limit_nids, explode(',', $parameters['limitloc']));
+    }
+    $locations_nids_config = array_filter(explode(',', $this->config->get('limitloc') ?? ''));
+    $limit_nids = array_unique(array_merge($limit_nids, $locations_nids_config));
+
+    // User-selected locations.
+    $selected_nids = [];
+    if (!empty($parameters['locations'])) {
+      $selected_nids = explode(',', rawurldecode($parameters['locations']));
     }
 
-    // Get configured location limits and merge with parameters.
-    $locations_nids_config = array_filter(explode(',', $this->config->get('limitloc') ?? ""));
-    $locations_nids = array_merge($locations_nids, $locations_nids_config);
+    // User selection intersected with allowed set; no selection = use allowed set.
+    if ($selected_nids) {
+      // A selection outside the limit is ignored: an empty list would make
+      // the code below show every location.
+      $locations_nids = $limit_nids
+        ? array_values(array_intersect($selected_nids, $limit_nids)) ?: $limit_nids
+        : $selected_nids;
+    }
+    else {
+      $locations_nids = $limit_nids;
+    }
 
     // Limit locations to parameters + limit.
     if ($locations_nids) {
@@ -438,9 +478,14 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         foreach ($date->field_session_time_days->getValue() as $time_days) {
           $days[] = ucfirst($time_days['value']);
         }
+        // A date without a time of day becomes midnight UTC, which prints as an
+        // identical start and end time after the timezone shift.
+        $has_time_of_day = $this->hasTimeOfDay($_period['value'] ?? '') || $this->hasTimeOfDay($_period['end_value'] ?? '');
         $schedule_items[] = [
           'days' => implode(', ', $days),
-          'time' => $_from->format('g:ia') . '-' . $_to->format('g:ia'),
+          'time' => $has_time_of_day
+            ? $_from->format('g:ia') . '-' . $_to->format('g:ia')
+            : '',
         ];
         $from_md = $_from->format('M d');
         $to_md = $_to->format('M d');
@@ -606,6 +651,9 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
             $facets_m[$f][$i]['id'] = (int) $facets_m[$f][$i]['filter'];
           }
         }
+        if ($f == 'field_session_category_tags') {
+          $facets_m[$f][$i]['id'] = (int) $facets_m[$f][$i]['filter'];
+        }
         // Pass counters to static ages filter.
         if ($f == 'static_age_filter') {
           if (isset($facets['af_ages_min_max'])) {
@@ -725,6 +773,13 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       ],
       'af_weekdays_parts_of_day' => [
         'field' => 'af_weekdays_parts_of_day',
+        'limit' => 0,
+        'operator' => 'AND',
+        'min_count' => 1,
+        'missing' => TRUE,
+      ],
+      'field_session_category_tags' => [
+        'field' => 'field_session_category_tags',
         'limit' => 0,
         'operator' => 'AND',
         'min_count' => 1,
@@ -886,6 +941,48 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $categories[$item['program']['nid']]['label'] = $item['program']['title'];
     }
     return array_values($categories);
+  }
+
+  /**
+   * Tells whether a stored date or datetime string carries a time of day.
+   *
+   * Both 'YYYY-MM-DD' and 'YYYY-MM-DDT00:00:00' mean a date without a time.
+   */
+  protected function hasTimeOfDay(string $value): bool {
+    $time = substr($value, 11);
+    return $time !== '' && $time !== '00:00:00';
+  }
+
+  /**
+   * Get all category tag terms for the AF4 filter UI.
+   *
+   * Returns a flat list of {value: tid, label: name} from the category_tags
+   * vocabulary, sorted alphabetically.
+   */
+  public function getCategoryTags(): array {
+    $cid = 'openy_activity_finder:category_tags';
+    if ($cache = $this->cache->get($cid)) {
+      return $cache->data;
+    }
+
+    $terms = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['vid' => 'category_tags', 'status' => 1]);
+
+    $tags = [];
+    foreach ($terms as $term) {
+      $tags[] = [
+        'value' => $term->id(),
+        'label' => $term->label(),
+      ];
+    }
+
+    usort($tags, fn($a, $b) => $a['label'] <=> $b['label']);
+
+    $expire = $this->time->getRequestTime() + self::CACHE_TTL;
+    $this->cache->set($cid, $tags, $expire, [self::ACTIVITY_FINDER_CACHE_TAG, 'taxonomy_term_list:category_tags']);
+
+    return $tags;
   }
 
   /**

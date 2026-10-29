@@ -1,0 +1,30 @@
+[
+  {
+    "value": 301,
+    "label": "Swim Lessons"
+  },
+  {
+    "value": 302,
+    "label": "Open Swim"
+  },
+  {
+    "value": 303,
+    "label": "Youth"
+  },
+  {
+    "value": 304,
+    "label": "Teen"
+  },
+  {
+    "value": 305,
+    "label": "Family"
+  },
+  {
+    "value": 306,
+    "label": "Child Care"
+  },
+  {
+    "value": 307,
+    "label": "Cooking"
+  }
+]

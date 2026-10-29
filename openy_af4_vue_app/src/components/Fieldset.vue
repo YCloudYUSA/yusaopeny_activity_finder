@@ -1,6 +1,6 @@
 <template>
   <div class="fieldset-component">
-    <div class="fieldset-title" :class="{ collapsed: !isOpen }" @click="collapsible && (isOpen = !isOpen)">
+    <div class="fieldset-title" :class="{ collapsed: !isOpen }" @click="collapsible && toggleOpen()">
       <span class="left">
         <span class="title">{{ label }}</span>
         <span v-if="counter" class="counter" :class="{ 'hide-counter': hideCounter }">
@@ -33,7 +33,19 @@
       role="tabpanel"
       class="fieldset-content"
     >
+      <button
+        v-if="filtersOnTop"
+        type="button"
+        class="fieldset-close-btn"
+        @click.stop="isOpen = false"
+      ><span class="fieldset-close-x" aria-hidden="true">X</span>{{ t('Close') }}</button>
       <slot />
+      <button
+        v-if="filtersOnTop"
+        type="button"
+        class="fieldset-save-btn"
+        @click.stop="isOpen = false"
+      >{{ t('Done') }}</button>
     </div>
     <div v-else class="fieldset-content">
       <slot />
@@ -89,13 +101,34 @@ export default {
     handleSticky: {
       type: Function,
       default: () => {}
+    },
+    filtersOnTop: {
+      type: Boolean,
+      default: false
+    },
+    activeId: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return { isOpen: !this.collapsed }
   },
   watch: {
-    isOpen() { this.handleSticky() }
+    isOpen() { this.handleSticky() },
+    activeId(id) {
+      if (this.filtersOnTop && id !== '' && id !== this.collapseId) {
+        this.isOpen = false
+      }
+    }
+  },
+  methods: {
+    toggleOpen() {
+      this.isOpen = !this.isOpen
+      if (this.filtersOnTop && this.isOpen) {
+        this.$emit('activate', this.collapseId)
+      }
+    }
   }
 }
 </script>
@@ -201,6 +234,14 @@ export default {
         border-bottom-width: 1px;
       }
     }
+  }
+
+  .fieldset-close-btn {
+    display: none;
+  }
+
+  .fieldset-save-btn {
+    display: none;
   }
 
   .fieldset-content {

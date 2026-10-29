@@ -150,6 +150,14 @@ interface OpenyActivityFinderBackendInterface {
   public function getProgramsMoreInfo($request);
 
   /**
+   * Get all category tag terms for the AF4 filter UI.
+   *
+   * @return array
+   *   Flat list of ['value' => tid, 'label' => name] sorted alphabetically.
+   */
+  public function getCategoryTags(): array;
+
+  /**
    * Get backend-specific extras for the response 'externals' field (D10).
    *
    * An open key-value map for values that do not fit the shared response schema
