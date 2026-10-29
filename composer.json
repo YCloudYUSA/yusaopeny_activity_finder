@@ -5,10 +5,14 @@
     "license": "GPL-2.0+",
     "minimum-stability": "dev",
     "require": {
-        "open-y-subprojects/openy_custom": "^3.2.0"
+        "open-y-subprojects/openy_custom": "^3.2.0",
+        "drupal/openy_node_session": "^2.4"
     },
     "replace": {
         "ymcatwincities/openy_activity_finder": "*",
         "drupal/openy_activity_finder": "*"
+    },
+    "conflict": {
+        "ycloudyusa/y_lb": "<3.0.16"
     }
 }
