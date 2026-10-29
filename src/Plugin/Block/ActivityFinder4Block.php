@@ -276,7 +276,7 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    return Cache::mergeTags(parent::getCacheTags(), [OpenyActivityFinderBackendInterface::CACHE_TAG]);
+    return Cache::mergeTags(parent::getCacheTags(), [OpenyActivityFinderBackendInterface::CACHE_TAG, 'taxonomy_term_list:category_tags']);
   }
 
   /**

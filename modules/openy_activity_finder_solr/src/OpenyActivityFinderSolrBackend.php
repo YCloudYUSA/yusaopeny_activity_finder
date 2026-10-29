@@ -970,7 +970,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     usort($tags, fn($a, $b) => $a['label'] <=> $b['label']);
 
     $expire = $this->time->getRequestTime() + self::CACHE_TTL;
-    $this->cache->set($cid, $tags, $expire, [self::ACTIVITY_FINDER_CACHE_TAG]);
+    $this->cache->set($cid, $tags, $expire, [self::ACTIVITY_FINDER_CACHE_TAG, 'taxonomy_term_list:category_tags']);
 
     return $tags;
   }
