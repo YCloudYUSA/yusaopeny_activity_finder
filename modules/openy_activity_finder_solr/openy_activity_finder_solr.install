@@ -21,3 +21,14 @@ function openy_activity_finder_solr_install() {
 function openy_activity_finder_solr_update_8001() {
   _openy_activity_finder_solr_add_category_tags_index_fields();
 }
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function openy_activity_finder_solr_update_dependencies() {
+  // The tag index fields need the field storage that openy_node_session 8017 creates.
+  $dependencies['openy_activity_finder_solr'][8001] = [
+    'openy_node_session' => 8017,
+  ];
+  return $dependencies;
+}
