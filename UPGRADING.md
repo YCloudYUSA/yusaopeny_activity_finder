@@ -96,6 +96,10 @@ Convert your backend into a plugin:
    getters. Keep counts and facets cheap (rows-free) and have `getResults()`
    honour `$offset`/`$limit` so the aggregator can paginate across backends.
 
+A backend that implements `OpenyActivityFinderBackendInterface` directly (not
+through `ActivityFinderBackendPluginBase`) must also implement
+`getCategoryTags(): array`; return `[]` if it has no Category Tags.
+
 The plugin is then auto-discovered and appears in the block's backend selector;
 no service-id wiring needed. (The bundled Daxko module has **not** been
 converted in this release — a Daxko site must ship its own plugin.)

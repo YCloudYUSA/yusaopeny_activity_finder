@@ -38,14 +38,14 @@
         type="button"
         class="fieldset-close-btn"
         @click.stop="isOpen = false"
-      ><span class="fieldset-close-x">X</span>Close</button>
+      ><span class="fieldset-close-x" aria-hidden="true">X</span>{{ t('Close') }}</button>
       <slot />
       <button
         v-if="filtersOnTop"
         type="button"
         class="fieldset-save-btn"
         @click.stop="isOpen = false"
-      >{{ t('Save Filters') }}</button>
+      >{{ t('Done') }}</button>
     </div>
     <div v-else class="fieldset-content">
       <slot />
