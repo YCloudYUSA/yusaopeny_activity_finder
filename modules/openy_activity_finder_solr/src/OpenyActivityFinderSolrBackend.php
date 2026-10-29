@@ -478,9 +478,9 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         foreach ($date->field_session_time_days->getValue() as $time_days) {
           $days[] = ucfirst($time_days['value']);
         }
-        // A date-only value ('YYYY-MM-DD') becomes midnight UTC, which prints
-        // as an identical start and end time after the timezone shift.
-        $has_time_of_day = strlen($_period['value'] ?? '') > 10 || strlen($_period['end_value'] ?? '') > 10;
+        // A date without a time of day becomes midnight UTC, which prints as an
+        // identical start and end time after the timezone shift.
+        $has_time_of_day = $this->hasTimeOfDay($_period['value'] ?? '') || $this->hasTimeOfDay($_period['end_value'] ?? '');
         $schedule_items[] = [
           'days' => implode(', ', $days),
           'time' => $has_time_of_day
@@ -941,6 +941,16 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $categories[$item['program']['nid']]['label'] = $item['program']['title'];
     }
     return array_values($categories);
+  }
+
+  /**
+   * Tells whether a stored date or datetime string carries a time of day.
+   *
+   * Both 'YYYY-MM-DD' and 'YYYY-MM-DDT00:00:00' mean a date without a time.
+   */
+  protected function hasTimeOfDay(string $value): bool {
+    $time = substr($value, 11);
+    return $time !== '' && $time !== '00:00:00';
   }
 
   /**
