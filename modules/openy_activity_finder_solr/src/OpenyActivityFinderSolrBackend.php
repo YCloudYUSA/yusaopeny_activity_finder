@@ -363,8 +363,10 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
 
     // User selection intersected with allowed set; no selection = use allowed set.
     if ($selected_nids) {
+      // A selection outside the limit is ignored: an empty list would make
+      // the code below show every location.
       $locations_nids = $limit_nids
-        ? array_values(array_intersect($selected_nids, $limit_nids))
+        ? array_values(array_intersect($selected_nids, $limit_nids)) ?: $limit_nids
         : $selected_nids;
     }
     else {
