@@ -375,6 +375,10 @@ function _openy_activity_finder_migrate_background_image_row($database, string $
  * used the Solr service get the openy_activity_finder_solr submodule enabled and
  * their backend setting mapped to the 'solr' plugin, so behaviour is unchanged.
  * Fresh installs default to the 'mock' plugin (no Solr).
+ *
+ * 'openy_activity_finder.solr_backend' was the default value in 6.x, so it is
+ * also set on sites without Solr. Those get the 'mock' plugin instead of the
+ * submodule, which would pull in search_api_solr and openy_node_session.
  */
 function openy_activity_finder_update_9006() {
   $config = \Drupal::configFactory()->getEditable('openy_activity_finder.settings');
@@ -387,6 +391,9 @@ function openy_activity_finder_update_9006() {
     return (string) t('Backend setting %v is already a plugin id; nothing to convert.', ['%v' => $current]);
   }
   $plugin_id = $map[$current];
+  if ($plugin_id === 'solr' && !\Drupal::moduleHandler()->moduleExists('search_api_solr')) {
+    $plugin_id = 'mock';
+  }
   if ($plugin_id === 'solr') {
     \Drupal::service('module_installer')->install(['openy_activity_finder_solr']);
   }
